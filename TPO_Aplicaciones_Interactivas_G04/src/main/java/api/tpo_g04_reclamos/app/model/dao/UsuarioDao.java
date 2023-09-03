@@ -28,8 +28,8 @@ public class UsuarioDao {
 	@Transactional(readOnly = true)
 	public Usuario findById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		Usuario cliente = currentSession.get(Usuario.class, id);
-		return cliente;
+		Usuario usuario = currentSession.get(Usuario.class, id);
+		return usuario;
 	}
 
 	@Transactional

@@ -24,7 +24,13 @@ public class Usuario {
 	@Temporal(TemporalType.DATE)
 	private Date fechaCreacion;
 
-
+	public Usuario() {
+		super();
+		this.nombre = "";
+		this.password = "";
+		this.fechaCreacion = new Date();
+	}
+	
 	public Usuario(String nombre, String password) {
 		super();
 		this.nombre = nombre;
