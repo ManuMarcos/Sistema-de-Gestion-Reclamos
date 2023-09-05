@@ -17,14 +17,12 @@ public class EdificioServiceImpl implements IEdificioService{
 	
 	@Override
 	public List<Edificio> findAll() {
-		List<Edificio> edificios = edificioDao.findAll();
-		return edificios;
+		return edificioDao.findAll();
 	}
 
 	@Override
 	public Edificio findById(int id) {
-		Edificio edificio = edificioDao.findById(id);
-		return edificio;
+		return edificioDao.findById(id);
 	}
 
 	@Override
