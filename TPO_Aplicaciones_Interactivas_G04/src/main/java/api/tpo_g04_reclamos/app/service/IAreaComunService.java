@@ -6,14 +6,14 @@ import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 
 public interface IAreaComunService {
 
-	public List<AreaComun> findAll();
+	List<AreaComun> findAll();
 	
-	public AreaComun findById(int id);
+	AreaComun findById(int id);
 	
-	public void save(AreaComun areaComun);
+	void save(AreaComun areaComun);
 	
-	public void update(int id, AreaComun areaComun);
+	void update(int id, AreaComun areaComun);
 	
-	public void deleteById(int id);
+	void deleteById(int id);
 	
 }
