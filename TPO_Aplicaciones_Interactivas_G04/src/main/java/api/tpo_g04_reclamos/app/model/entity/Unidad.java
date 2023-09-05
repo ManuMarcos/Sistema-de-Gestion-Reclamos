@@ -26,8 +26,6 @@ public class Unidad {
 	private EstadoUnidad estado;
 
 	
-	
-	
 	public Unidad() {
 		super();
 	}

@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -18,10 +19,9 @@ public class Edificio {
 	private String direccion;
 
 	@OneToMany(mappedBy = "edificio", cascade = CascadeType.ALL)
-	private List<AreaComun> areasComunes;
-
+	private List<AreaComun> areasComunes = new ArrayList<>();
 	@OneToMany(mappedBy = "edificio", cascade = CascadeType.ALL)
-	private List<Unidad> unidades;
+	private List<Unidad> unidades = new ArrayList<>();
 
 
 	public Edificio() {
@@ -51,6 +51,11 @@ public class Edificio {
 		this.direccion = direccion;
 	}
 
+	public void agregarAreaComun(AreaComun areaComun) {
+		this.areasComunes.add(areaComun);
+	}
+	
+	
 	public List<AreaComun> getAreasComunes() {
 		return areasComunes;
 	}

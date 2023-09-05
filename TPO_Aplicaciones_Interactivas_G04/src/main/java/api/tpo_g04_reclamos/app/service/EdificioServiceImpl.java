@@ -9,7 +9,7 @@ import api.tpo_g04_reclamos.app.model.dao.IEdificioDao;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 
 @Service
-public class EdificioService implements IEdificioService{
+public class EdificioServiceImpl implements IEdificioService{
 
 	@Autowired
 	private IEdificioDao edificioDao;
@@ -40,6 +40,7 @@ public class EdificioService implements IEdificioService{
 			//TO DO: Verificar si estan bien estos dos
 			edificioToUpdate.setAreasComunes(edificio.getAreasComunes());
 			edificioToUpdate.setUnidades(edificio.getUnidades());
+			edificioDao.save(edificioToUpdate);
 		}
 	}
 
