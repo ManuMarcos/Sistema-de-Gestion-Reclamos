@@ -44,8 +44,8 @@ public class UsuarioDaoTest {
 	public void updateTest() {
 		int id = 1; //le actualiza la fecha
 		Usuario usuarioExistente = usuarioDao.findById(id);
-		usuarioExistente.setFechaCreacion(new Date());
-		usuarioDao.save(usuarioExistente);
+		usuarioExistente.setFechaCreacion(new Date("01/01/01"));
+		usuarioDao.update(usuarioExistente);
 	}
 
 	@Test

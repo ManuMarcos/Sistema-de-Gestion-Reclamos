@@ -37,13 +37,20 @@ public class UsuarioDao {
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.persist(usuario);
 	}
+	
+	@Transactional
+	public void update(Usuario usuario) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.merge(usuario);
+	}
 
 	@Transactional
 	public void deleteById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		@SuppressWarnings({ "deprecation", "rawtypes" }) //TODO: consultar
-		Query theQuery = currentSession.createQuery("delete from Cliente where id=:idCliente");
-		theQuery.setParameter("idCliente", id);
-		theQuery.executeUpdate();
+		Usuario usuario = currentSession.get(Usuario.class, id);
+		if(usuario != null)
+			currentSession.remove(usuario);
+		else
+			throw new IllegalArgumentException("Id usuario no válido");
 	}
 }
