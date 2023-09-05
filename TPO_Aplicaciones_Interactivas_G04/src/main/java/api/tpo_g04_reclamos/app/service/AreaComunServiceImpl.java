@@ -16,14 +16,12 @@ public class AreaComunServiceImpl implements IAreaComunService {
 	
 	@Override
 	public List<AreaComun> findAll() {
-		List<AreaComun> areasComunes = areaComunDao.findAll();
-		return areasComunes;
+		return areaComunDao.findAll();
 	}
 
 	@Override
 	public AreaComun findById(int id) {
-		AreaComun areaComun = areaComunDao.findById(id);
-		return areaComun;
+		return areaComunDao.findById(id);
 	}
 
 	@Override
