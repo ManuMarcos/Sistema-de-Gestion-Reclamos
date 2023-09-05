@@ -15,6 +15,8 @@ import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.service.IAreaComunService;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 @RequestMapping("/areasComunes")
 public class AreaComunController {
@@ -39,7 +41,7 @@ public class AreaComunController {
 			String mensaje = "El area comun con id:" +  areaComunId + " no existe";
 			return new ResponseEntity<String>(mensaje, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<AreaComun>(areaComun, HttpStatus.OK);
+		return ok(areaComun);
 	}
 	
 	/*

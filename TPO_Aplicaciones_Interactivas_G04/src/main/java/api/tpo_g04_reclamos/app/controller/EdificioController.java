@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 @RequestMapping("/edificios")
 public class EdificioController {
@@ -36,9 +39,9 @@ public class EdificioController {
 		Edificio edificio = edificioService.findById(edificioId);
 		if(edificio == null) {
 			String mensaje =  "El edificio con id: " + edificioId + " no existe";
-			return new ResponseEntity<String>(mensaje, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(mensaje, NOT_FOUND);
 		}
-		return new ResponseEntity<Edificio>(edificio, HttpStatus.OK);
+		return  ok(edificio);
 	}
 	
 	@PostMapping
@@ -53,10 +56,10 @@ public class EdificioController {
 		Edificio edificioToUpdate = edificioService.findById(edificioId);
 		if(edificioToUpdate != null) {
 			edificioService.update(edificioId, edificio);
-			return new ResponseEntity<Edificio>(edificio, HttpStatus.OK);
+			return ok(edificio);
 		}
 		String mensaje = "El edificio con id: " + edificioId + " no existe";
-		return new ResponseEntity<String>(mensaje, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<String>(mensaje, NOT_FOUND);
 	}
 	
 	@DeleteMapping("/{edificioId}")
@@ -65,10 +68,10 @@ public class EdificioController {
 		if(edificioToDelete != null) {
 			edificioService.deleteById(edificioId);
 			String mensaje = "Edificio con id: " + edificioId + " eliminado correctamente!";
-			return new ResponseEntity<String>(mensaje, HttpStatus.OK);
+			return ok(mensaje);
 		}
 		String mensaje = "El edificio con id: " + edificioId + " no existe";
-		return new ResponseEntity<String>(mensaje, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<String>(mensaje, NOT_FOUND);
 	}
 	
 	
