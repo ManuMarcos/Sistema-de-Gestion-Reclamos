@@ -33,10 +33,11 @@ public class Usuario {
 		this.fechaCreacion = new Date();
 	}
 	
-	public Usuario(String nombre, String password) {
+	public Usuario(String nombre, String password, TipoUsuario tipoUsuario) {
 		super();
 		this.nombre = nombre;
 		this.password = password;
+		this.tipoUsuario = tipoUsuario;
 		this.fechaCreacion = new Date();
 	}
 

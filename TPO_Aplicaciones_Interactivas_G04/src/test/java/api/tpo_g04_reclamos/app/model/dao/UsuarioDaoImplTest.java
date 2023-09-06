@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
 
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
+import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 
 @SpringBootTest
 public class UsuarioDaoImplTest {
@@ -19,7 +20,7 @@ public class UsuarioDaoImplTest {
 	@Order(1)
 	public void saveTest() {
 		if(usuarioDao.findById(1) == null) {
-			Usuario usuario = new Usuario("PepeUser", "PepePass");
+			Usuario usuario = new Usuario("PepeUser", "PepePass", TipoUsuario.PERSONAL_INTERNO);
 			usuarioDao.save(usuario);
 		}
 	}
