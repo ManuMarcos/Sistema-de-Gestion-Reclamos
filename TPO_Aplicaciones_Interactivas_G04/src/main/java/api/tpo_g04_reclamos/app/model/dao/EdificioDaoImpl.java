@@ -24,9 +24,7 @@ public class EdificioDaoImpl implements IEdificioDao{
 		
 		Query<Edificio> getQuery = currentSession.createQuery("from Edificio", Edificio.class);
 		
-		List<Edificio> edificios = getQuery.getResultList();
-		
-		return edificios;
+		return getQuery.getResultList();
 	}
 
 	@Override
@@ -35,9 +33,7 @@ public class EdificioDaoImpl implements IEdificioDao{
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Edificio edificio = currentSession.find(Edificio.class, id);
-		
-		return edificio;
+		return currentSession.find(Edificio.class, id);
 	}
 
 	

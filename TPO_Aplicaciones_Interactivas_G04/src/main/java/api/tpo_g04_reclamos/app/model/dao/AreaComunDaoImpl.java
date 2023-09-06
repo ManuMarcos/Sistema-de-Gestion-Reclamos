@@ -29,9 +29,7 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 		
 		Query<AreaComun> getQuery = currentSession.createQuery("from AreaComun", AreaComun.class);
 		
-		List<AreaComun> areasComunes = getQuery.getResultList();
-		
-		return areasComunes;
+		return getQuery.getResultList();
 	}
 
 	@Override
@@ -39,9 +37,7 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 	public AreaComun findById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		AreaComun areaComun = currentSession.get(AreaComun.class, id);
-		
-		return areaComun;
+		return currentSession.get(AreaComun.class, id);
 	}
 
 	@Override
