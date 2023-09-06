@@ -11,9 +11,9 @@ import org.springframework.core.annotation.Order;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 
 @SpringBootTest
-public class UsuarioDaoTest {
+public class UsuarioDaoImplTest {
 	@Autowired
-	UsuarioDao usuarioDao;
+	IUsuarioDao usuarioDao;
 	
 	@Test
 	@Order(1)

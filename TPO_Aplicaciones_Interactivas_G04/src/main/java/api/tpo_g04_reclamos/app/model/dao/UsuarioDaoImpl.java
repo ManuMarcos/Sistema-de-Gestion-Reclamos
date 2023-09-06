@@ -12,11 +12,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @Repository
-public class UsuarioDao {
+public class UsuarioDaoImpl implements IUsuarioDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	@Override
 	@Transactional(readOnly = true)
 	public List<Usuario> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -24,24 +25,28 @@ public class UsuarioDao {
 		return getQuery.getResultList();
 	}
 
+	@Override
 	@Transactional(readOnly = true)
 	public Usuario findById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		return currentSession.get(Usuario.class, id);
 	}
 
+	@Override
 	@Transactional
 	public void save(Usuario usuario) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.persist(usuario);
 	}
-	
+
+	@Override
 	@Transactional
 	public void update(Usuario usuario) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.merge(usuario);
 	}
-
+	
+	@Override
 	@Transactional
 	public void deleteById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);

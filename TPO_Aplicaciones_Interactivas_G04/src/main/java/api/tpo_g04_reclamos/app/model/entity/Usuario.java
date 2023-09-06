@@ -2,6 +2,7 @@ package api.tpo_g04_reclamos.app.model.entity;
 
 import java.util.Date;
 
+import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ public class Usuario {
 	private Long id;
 	private String nombre;
 	private String password;
+	private TipoUsuario tipoUsuario;
 	
 	@Column(name = "fecha_creacion")
 	@Temporal(TemporalType.DATE)
@@ -68,6 +70,14 @@ public class Usuario {
 
 	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
+	}
+	
+	public TipoUsuario getTipoUsuario() {
+		return tipoUsuario;
+	}
+
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
 	}
 
 	@Override
