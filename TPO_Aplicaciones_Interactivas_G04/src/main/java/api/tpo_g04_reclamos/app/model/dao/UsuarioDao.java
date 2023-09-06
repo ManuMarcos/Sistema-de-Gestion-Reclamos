@@ -21,15 +21,13 @@ public class UsuarioDao {
 	public List<Usuario> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query<Usuario> getQuery = currentSession.createQuery("from Usuario", Usuario.class);
-		List<Usuario> usuarios = getQuery.getResultList();
-		return usuarios;
+		return getQuery.getResultList();
 	}
 
 	@Transactional(readOnly = true)
 	public Usuario findById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		Usuario usuario = currentSession.get(Usuario.class, id);
-		return usuario;
+		return currentSession.get(Usuario.class, id);
 	}
 
 	@Transactional
