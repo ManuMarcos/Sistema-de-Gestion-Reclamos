@@ -1,21 +1,24 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
 import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "reclamos")
 public class Reclamo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     private int numero;
 
+    @OneToMany
     private List<Imagen> imagenes = new ArrayList<>();
 
     private String descripcion;
@@ -24,10 +27,13 @@ public class Reclamo {
 
     private EstadoReclamo estado;
 
+    @OneToOne
     private Usuario usuario;
 
+    @OneToOne
     private Unidad unidad;
 
+    @OneToOne
     private AreaComun areaComun;
 
 }
