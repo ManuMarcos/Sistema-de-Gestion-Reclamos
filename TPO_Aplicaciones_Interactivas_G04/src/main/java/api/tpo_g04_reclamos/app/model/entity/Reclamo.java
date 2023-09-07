@@ -33,7 +33,78 @@ public class Reclamo {
     @OneToOne
     private Unidad unidad;
 
+    @Column(name = "area_comun")
     @OneToOne
     private AreaComun areaComun;
+
+    public Reclamo() {
+        super();
+    }
+
+    public Reclamo(int numero, List<Imagen> imagenes, String descripcion, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
+        this.numero = numero;
+        this.imagenes = imagenes;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.usuario = usuario;
+        this.unidad = unidad;
+        this.areaComun = areaComun;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public List<Imagen> getImagenes() {
+        return imagenes;
+    }
+
+    public void setImagenes(List<Imagen> imagenes) {
+        this.imagenes = imagenes;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public EstadoReclamo getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoReclamo estado) {
+        this.estado = estado;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Unidad getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(Unidad unidad) {
+        this.unidad = unidad;
+    }
+
+    public AreaComun getAreaComun() {
+        return areaComun;
+    }
+
+    public void setAreaComun(AreaComun areaComun) {
+        this.areaComun = areaComun;
+    }
 
 }
