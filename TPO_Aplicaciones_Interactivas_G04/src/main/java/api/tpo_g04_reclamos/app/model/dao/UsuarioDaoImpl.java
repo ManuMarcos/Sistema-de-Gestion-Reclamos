@@ -29,7 +29,11 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	@Transactional(readOnly = true)
 	public Usuario findById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		return currentSession.get(Usuario.class, id);
+		Usuario usuario = currentSession.get(Usuario.class, id);
+		if(usuario != null)
+			return usuario;
+		else
+			throw new IllegalArgumentException("Id usuario no válido");
 	}
 
 	@Override

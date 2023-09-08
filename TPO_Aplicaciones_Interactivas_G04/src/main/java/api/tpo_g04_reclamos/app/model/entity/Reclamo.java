@@ -33,7 +33,9 @@ public class Reclamo {
     @OneToOne
     private Unidad unidad;
 
-    @Column(name = "area_comun")
+    // @Column(name = "area_comun") 
+    //TODO: (Ivo) me da error al levantar la app esto. lo comento. no se si hace falta.
+    // org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Property 'api.tpo_g04_reclamos.app.model.entity.Reclamo.areaComun' is a '@OneToOne' association and may not use '@Column' to specify column mappings (use '@PrimaryKeyJoinColumn' instead)
     @OneToOne
     private AreaComun areaComun;
 
