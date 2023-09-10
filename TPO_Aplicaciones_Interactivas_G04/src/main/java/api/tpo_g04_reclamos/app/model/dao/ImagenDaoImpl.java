@@ -14,7 +14,7 @@ public class ImagenDaoImpl implements IImagenDao {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Imagen findById(int id) {
+	public Imagen findById(String id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Imagen imagen = currentSession.get(Imagen.class, id);
 		if(imagen == null)
@@ -31,7 +31,7 @@ public class ImagenDaoImpl implements IImagenDao {
 
 	@Override
 	@Transactional()
-	public void deleteById(int id) {
+	public void deleteById(String id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Imagen imagen = currentSession.get(Imagen.class, id);
 		if(imagen == null)
