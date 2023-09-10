@@ -1,12 +1,14 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+@Repository
 public class ImagenDaoImpl implements IImagenDao {
 
 	@PersistenceContext
@@ -24,9 +26,10 @@ public class ImagenDaoImpl implements IImagenDao {
 
 	@Override
 	@Transactional
-	public void save(Imagen imagen) {
+	public Imagen save(Imagen imagen) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.persist(imagen);
+		return imagen;
 	}
 
 	@Override

@@ -4,6 +4,6 @@ import api.tpo_g04_reclamos.app.model.entity.Imagen;
 
 public interface IImagenDao {
 	Imagen findById(String id);
-	void save(Imagen imagen);
+	Imagen save(Imagen imagen);
 	void deleteById(String id);
 }
