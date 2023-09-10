@@ -15,7 +15,9 @@ public class Imagen {
     
     private String nombre;
     private String tipo;
+    
     @Lob
+    @Column(name="image_data", nullable=false, columnDefinition="LONGBLOB")
     private byte[] data;
     
     
