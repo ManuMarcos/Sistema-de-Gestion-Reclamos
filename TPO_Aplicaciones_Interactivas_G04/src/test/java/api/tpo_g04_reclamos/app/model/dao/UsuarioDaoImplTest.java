@@ -4,10 +4,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
@@ -17,14 +21,24 @@ public class UsuarioDaoImplTest {
 	@Autowired
 	IUsuarioDao usuarioDao;
 	
+	@BeforeAll
+	public static void clearDatabaseB(@Autowired JdbcTemplate jdbcTemplate) {
+		System.out.println("borrando usuarios...");
+	    JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuarios");
+	}
+	
+	@AfterAll
+	public static void clearDatabaseA(@Autowired JdbcTemplate jdbcTemplate) {
+		System.out.println("borrando usuarios...");
+	    JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuarios");
+	}
+	
 	@Test
 	@Order(1)
 	public void saveTest() {
 		Optional<Usuario> usuarioOptional = usuarioDao.findById(1);
-		if(usuarioOptional.isEmpty()) {
-			Usuario usuario = new Usuario("PepeUser", "PepePass", TipoUsuario.PERSONAL_INTERNO);
-			usuarioDao.save(usuario);
-		}
+		Usuario usuario = new Usuario("PepeUser", "PepePass", TipoUsuario.PERSONAL_INTERNO);
+		usuarioDao.save(usuario);
 	}
 	
 	@Test
@@ -58,6 +72,6 @@ public class UsuarioDaoImplTest {
 	@Order(5)
 	public void deleteById() {
 		int id = 1;
-		// usuarioDao.deleteById(id);
+		usuarioDao.deleteById(id);
 	}
 }
