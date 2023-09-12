@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.service.IAreaComunService;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -35,13 +38,13 @@ public class AreaComunController {
 	
 	@GetMapping("/{areaComunId}")
 	public ResponseEntity<?> findById(@PathVariable int areaComunId){
-		AreaComun areaComun = areaComunService.findById(areaComunId);
+		Optional<AreaComun> areaComunOptional = areaComunService.findById(areaComunId);
 		
-		if(areaComun == null) {
+		if(areaComunOptional.isEmpty()) {
 			String mensaje = "El area comun con id:" +  areaComunId + " no existe";
-			return new ResponseEntity<String>(mensaje, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(mensaje, NOT_FOUND);
 		}
-		return ok(areaComun);
+		return ok(areaComunOptional.get());
 	}
 	
 	/*
@@ -67,14 +70,14 @@ public class AreaComunController {
 	
 	@DeleteMapping("/{areaComunId}")
 	public ResponseEntity<String> deleteById(@PathVariable int areaComunId){
-		AreaComun areaComunToDelete = areaComunService.findById(areaComunId);
-		if(areaComunToDelete != null) {
+		Optional<AreaComun> areaComunToDeleteOptional = areaComunService.findById(areaComunId);
+		if(areaComunToDeleteOptional.isPresent()) {
 			areaComunService.deleteById(areaComunId);
 			String mensaje = "Area comun con id: " + areaComunId + " eliminada correctamente!";
-			return new ResponseEntity<String>(mensaje, HttpStatus.OK);
+			return new ResponseEntity<String>(mensaje, OK);
 		}
 		String mensaje = "El area comun con id: " + areaComunId +  " no existe";
-		return new ResponseEntity<String>(mensaje, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<String>(mensaje, NOT_FOUND);
 	}
 	
 	

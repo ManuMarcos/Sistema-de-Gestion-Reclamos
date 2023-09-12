@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -36,25 +38,25 @@ public class EdificioController {
 	
 	@GetMapping("/{edificioId}")
 	public ResponseEntity<?> findById(@PathVariable int edificioId){
-		Edificio edificio = edificioService.findById(edificioId);
-		if(edificio == null) {
+		Optional<Edificio> edificioOptional = edificioService.findById(edificioId);
+		if(edificioOptional.isEmpty()) {
 			String mensaje =  "El edificio con id: " + edificioId + " no existe";
 			return new ResponseEntity<String>(mensaje, NOT_FOUND);
 		}
-		return  ok(edificio);
+		return  ok(edificioOptional.get());
 	}
 	
 	@PostMapping
 	public ResponseEntity<Edificio> addEdificio(@RequestBody Edificio edificio) {
 		edificioService.save(edificio);
-		return new ResponseEntity<Edificio>(edificio, HttpStatus.CREATED);
+		return new ResponseEntity<Edificio>(edificio, CREATED);
 	}
 	
 	
 	@PutMapping("/{edificioId}")
 	public ResponseEntity<?> updateEdificio(@PathVariable int edificioId, @RequestBody Edificio edificio){
-		Edificio edificioToUpdate = edificioService.findById(edificioId);
-		if(edificioToUpdate != null) {
+		Optional<Edificio> edificioToUpdateOptional = edificioService.findById(edificioId);
+		if(edificioToUpdateOptional.isPresent()) {
 			edificioService.update(edificioId, edificio);
 			return ok(edificio);
 		}
@@ -64,8 +66,8 @@ public class EdificioController {
 	
 	@DeleteMapping("/{edificioId}")
 	public ResponseEntity<String> deleteEdificio(@PathVariable int edificioId){
-		Edificio edificioToDelete = edificioService.findById(edificioId);
-		if(edificioToDelete != null) {
+		Optional<Edificio> edificioToDeleteOptional = edificioService.findById(edificioId);
+		if(edificioToDeleteOptional.isPresent()) {
 			edificioService.deleteById(edificioId);
 			String mensaje = "Edificio con id: " + edificioId + " eliminado correctamente!";
 			return ok(mensaje);

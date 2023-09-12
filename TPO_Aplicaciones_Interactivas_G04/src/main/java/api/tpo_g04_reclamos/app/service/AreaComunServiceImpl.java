@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class AreaComunServiceImpl implements IAreaComunService {
 	}
 
 	@Override
-	public AreaComun findById(int id) {
+	public Optional<AreaComun> findById(int id) {
 		return areaComunDao.findById(id);
 	}
 

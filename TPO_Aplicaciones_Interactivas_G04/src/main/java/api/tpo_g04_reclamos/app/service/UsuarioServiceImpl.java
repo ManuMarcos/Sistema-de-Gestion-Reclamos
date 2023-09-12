@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
-	public Usuario findById(int id) {
+	public Optional<Usuario> findById(int id) {
 		return usuarioDao.findById(id);
 	}
 

@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.service;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class ImagenServiceImpl implements IImagenService {
 	IImagenDao imagenDao;
 	
 	@Override
-	public Imagen findById(String id) {
+	public Optional<Imagen> findById(String id) {
 		return imagenDao.findById(id);
 	}
 

@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	@Override
-	public Edificio findById(int id) {
+	public Optional<Edificio> findById(int id) {
 		return edificioDao.findById(id);
 	}
 
