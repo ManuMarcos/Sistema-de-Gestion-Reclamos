@@ -34,7 +34,7 @@ public class EdificioDaoImpl implements IEdificioDao{
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		return Optional.of(currentSession.find(Edificio.class, id));
+		return Optional.ofNullable(currentSession.find(Edificio.class, id));
 	}
 
 	

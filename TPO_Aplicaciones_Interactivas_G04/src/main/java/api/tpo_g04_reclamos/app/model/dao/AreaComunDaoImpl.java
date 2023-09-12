@@ -38,7 +38,7 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 	public Optional<AreaComun> findById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		return Optional.of(currentSession.get(AreaComun.class, id));
+		return Optional.ofNullable(currentSession.get(AreaComun.class, id));
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Usuario usuario = currentSession.get(Usuario.class, id);
 		if(usuario != null)
-			return Optional.of(usuario);
+			return Optional.ofNullable(usuario);
 		else
 			throw new IllegalArgumentException("Id usuario no válido");
 	}

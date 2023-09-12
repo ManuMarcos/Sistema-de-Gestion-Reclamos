@@ -23,7 +23,7 @@ public class ImagenDaoImpl implements IImagenDao {
 		Imagen imagen = currentSession.get(Imagen.class, id);
 		if(imagen == null)
 			throw new IllegalArgumentException("Id imagen no válido");
-		return Optional.of(imagen);
+		return Optional.ofNullable(imagen);
 	}
 
 	@Override
