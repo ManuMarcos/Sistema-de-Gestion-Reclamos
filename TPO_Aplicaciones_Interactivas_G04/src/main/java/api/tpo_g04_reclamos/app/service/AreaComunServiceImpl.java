@@ -33,9 +33,11 @@ public class AreaComunServiceImpl implements IAreaComunService {
 
 	@Override
 	public void update(int id, AreaComun areaComun) {
-		AreaComun areaComunToUpdate = areaComunDao.findById(id);
+		Optional<AreaComun> areaComunToUpdateOptional = areaComunDao.findById(id);
 		
-		if(areaComunToUpdate != null) {
+		if(areaComunToUpdateOptional.isPresent()) {
+			AreaComun areaComunToUpdate = areaComunToUpdateOptional.get();
+
 			areaComunToUpdate.setNombre(areaComun.getNombre());
 			areaComunDao.save(areaComunToUpdate);
 		}

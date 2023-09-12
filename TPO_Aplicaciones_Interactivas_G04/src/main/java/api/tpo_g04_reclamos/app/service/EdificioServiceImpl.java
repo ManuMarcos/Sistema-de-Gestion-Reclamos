@@ -33,8 +33,9 @@ public class EdificioServiceImpl implements IEdificioService{
 
 	@Override
 	public void update(int id, Edificio edificio) {
-		Edificio edificioToUpdate = edificioDao.findById(id);
-		if(edificioToUpdate != null) {
+		Optional<Edificio> edificioToUpdateOptional = edificioDao.findById(id);
+		if(edificioToUpdateOptional.isPresent()) {
+			Edificio edificioToUpdate = edificioToUpdateOptional.get();
 			edificioToUpdate.setDireccion(edificio.getDireccion());
 			//TO DO: Verificar si estan bien estos dos
 			edificioToUpdate.setAreasComunes(edificio.getAreasComunes());

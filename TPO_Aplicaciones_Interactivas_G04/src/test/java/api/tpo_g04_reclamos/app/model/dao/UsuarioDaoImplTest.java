@@ -2,6 +2,7 @@ package api.tpo_g04_reclamos.app.model.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ public class UsuarioDaoImplTest {
 	@Test
 	@Order(1)
 	public void saveTest() {
-		if(usuarioDao.findById(1) == null) {
+		Optional<Usuario> usuarioOptional = usuarioDao.findById(1);
+		if(usuarioOptional.isEmpty()) {
 			Usuario usuario = new Usuario("PepeUser", "PepePass", TipoUsuario.PERSONAL_INTERNO);
 			usuarioDao.save(usuario);
 		}
@@ -36,15 +38,18 @@ public class UsuarioDaoImplTest {
 	@Order(3)
 	public void findByIdTest() {
 		int id = 1;
-		Usuario user = usuarioDao.findById(id);
-		assert(user != null);
+		Optional<Usuario> userOptional = usuarioDao.findById(id);
+		assert(userOptional.isPresent());
 	}
 
 	@Test
 	@Order(4)
 	public void updateTest() {
 		int id = 1; //le actualiza la fecha
-		Usuario usuarioExistente = usuarioDao.findById(id);
+		Optional<Usuario> usuarioExistenteOptional = usuarioDao.findById(id);
+
+		Usuario usuarioExistente = usuarioExistenteOptional.orElseThrow();
+
 		usuarioExistente.setFechaCreacion(new Date("01/01/01"));
 		usuarioDao.update(usuarioExistente);
 	}
