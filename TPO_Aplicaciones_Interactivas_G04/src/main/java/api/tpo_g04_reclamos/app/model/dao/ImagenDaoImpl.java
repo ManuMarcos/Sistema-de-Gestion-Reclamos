@@ -8,6 +8,8 @@ import api.tpo_g04_reclamos.app.model.entity.Imagen;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import java.util.Optional;
+
 @Repository
 public class ImagenDaoImpl implements IImagenDao {
 
@@ -16,12 +18,12 @@ public class ImagenDaoImpl implements IImagenDao {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Imagen findById(String id) {
+	public Optional<Imagen> findById(String id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Imagen imagen = currentSession.get(Imagen.class, id);
 		if(imagen == null)
 			throw new IllegalArgumentException("Id imagen no válido");
-		return imagen;
+		return Optional.of(imagen);
 	}
 
 	@Override

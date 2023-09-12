@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -34,10 +35,10 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 
 	@Override
 	@Transactional(readOnly = true)
-	public AreaComun findById(int id) {
+	public Optional<AreaComun> findById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		return currentSession.get(AreaComun.class, id);
+		return Optional.of(currentSession.get(AreaComun.class, id));
 	}
 
 	@Override

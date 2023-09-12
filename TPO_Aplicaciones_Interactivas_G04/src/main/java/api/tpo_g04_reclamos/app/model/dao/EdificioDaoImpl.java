@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -29,11 +30,11 @@ public class EdificioDaoImpl implements IEdificioDao{
 
 	@Override
 	@Transactional(readOnly = true)
-	public Edificio findById(int id) {
+	public Optional<Edificio> findById(int id) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		return currentSession.find(Edificio.class, id);
+		return Optional.of(currentSession.find(Edificio.class, id));
 	}
 
 	
