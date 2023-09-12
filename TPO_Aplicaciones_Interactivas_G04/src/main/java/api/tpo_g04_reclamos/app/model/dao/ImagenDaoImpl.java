@@ -21,8 +21,6 @@ public class ImagenDaoImpl implements IImagenDao {
 	public Optional<Imagen> findById(String id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Imagen imagen = currentSession.get(Imagen.class, id);
-		if(imagen == null)
-			throw new IllegalArgumentException("Id imagen no válido");
 		return Optional.ofNullable(imagen);
 	}
 
