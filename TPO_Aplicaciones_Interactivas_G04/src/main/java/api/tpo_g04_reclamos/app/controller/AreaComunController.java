@@ -2,11 +2,7 @@ package api.tpo_g04_reclamos.app.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
-import java.util.Map;
-=======
-import java.util.Optional;
->>>>>>> 43367aca2e1aaacbaa27d1329697c81049b00827
+
 
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,25 +38,13 @@ public class AreaComunController {
 	@Autowired
 	private IAreaComunService areaComunService;
 	
-<<<<<<< HEAD
+
 	@Autowired
 	private IEdificioService edificioService;
 	
 	
 	
-	
-	@GetMapping
-	public List<AreaComunDto> findAll(){
-		List<AreaComun> areasComunes = areaComunService.findAll();
-		List<AreaComunDto> areasComunesDtos = new ArrayList<>();
-		
-		for(AreaComun areaComun : areasComunes) {
-			AreaComunDto areaComunDto = convertToDto(areaComun);
-			areasComunesDtos.add(areaComunDto);
-		}
-		return areasComunesDtos;
-=======
-	
+
 	
 	@GetMapping("/{areaComunId}")
 	public ResponseEntity<?> findById(@PathVariable Long areaComunId){
@@ -69,8 +53,7 @@ public class AreaComunController {
 		return ok(areaComun);
 	}
 	
-<<<<<<< HEAD
-	
+	/*
 	@PostMapping
 	public ResponseEntity<?> addAreaComun(@RequestBody AreaComunRequestDto areaComunRequestDto){
 		//AreaComunDto areaComunDto = objectMapper.readValue(areaComun, AreaComunDto.class);
@@ -88,11 +71,10 @@ public class AreaComunController {
 		String mensaje = "El edificio es nulo";
 		return new ResponseEntity<String>(mensaje, HttpStatus.BAD_REQUEST);
 	}
+	*/
 	
 	
 	
-=======
->>>>>>> 43367aca2e1aaacbaa27d1329697c81049b00827
 	@DeleteMapping("/{areaComunId}")
 	public ResponseEntity<String> deleteById(@PathVariable Long areaComunId){
 		AreaComun areaComunToDeleteOptional = areaComunService.findById(areaComunId).orElseThrow(() -> new ItemNotFoundException(String.format("El area comun con id: %s no existe", areaComunId)));
@@ -102,16 +84,7 @@ public class AreaComunController {
 		return new ResponseEntity<>(mensaje, OK);
 	}
 	
-	
-	public AreaComun convertToEntity(AreaComunRequestDto areaComunDto) {
-		Edificio edificio = edificioService.findById(areaComunDto.getEdificioDto().getId());
-		return new AreaComun(edificio, areaComunDto.getNombre());
-	}
-	
-	public AreaComunDto convertToDto(AreaComun areaComun) {
-		Edificio edificio = edificioService.findById(areaComun.getEdificio().getId());
-		return new AreaComunDto(areaComun.getId(), areaComun.getNombre());
-	}
+
 	
 	
 	

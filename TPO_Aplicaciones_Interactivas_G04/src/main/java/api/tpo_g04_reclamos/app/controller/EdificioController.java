@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import api.tpo_g04_reclamos.app.model.dto.AreaComunDto;
-import api.tpo_g04_reclamos.app.model.dto.EdificioDto;
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
@@ -40,19 +38,6 @@ public class EdificioController {
 	private IEdificioService edificioService;
 	
 
-	
-	@GetMapping
-	public List<EdificioDto> findAll(){
-		List<Edificio> edificios = edificioService.findAll();
-		List<EdificioDto> edificiosDto = new ArrayList<>();
-		
-		for(Edificio edificio : edificios) {
-			EdificioDto edificioDto = convertToDto(edificio);
-			edificiosDto.add(edificioDto);
-		}
-		
-		return edificiosDto;
-	}
 	
 	@GetMapping("/{edificioId}")
 	public ResponseEntity<?> findById(@PathVariable Long edificioId){
@@ -98,17 +83,6 @@ public class EdificioController {
 		}
 		String mensaje = "El edificio con id: " + edificioId + " no existe";
 		return new ResponseEntity<>(mensaje, NOT_FOUND);
-	}
-	
-	public EdificioDto convertToDto(Edificio edificio) {
-		List<AreaComun> areasComunes = edificio.getAreasComunes();
-		List<AreaComunDto> areasComunesDto = new ArrayList<>();
-		for(AreaComun areaComun : areasComunes) {
-			AreaComunDto areaComunDto = new AreaComunDto(areaComun.getId(),areaComun.getNombre());
-			areasComunesDto.add(areaComunDto);
-		}
-		
-		return new EdificioDto(edificio.getId(),edificio.getDireccion(),areasComunesDto);
 	}
 	
 	

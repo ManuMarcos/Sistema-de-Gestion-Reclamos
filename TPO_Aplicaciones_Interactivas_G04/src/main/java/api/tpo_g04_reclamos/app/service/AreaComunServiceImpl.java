@@ -33,19 +33,9 @@ public class AreaComunServiceImpl implements IAreaComunService {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void save(AreaComun areaComun) {
-		Edificio edificio = edificioDao.findById(areaComun.getEdificio().getId());
-		
-		if (edificio != null) {
-			edificio.agregarAreaComun(areaComun);
-			areaComun.setEdificio(edificio);
-			areaComunDao.save(areaComun);
-		}
-=======
+
 	public AreaComun save(AreaComun areaComun) {
 		return areaComunDao.save(areaComun);
->>>>>>> 43367aca2e1aaacbaa27d1329697c81049b00827
 	}
 
 	@Override
