@@ -13,7 +13,7 @@ public interface IEdificioService {
 	
 	Edificio save(Edificio edificio);
 	
-	void update(Long id, Edificio edificio);
+	Edificio update(Long id, Edificio edificio);
 	
 	void deleteById(Long id);
 }

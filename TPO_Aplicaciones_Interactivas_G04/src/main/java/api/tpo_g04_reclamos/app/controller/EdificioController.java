@@ -3,6 +3,7 @@ package api.tpo_g04_reclamos.app.controller;
 import java.util.List;
 import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -55,13 +56,8 @@ public class EdificioController {
 	
 	@PutMapping("/{edificioId}")
 	public ResponseEntity<?> updateEdificio(@PathVariable Long edificioId, @RequestBody Edificio edificio){
-		Optional<Edificio> edificioToUpdateOptional = edificioService.findById(edificioId);
-		if(edificioToUpdateOptional.isPresent()) {
-			edificioService.update(edificioId, edificio);
-			return ok(edificio);
-		}
-		String mensaje = "El edificio con id: " + edificioId + " no existe";
-		return new ResponseEntity<>(mensaje, NOT_FOUND);
+		Edificio edificioUpdated = edificioService.update(edificioId, edificio);
+		return ok(edificioUpdated);
 	}
 	
 	@DeleteMapping("/{edificioId}")
