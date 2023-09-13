@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class Edificio {
 
 	@OneToMany(mappedBy = "edificio", cascade = CascadeType.ALL)
 	private List<AreaComun> areasComunes = new ArrayList<>();
+	
+	
 	@OneToMany(mappedBy = "edificio", cascade = CascadeType.ALL)
 	private List<Unidad> unidades = new ArrayList<>();
 
@@ -27,6 +30,15 @@ public class Edificio {
 	public Edificio() {
 		super();
 	}
+	
+	
+
+	public Edificio(String direccion) {
+		super();
+		this.direccion = direccion;
+	}
+
+
 
 	public Edificio(String direccion, List<AreaComun> areasComunes, List<Unidad> unidades) {
 		super();

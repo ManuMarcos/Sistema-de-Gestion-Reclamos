@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import api.tpo_g04_reclamos.app.model.dto.AreaComunDto;
+import api.tpo_g04_reclamos.app.model.dto.EdificioDto;
+import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 
@@ -29,9 +33,19 @@ public class EdificioController {
 	@Autowired
 	private IEdificioService edificioService;
 	
+
+	
 	@GetMapping
-	public List<Edificio> findAll(){
-		return edificioService.findAll();
+	public List<EdificioDto> findAll(){
+		List<Edificio> edificios = edificioService.findAll();
+		List<EdificioDto> edificiosDto = new ArrayList<>();
+		
+		for(Edificio edificio : edificios) {
+			EdificioDto edificioDto = convertToDto(edificio);
+			edificiosDto.add(edificioDto);
+		}
+		
+		return edificiosDto;
 	}
 	
 	@GetMapping("/{edificioId}")
@@ -73,6 +87,19 @@ public class EdificioController {
 		String mensaje = "El edificio con id: " + edificioId + " no existe";
 		return new ResponseEntity<String>(mensaje, NOT_FOUND);
 	}
+	
+	public EdificioDto convertToDto(Edificio edificio) {
+		List<AreaComun> areasComunes = edificio.getAreasComunes();
+		List<AreaComunDto> areasComunesDto = new ArrayList<>();
+		for(AreaComun areaComun : areasComunes) {
+			AreaComunDto areaComunDto = new AreaComunDto(areaComun.getId(),areaComun.getNombre());
+			areasComunesDto.add(areaComunDto);
+		}
+		
+		return new EdificioDto(edificio.getId(),edificio.getDireccion(),areasComunesDto);
+	}
+	
+	
 	
 	
 	

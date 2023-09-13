@@ -1,5 +1,9 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
+import java.io.Serializable;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "area_comun")
-public class AreaComun {
+public class AreaComun{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +23,7 @@ public class AreaComun {
 	@ManyToOne
 	@JoinColumn(name = "edificio_id")
 	private Edificio edificio;
+	
 	private String nombre;
 
 	public AreaComun() {
