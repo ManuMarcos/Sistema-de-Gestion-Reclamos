@@ -3,6 +3,7 @@ package api.tpo_g04_reclamos.app.service;
 import java.util.List;
 import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,12 +33,26 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Override
 	public Usuario update(Usuario usuario) {
+		this.usuarioExiste(usuario.getId());
+
 		return usuarioDao.update(usuario);
 	}
 
 	@Override
 	public void deleteById(Long id) {
+		this.usuarioExiste(id);
+
 		usuarioDao.deleteById(id);
+	}
+
+	private boolean usuarioExiste(Long id) {
+		Optional<Usuario> usuarioToDelete = this.findById(id);
+
+		if(usuarioToDelete.isEmpty()) {
+			throw new ItemNotFoundException("El usuario para borrar no existe");
+		}
+
+		return true;
 	}
 
 }

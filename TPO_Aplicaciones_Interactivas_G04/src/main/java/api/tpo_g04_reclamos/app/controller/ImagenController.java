@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.controller;
 
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 import api.tpo_g04_reclamos.app.service.IImagenService;
 
+import java.util.Optional;
+
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -26,12 +29,9 @@ public class ImagenController {
 	
 	@GetMapping("/{imagenId}")
 	public ResponseEntity<Imagen> findById(@PathVariable String imagenId){
-		try {
-			return new ResponseEntity<>(imagenService.findById(imagenId).get(), OK);
-		} catch(IllegalArgumentException e) //TODO: una excepcion mas custom capaz
-		{
-			return new ResponseEntity<>(NOT_FOUND);
-		}
+		Imagen imagen = imagenService.findById(imagenId).orElseThrow(() -> new ItemNotFoundException("La imagen no existe"));
+
+		return new ResponseEntity<>(imagen, OK);
 	}
 	
 	@PostMapping

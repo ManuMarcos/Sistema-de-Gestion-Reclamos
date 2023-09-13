@@ -1,9 +1,11 @@
 package api.tpo_g04_reclamos.app.controller;
 
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.service.IUsuarioService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,12 +36,9 @@ public class UsuarioController {
 	
 	@GetMapping("/{usuarioId}")
 	public ResponseEntity<Usuario> findById(@PathVariable Long usuarioId){
-		try {
-			return new ResponseEntity<>(usuarioService.findById(usuarioId).get(), OK);
-		} catch(IllegalArgumentException e) //TODO: una excepcion mas custom capaz
-		{
-			return new ResponseEntity<>(NOT_FOUND);
-		}
+		Usuario usuario = usuarioService.findById(usuarioId).orElseThrow(() -> new ItemNotFoundException("El usuario no existe"));
+
+		return new ResponseEntity<>(usuario, OK);
 	}
 	
 	@PostMapping
@@ -56,12 +55,8 @@ public class UsuarioController {
 	
 	@DeleteMapping("/{usuarioId}")
 	public ResponseEntity<String> deleteUsuario(@PathVariable Long usuarioId){
-		try {
-			usuarioService.deleteById(usuarioId);
-			return new ResponseEntity<>("deleted", OK);
-		} catch(IllegalArgumentException e) //TODO: una excepcion mas custom capaz
-		{
-			return new ResponseEntity<>("Not valid Id", NOT_FOUND);
-		}
+		usuarioService.deleteById(usuarioId);
+
+		return new ResponseEntity<>(String.format("deleted usuario %s", usuarioId), OK);
 	}
 }
