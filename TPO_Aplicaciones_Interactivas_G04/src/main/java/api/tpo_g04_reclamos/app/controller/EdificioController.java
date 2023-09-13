@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
+import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
@@ -42,11 +43,11 @@ public class EdificioController {
 	@GetMapping("/{edificioId}")
 	public ResponseEntity<?> findById(@PathVariable Long edificioId){
 		Edificio edificio = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio con id: %s no existe", edificioId)));
-		return  ok(edificio);
+		return ok(edificio);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Edificio> addEdificio(@RequestBody Edificio edificio) {
+	public ResponseEntity<Edificio> addEdificio(@RequestBody EdificioDto edificio) {
 		Edificio edificioCreado = edificioService.save(edificio);
 		return new ResponseEntity<>(edificioCreado, CREATED);
 	}

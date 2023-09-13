@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
+import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.BadRequestException;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
@@ -39,8 +40,12 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	@Override
-	public Edificio save(Edificio edificio) {
-		return edificioDao.save(edificio);
+	public Edificio save(EdificioDto edificioDto) {
+		List<Unidad> unidadesAAgregar = edificioDto.getUnidades().stream().map(unidad -> new Unidad(unidad.getPiso(), unidad.getNumero(), unidad.getEdificio(), unidad.getEstado())).toList();
+		List<AreaComun> areasComunesAAgregar = edificioDto.getAreasComunes().stream().map(areaComun -> new AreaComun(areaComun.getEdificio(), areaComun.getNombre())).toList();
+
+		// TODO probar si cascade guarda las areas comunes y unidades asociandolas a ese edificio
+		return edificioDao.save(new Edificio(edificioDto.getDireccion(), areasComunesAAgregar, unidadesAAgregar));
 	}
 
 	@Override
