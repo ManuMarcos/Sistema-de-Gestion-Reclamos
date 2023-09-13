@@ -46,10 +46,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	private boolean usuarioExiste(Long id) {
-		Optional<Usuario> usuarioToDelete = this.findById(id);
+		Optional<Usuario> usuario = this.findById(id);
 
-		if(usuarioToDelete.isEmpty()) {
-			throw new ItemNotFoundException("El usuario para borrar no existe");
+		if(usuario.isEmpty()) {
+			throw new ItemNotFoundException("El usuario no existe");
 		}
 
 		return true;

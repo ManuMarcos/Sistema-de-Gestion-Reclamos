@@ -34,29 +34,27 @@ public class AreaComunServiceImpl implements IAreaComunService {
 
 	@Override
 	public AreaComun update(Long id, AreaComun areaComun) {
-		Optional<AreaComun> areaComunToUpdateOptional = areaComunDao.findById(id);
-		
-		if(areaComunToUpdateOptional.isPresent()) {
-			AreaComun areaComunToUpdate = areaComunToUpdateOptional.get();
+		this.areaComunExiste(id);
 
-			areaComunToUpdate.setNombre(areaComun.getNombre());
-			return areaComunDao.save(areaComunToUpdate);
-		} else {
-			throw new IllegalArgumentException();
-		}
+		AreaComun areaComunToUpdate = areaComunDao.findById(id).get();
+
+		areaComunToUpdate.setNombre(areaComun.getNombre());
+		return areaComunDao.save(areaComunToUpdate);
 
 	}
 
 	@Override
 	public void deleteById(Long id) {
+		this.areaComunExiste(id);
+
 		areaComunDao.deleteById(id);
 	}
 
 	private boolean areaComunExiste(Long id) {
-		Optional<AreaComun> areaComunToDelete = this.findById(id);
+		Optional<AreaComun> areaComun = this.findById(id);
 
-		if(areaComunToDelete.isEmpty()) {
-			throw new ItemNotFoundException("El area comun para borrar no existe");
+		if(areaComun.isEmpty()) {
+			throw new ItemNotFoundException("El area comun no existe");
 		}
 
 		return true;
