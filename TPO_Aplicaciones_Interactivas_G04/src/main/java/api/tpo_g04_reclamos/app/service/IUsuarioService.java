@@ -8,11 +8,11 @@ import api.tpo_g04_reclamos.app.model.entity.Usuario;
 public interface IUsuarioService {
 	List<Usuario> findAll();
 	
-	Optional<Usuario> findById(int id);
+	Optional<Usuario> findById(Long id);
 	
-	void save(Usuario usuario);
+	Usuario save(Usuario usuario);
 	
-	void update(Usuario edificio);
+	Usuario update(Usuario edificio);
 	
-	void deleteById(int id);
+	void deleteById(Long id);
 }

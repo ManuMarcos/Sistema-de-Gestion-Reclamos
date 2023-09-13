@@ -29,39 +29,39 @@ public class UsuarioController {
 
 	@GetMapping
 	public ResponseEntity<List<Usuario>> findAll(){
-		return new ResponseEntity<List<Usuario>>(usuarioService.findAll(), OK);
+		return new ResponseEntity<>(usuarioService.findAll(), OK);
 	}
 	
 	@GetMapping("/{usuarioId}")
-	public ResponseEntity<Usuario> findById(@PathVariable int usuarioId){
+	public ResponseEntity<Usuario> findById(@PathVariable Long usuarioId){
 		try {
-			return new ResponseEntity<Usuario>(usuarioService.findById(usuarioId).get(), OK);
+			return new ResponseEntity<>(usuarioService.findById(usuarioId).get(), OK);
 		} catch(IllegalArgumentException e) //TODO: una excepcion mas custom capaz
 		{
-			return new ResponseEntity<Usuario>(NOT_FOUND);
+			return new ResponseEntity<>(NOT_FOUND);
 		}
 	}
 	
 	@PostMapping
 	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
-		usuarioService.save(usuario);
-		return new ResponseEntity<Usuario>(usuario, CREATED);
+		Usuario usuarioCreado = usuarioService.save(usuario);
+		return new ResponseEntity<>(usuarioCreado, CREATED);
 	}
 	
 	@PutMapping
-	public ResponseEntity<String> updateUsuario(@RequestBody Usuario usuario) {
-		usuarioService.update(usuario);
-		return new ResponseEntity<String>("udpated", OK);
+	public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) {
+		Usuario usuarioActualizado = usuarioService.update(usuario);
+		return new ResponseEntity<>(usuarioActualizado, OK);
 	}
 	
 	@DeleteMapping("/{usuarioId}")
-	public ResponseEntity<String> deleteUsuario(@PathVariable int usuarioId){
+	public ResponseEntity<String> deleteUsuario(@PathVariable Long usuarioId){
 		try {
 			usuarioService.deleteById(usuarioId);
-			return new ResponseEntity<String>("deleted", OK);
+			return new ResponseEntity<>("deleted", OK);
 		} catch(IllegalArgumentException e) //TODO: una excepcion mas custom capaz
 		{
-			return new ResponseEntity<String>("Not valid Id", NOT_FOUND);
+			return new ResponseEntity<>("Not valid Id", NOT_FOUND);
 		}
 	}
 }

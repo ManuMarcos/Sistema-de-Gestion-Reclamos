@@ -28,7 +28,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Usuario> findById(int id) {
+	public Optional<Usuario> findById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Usuario usuario = currentSession.get(Usuario.class, id);
 		return Optional.ofNullable(usuario);
@@ -36,21 +36,21 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
 	@Override
 	@Transactional
-	public void save(Usuario usuario) {
+	public Usuario save(Usuario usuario) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.persist(usuario);
+		return currentSession.merge(usuario);
 	}
 
 	@Override
 	@Transactional
-	public void update(Usuario usuario) {
+	public Usuario update(Usuario usuario) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.merge(usuario);
+		return currentSession.merge(usuario);
 	}
 	
 	@Override
 	@Transactional
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Usuario usuario = currentSession.get(Usuario.class, id);
 		if(usuario != null)

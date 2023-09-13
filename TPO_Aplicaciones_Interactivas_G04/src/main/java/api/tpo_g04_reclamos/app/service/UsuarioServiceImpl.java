@@ -21,22 +21,22 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
-	public Optional<Usuario> findById(int id) {
+	public Optional<Usuario> findById(Long id) {
 		return usuarioDao.findById(id);
 	}
 
 	@Override
-	public void save(Usuario usuario) {
-		usuarioDao.save(usuario);
+	public Usuario save(Usuario usuario) {
+		return usuarioDao.save(usuario);
 	}
 
 	@Override
-	public void update(Usuario usuario) {
-		usuarioDao.update(usuario);
+	public Usuario update(Usuario usuario) {
+		return usuarioDao.update(usuario);
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		usuarioDao.deleteById(id);
 	}
 
