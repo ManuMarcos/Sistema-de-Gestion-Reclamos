@@ -3,6 +3,7 @@ package api.tpo_g04_reclamos.app.controller;
 import java.util.List;
 import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +28,6 @@ public class AreaComunController {
 	@Autowired
 	private IAreaComunService areaComunService;
 	
-	@Autowired
-	private IEdificioService edificioService;
-	
 	@GetMapping
 	public List<AreaComun> findAll(){
 		return areaComunService.findAll();
@@ -37,46 +35,18 @@ public class AreaComunController {
 	
 	@GetMapping("/{areaComunId}")
 	public ResponseEntity<?> findById(@PathVariable Long areaComunId){
-		Optional<AreaComun> areaComunOptional = areaComunService.findById(areaComunId);
-		
-		if(areaComunOptional.isEmpty()) {
-			String mensaje = "El area comun con id:" +  areaComunId + " no existe";
-			return new ResponseEntity<>(mensaje, NOT_FOUND);
-		}
-		return ok(areaComunOptional.get());
+		AreaComun areaComun = areaComunService.findById(areaComunId).orElseThrow(() -> new ItemNotFoundException(String.format("El area comun con id: %s no existe", areaComunId)));
+
+		return ok(areaComun);
 	}
-	
-	/*
-	@PostMapping
-	public ResponseEntity<?> addAreaComun(@RequestBody AreaComun areaComun){
-		Edificio edificio = areaComun.getEdificio();
-		if(edificio != null) {
-			//Deberia validar lo mismo en el IEdificioDao?
-			Edificio edificioBuscado = edificioService.findById(edificio.getId());
-			if(edificioBuscado != null) {
-				areaComunService.save(areaComun);
-				edificio.agregarAreaComun(areaComun);
-				edificioService.update(edificio.getId(), edificio);
-				return new ResponseEntity<AreaComun>(areaComun, HttpStatus.CREATED);
-			}
-			String mensaje = "El edificio con id: " + edificio.getId() + " no existe";
-			return new ResponseEntity<String>(mensaje, HttpStatus.NOT_FOUND);
-		}
-		String mensaje = "El edificio es nulo";
-		return new ResponseEntity<String>(mensaje, HttpStatus.BAD_REQUEST);
-	}
-	*/
 	
 	@DeleteMapping("/{areaComunId}")
 	public ResponseEntity<String> deleteById(@PathVariable Long areaComunId){
-		Optional<AreaComun> areaComunToDeleteOptional = areaComunService.findById(areaComunId);
-		if(areaComunToDeleteOptional.isPresent()) {
-			areaComunService.deleteById(areaComunId);
-			String mensaje = "Area comun con id: " + areaComunId + " eliminada correctamente!";
-			return new ResponseEntity<>(mensaje, OK);
-		}
-		String mensaje = "El area comun con id: " + areaComunId +  " no existe";
-		return new ResponseEntity<>(mensaje, NOT_FOUND);
+		AreaComun areaComunToDeleteOptional = areaComunService.findById(areaComunId).orElseThrow(() -> new ItemNotFoundException(String.format("El area comun con id: %s no existe", areaComunId)));
+		areaComunService.deleteById(areaComunId);
+		
+		String mensaje = "Area comun con id: " + areaComunId + " eliminada correctamente!";
+		return new ResponseEntity<>(mensaje, OK);
 	}
 	
 	

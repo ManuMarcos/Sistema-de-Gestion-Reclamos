@@ -1,47 +1,46 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
-import java.util.List;
-import java.util.Optional;
-
+import api.tpo_g04_reclamos.app.model.entity.Unidad;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import api.tpo_g04_reclamos.app.model.entity.AreaComun;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class AreaComunDaoImpl implements IAreaComunDao {
+public class UnidadDaoImpl implements IUnidadDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	
 	@Override
 	@Transactional(readOnly = true)
-	public List<AreaComun> findAll() {
+	public List<Unidad> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<AreaComun> getQuery = currentSession.createQuery("from AreaComun", AreaComun.class);
+		Query<Unidad> getQuery = currentSession.createQuery("from Unidad", Unidad.class);
 		
 		return getQuery.getResultList();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<AreaComun> findById(Long id) {
+	public Optional<Unidad> findById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		return Optional.ofNullable(currentSession.get(AreaComun.class, id));
+		return Optional.ofNullable(currentSession.get(Unidad.class, id));
 	}
 
 	@Override
 	@Transactional
-	public AreaComun save(AreaComun areaComun) {
+	public Unidad save(Unidad unidad) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		return currentSession.merge(areaComun);
+		return currentSession.merge(unidad);
 	}
 
 	@Override
@@ -49,10 +48,10 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		AreaComun areaComunToDelete = currentSession.get(AreaComun.class, id);
+		Unidad unidadToDelete = currentSession.get(Unidad.class, id);
 		
-		if(areaComunToDelete != null) {
-			currentSession.remove(areaComunToDelete);
+		if(unidadToDelete != null) {
+			currentSession.remove(unidadToDelete);
 		}
 
 	}

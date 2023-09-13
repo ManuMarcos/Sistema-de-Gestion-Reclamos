@@ -8,10 +8,17 @@ import jakarta.persistence.ManyToOne;
 public class UnidadDto {
 
     private Long id;
-
     private int piso;
-
     private int numero;
+    private Edificio edificio;
+    private EstadoUnidad estado;
+
+    public UnidadDto(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
+        this.piso = piso;
+        this.numero = numero;
+        this.edificio = edificio;
+        this.estado = estado;
+    }
 
     public Long getId() {
         return id;
@@ -32,9 +39,5 @@ public class UnidadDto {
     public EstadoUnidad getEstado() {
         return estado;
     }
-
-    private Edificio edificio;
-
-    private EstadoUnidad estado;
 
 }

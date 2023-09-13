@@ -67,7 +67,7 @@ public class EdificioServiceImpl implements IEdificioService{
 			throw new BadRequestException("Unidad no se puede agregar, no pertenece al mismo edificio");
 		}
 
-		Unidad unidadAAgregar = new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), unidadDto.getEdificio(), unidadDto.getEstado());
+		UnidadDto unidadAAgregar = new UnidadDto(unidadDto.getPiso(), unidadDto.getNumero(), unidadDto.getEdificio(), unidadDto.getEstado());
 		Unidad unidadCreada = unidadService.save(unidadAAgregar);
 
 		edificio.getUnidades().add(unidadCreada);
