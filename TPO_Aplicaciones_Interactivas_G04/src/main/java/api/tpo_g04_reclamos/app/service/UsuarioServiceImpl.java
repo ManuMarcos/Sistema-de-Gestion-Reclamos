@@ -3,6 +3,7 @@ package api.tpo_g04_reclamos.app.service;
 import java.util.List;
 import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,18 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
-	public Usuario save(Usuario usuario) {
-		return usuarioDao.save(usuario);
+	public Usuario save(UsuarioDto usuario) {
+		return usuarioDao.save(new Usuario(usuario.getNombre(), usuario.getPassword(), usuario.getTipoUsuario()));
 	}
 
 	@Override
-	public Usuario update(Usuario usuario) {
-		this.usuarioExiste(usuario.getId());
+	public Usuario update(Long id, UsuarioDto usuarioDto) {
+		this.usuarioExiste(id);
+
+		Usuario usuario = this.findById(id).get();
+		usuario.setNombre(usuarioDto.getNombre());
+		usuario.setPassword(usuarioDto.getPassword());
+		usuario.setTipoUsuario(usuarioDto.getTipoUsuario());
 
 		return usuarioDao.update(usuario);
 	}

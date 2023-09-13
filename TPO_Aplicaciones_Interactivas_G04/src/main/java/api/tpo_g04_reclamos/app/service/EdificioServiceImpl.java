@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
+import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.BadRequestException;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
@@ -19,8 +21,13 @@ public class EdificioServiceImpl implements IEdificioService{
 
 	@Autowired
 	private IEdificioDao edificioDao;
-	
-	
+
+	// TODO crear unidadService
+	@Autowired
+	private IUnidadService unidadService;
+
+	private IAreaComunService areaComunService;
+
 	@Override
 	public List<Edificio> findAll() {
 		return edificioDao.findAll();
@@ -53,6 +60,30 @@ public class EdificioServiceImpl implements IEdificioService{
 		this.edificioExiste(id);
 
 		edificioDao.deleteById(id);
+	}
+
+	public void addUnidad(Edificio edificio, UnidadDto unidadDto) {
+		if(!edificio.getId().equals(unidadDto.getEdificio().getId())) {
+			throw new BadRequestException("Unidad no se puede agregar, no pertenece al mismo edificio");
+		}
+
+		Unidad unidadAAgregar = new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), unidadDto.getEdificio(), unidadDto.getEstado());
+		Unidad unidadCreada = unidadService.save(unidadAAgregar);
+
+		edificio.getUnidades().add(unidadCreada);
+		edificioDao.save(edificio);
+	}
+
+	public void addAreaComun(Edificio edificio, AreaComunDto areaComunDto) {
+		if(!edificio.getId().equals(areaComunDto.getEdificio().getId())) {
+			throw new BadRequestException("Area Comun no se puede agregar, no pertenece al mismo edificio");
+		}
+
+		AreaComun areaComunAAgregar = new AreaComun(areaComunDto.getEdificio(), areaComunDto.getNombre());
+		AreaComun areaComundCreada = areaComunService.save(areaComunAAgregar);
+
+		edificio.getAreasComunes().add(areaComundCreada);
+		edificioDao.save(edificio);
 	}
 
 	private boolean edificioExiste(Long id) {

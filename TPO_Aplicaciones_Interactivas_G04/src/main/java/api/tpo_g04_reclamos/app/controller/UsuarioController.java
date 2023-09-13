@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.controller;
 
+import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.service.IUsuarioService;
@@ -42,14 +43,14 @@ public class UsuarioController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> addUsuario(@RequestBody UsuarioDto usuario) {
 		Usuario usuarioCreado = usuarioService.save(usuario);
 		return new ResponseEntity<>(usuarioCreado, CREATED);
 	}
 	
-	@PutMapping
-	public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) {
-		Usuario usuarioActualizado = usuarioService.update(usuario);
+	@PutMapping("/{id}")
+	public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDto usuario) {
+		Usuario usuarioActualizado = usuarioService.update(id, usuario);
 		return new ResponseEntity<>(usuarioActualizado, OK);
 	}
 	
