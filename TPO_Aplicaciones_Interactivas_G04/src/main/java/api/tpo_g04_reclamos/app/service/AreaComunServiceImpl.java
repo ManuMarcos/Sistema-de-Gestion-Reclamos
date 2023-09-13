@@ -3,6 +3,8 @@ package api.tpo_g04_reclamos.app.service;
 import java.util.List;
 import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,16 @@ public class AreaComunServiceImpl implements IAreaComunService {
 	@Override
 	public void deleteById(Long id) {
 		areaComunDao.deleteById(id);
+	}
+
+	private boolean areaComunExiste(Long id) {
+		Optional<AreaComun> areaComunToDelete = this.findById(id);
+
+		if(areaComunToDelete.isEmpty()) {
+			throw new ItemNotFoundException("El area comun para borrar no existe");
+		}
+
+		return true;
 	}
 
 }
