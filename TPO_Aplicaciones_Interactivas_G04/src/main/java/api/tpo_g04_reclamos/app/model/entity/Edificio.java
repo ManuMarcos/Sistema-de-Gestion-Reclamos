@@ -3,7 +3,6 @@ package api.tpo_g04_reclamos.app.model.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -91,16 +90,4 @@ public class Edificio {
 				+ unidades + "]";
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Edificio edificio = (Edificio) o;
-		return id.equals(edificio.id) && direccion.equals(edificio.direccion) && areasComunes.equals(edificio.areasComunes) && unidades.equals(edificio.unidades);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, direccion, areasComunes, unidades);
-	}
 }

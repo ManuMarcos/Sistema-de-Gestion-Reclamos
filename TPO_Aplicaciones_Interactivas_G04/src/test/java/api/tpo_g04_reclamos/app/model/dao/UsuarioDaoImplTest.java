@@ -1,22 +1,25 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
+import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 
 import static api.tpo_g04_reclamos.app.model.enums.TipoUsuario.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class UsuarioDaoImplTests {
+public class UsuarioDaoImplTest {
 	@Autowired
 	private IUsuarioDao usuarioDao;
 	
