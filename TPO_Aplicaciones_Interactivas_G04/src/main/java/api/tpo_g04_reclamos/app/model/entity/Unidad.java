@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
 import jakarta.persistence.CascadeType;
@@ -52,6 +53,25 @@ public class Unidad {
 		this.estado = estado;
 	}
 
+	public Unidad(int piso, int numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
+		super();
+		this.piso = piso;
+		this.numero = numero;
+		this.edificio = edificio;
+		this.propietario = propietario;
+		this.estado = estado;
+	}
+
+	public Unidad(Long id, int piso, int numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
+		super();
+		this.id = id;
+		this.piso = piso;
+		this.numero = numero;
+		this.edificio = edificio;
+		this.propietario = propietario;
+		this.estado = estado;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -97,8 +117,18 @@ public class Unidad {
 		return "Unidad [id=" + id + ", piso=" + piso + ", numero=" + numero + ", edificio=" + edificio + ", estado="
 				+ estado + "]";
 	}
-	
-	
-	
-	
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Unidad unidad = (Unidad) o;
+		return piso == unidad.piso && numero == unidad.numero && id.equals(unidad.id) && edificio.getId().equals(unidad.edificio.getId()) && propietario.getId().equals(unidad.propietario.getId()) && estado == unidad.estado;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, piso, numero, edificio, propietario, inquilinos, estado);
+	}
 }

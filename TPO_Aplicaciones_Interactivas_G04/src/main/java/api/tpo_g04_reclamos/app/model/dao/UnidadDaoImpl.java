@@ -45,6 +45,13 @@ public class UnidadDaoImpl implements IUnidadDao {
 
 	@Override
 	@Transactional
+	public Unidad update(Unidad unidad) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		return currentSession.merge(unidad);
+	}
+
+	@Override
+	@Transactional
 	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		

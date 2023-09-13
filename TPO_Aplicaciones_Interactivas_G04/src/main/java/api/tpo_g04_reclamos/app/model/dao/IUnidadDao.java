@@ -12,7 +12,9 @@ public interface IUnidadDao {
 	Optional<Unidad> findById(Long id);
 
 	Unidad save(Unidad unidad);
-	
+
+	Unidad update(Unidad unidad);
+
 	void deleteById(Long id);
 	
 }
