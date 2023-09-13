@@ -14,7 +14,7 @@ public class AreaComun {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "edificio_id")
@@ -31,16 +31,16 @@ public class AreaComun {
 		this.nombre = nombre;
 	}
 
-	public int getId() {
-		return id;
+	public Long getId() {
+		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	public Edificio getEdificio() {
-		return edificio;
+		return this.edificio;
 	}
 
 	public void setEdificio(Edificio edificio) {
@@ -48,7 +48,7 @@ public class AreaComun {
 	}
 
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
@@ -57,7 +57,7 @@ public class AreaComun {
 
 	@Override
 	public String toString() {
-		return "AreaComun [id=" + id + ", edificio=" + edificio + ", nombre=" + nombre + "]";
+		return "AreaComun [id=" + this.id + ", edificio=" + this.edificio + ", nombre=" + this.nombre + "]";
 	}
 
 }

@@ -13,7 +13,7 @@ import api.tpo_g04_reclamos.app.model.entity.Usuario;
 public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Autowired
-	IUsuarioDao usuarioDao;
+	private IUsuarioDao usuarioDao;
 	
 	@Override
 	public List<Usuario> findAll() {

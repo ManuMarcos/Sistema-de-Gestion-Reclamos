@@ -22,17 +22,17 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	@Override
-	public Optional<Edificio> findById(int id) {
+	public Optional<Edificio> findById(Long id) {
 		return edificioDao.findById(id);
 	}
 
 	@Override
-	public void save(Edificio edificio) {
-		edificioDao.save(edificio);
+	public Edificio save(Edificio edificio) {
+		return edificioDao.save(edificio);
 	}
 
 	@Override
-	public void update(int id, Edificio edificio) {
+	public void update(Long id, Edificio edificio) {
 		Optional<Edificio> edificioToUpdateOptional = edificioDao.findById(id);
 		if(edificioToUpdateOptional.isPresent()) {
 			Edificio edificioToUpdate = edificioToUpdateOptional.get();
@@ -45,7 +45,7 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		edificioDao.deleteById(id);
 	}
 

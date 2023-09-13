@@ -9,12 +9,12 @@ public interface IAreaComunService {
 
 	List<AreaComun> findAll();
 	
-	Optional<AreaComun> findById(int id);
+	Optional<AreaComun> findById(Long id);
 	
-	void save(AreaComun areaComun);
+	AreaComun save(AreaComun areaComun);
 	
-	void update(int id, AreaComun areaComun);
+	AreaComun update(Long id, AreaComun areaComun);
 	
-	void deleteById(int id);
+	void deleteById(Long id);
 	
 }

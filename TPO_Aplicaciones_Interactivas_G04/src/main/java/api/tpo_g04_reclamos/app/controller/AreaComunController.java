@@ -32,17 +32,16 @@ public class AreaComunController {
 	
 	@GetMapping
 	public List<AreaComun> findAll(){
-		List<AreaComun> areasComunes = areaComunService.findAll();
-		return areasComunes;
+		return areaComunService.findAll();
 	}
 	
 	@GetMapping("/{areaComunId}")
-	public ResponseEntity<?> findById(@PathVariable int areaComunId){
+	public ResponseEntity<?> findById(@PathVariable Long areaComunId){
 		Optional<AreaComun> areaComunOptional = areaComunService.findById(areaComunId);
 		
 		if(areaComunOptional.isEmpty()) {
 			String mensaje = "El area comun con id:" +  areaComunId + " no existe";
-			return new ResponseEntity<String>(mensaje, NOT_FOUND);
+			return new ResponseEntity<>(mensaje, NOT_FOUND);
 		}
 		return ok(areaComunOptional.get());
 	}
@@ -69,15 +68,15 @@ public class AreaComunController {
 	*/
 	
 	@DeleteMapping("/{areaComunId}")
-	public ResponseEntity<String> deleteById(@PathVariable int areaComunId){
+	public ResponseEntity<String> deleteById(@PathVariable Long areaComunId){
 		Optional<AreaComun> areaComunToDeleteOptional = areaComunService.findById(areaComunId);
 		if(areaComunToDeleteOptional.isPresent()) {
 			areaComunService.deleteById(areaComunId);
 			String mensaje = "Area comun con id: " + areaComunId + " eliminada correctamente!";
-			return new ResponseEntity<String>(mensaje, OK);
+			return new ResponseEntity<>(mensaje, OK);
 		}
 		String mensaje = "El area comun con id: " + areaComunId +  " no existe";
-		return new ResponseEntity<String>(mensaje, NOT_FOUND);
+		return new ResponseEntity<>(mensaje, NOT_FOUND);
 	}
 	
 	

@@ -21,31 +21,32 @@ public class AreaComunServiceImpl implements IAreaComunService {
 	}
 
 	@Override
-	public Optional<AreaComun> findById(int id) {
+	public Optional<AreaComun> findById(Long id) {
 		return areaComunDao.findById(id);
 	}
 
 	@Override
-	public void save(AreaComun areaComun) {
-		areaComunDao.save(areaComun);
-		
+	public AreaComun save(AreaComun areaComun) {
+		return areaComunDao.save(areaComun);
 	}
 
 	@Override
-	public void update(int id, AreaComun areaComun) {
+	public AreaComun update(Long id, AreaComun areaComun) {
 		Optional<AreaComun> areaComunToUpdateOptional = areaComunDao.findById(id);
 		
 		if(areaComunToUpdateOptional.isPresent()) {
 			AreaComun areaComunToUpdate = areaComunToUpdateOptional.get();
 
 			areaComunToUpdate.setNombre(areaComun.getNombre());
-			areaComunDao.save(areaComunToUpdate);
+			return areaComunDao.save(areaComunToUpdate);
+		} else {
+			throw new IllegalArgumentException();
 		}
 
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		areaComunDao.deleteById(id);
 	}
 

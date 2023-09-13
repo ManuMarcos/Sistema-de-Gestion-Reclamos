@@ -35,7 +35,7 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<AreaComun> findById(int id) {
+	public Optional<AreaComun> findById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		return Optional.ofNullable(currentSession.get(AreaComun.class, id));
@@ -43,14 +43,14 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 
 	@Override
 	@Transactional
-	public void save(AreaComun areaComun) {
+	public AreaComun save(AreaComun areaComun) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.persist(areaComun);
+		return currentSession.merge(areaComun);
 	}
 
 	@Override
 	@Transactional
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		AreaComun areaComunToDelete = currentSession.get(AreaComun.class, id);

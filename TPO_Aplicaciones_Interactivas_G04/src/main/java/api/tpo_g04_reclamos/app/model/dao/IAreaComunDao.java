@@ -9,10 +9,10 @@ public interface IAreaComunDao {
 
 	List<AreaComun> findAll();
 	
-	Optional<AreaComun> findById(int id);
+	Optional<AreaComun> findById(Long id);
 	
-	void save(AreaComun areaComun);
+	AreaComun save(AreaComun areaComun);
 	
-	void deleteById(int id);
+	void deleteById(Long id);
 	
 }

@@ -30,7 +30,7 @@ public class EdificioDaoImpl implements IEdificioDao{
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Edificio> findById(int id) {
+	public Optional<Edificio> findById(Long id) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
@@ -40,16 +40,15 @@ public class EdificioDaoImpl implements IEdificioDao{
 	
 	@Override
 	@Transactional
-	public void save(Edificio edificio) {
-		
+	public Edificio save(Edificio edificio) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		currentSession.persist(edificio);	
+		return currentSession.merge(edificio);
 	}
 
 	@Override
 	@Transactional
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		Edificio edificioToDelete = currentSession.get(Edificio.class, id);

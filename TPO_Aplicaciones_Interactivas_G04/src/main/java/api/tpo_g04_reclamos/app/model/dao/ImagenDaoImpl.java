@@ -20,16 +20,14 @@ public class ImagenDaoImpl implements IImagenDao {
 	@Transactional(readOnly = true)
 	public Optional<Imagen> findById(String id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		Imagen imagen = currentSession.get(Imagen.class, id);
-		return Optional.ofNullable(imagen);
+		return Optional.ofNullable(currentSession.get(Imagen.class, id));
 	}
 
 	@Override
 	@Transactional
 	public Imagen save(Imagen imagen) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.persist(imagen);
-		return imagen;
+		return currentSession.merge(imagen);
 	}
 
 	@Override

@@ -9,9 +9,9 @@ public interface IEdificioDao {
 
 	List<Edificio> findAll();
 	
-	Optional<Edificio> findById(int id);
+	Optional<Edificio> findById(Long id);
 	
-	void save(Edificio edificio);
+	Edificio save(Edificio edificio);
 	
-	void deleteById(int id);
+	void deleteById(Long id);
 }

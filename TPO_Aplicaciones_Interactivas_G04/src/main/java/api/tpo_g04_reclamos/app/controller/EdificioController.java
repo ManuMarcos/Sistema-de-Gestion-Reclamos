@@ -37,11 +37,11 @@ public class EdificioController {
 	}
 	
 	@GetMapping("/{edificioId}")
-	public ResponseEntity<?> findById(@PathVariable int edificioId){
+	public ResponseEntity<?> findById(@PathVariable Long edificioId){
 		Optional<Edificio> edificioOptional = edificioService.findById(edificioId);
 		if(edificioOptional.isEmpty()) {
 			String mensaje =  "El edificio con id: " + edificioId + " no existe";
-			return new ResponseEntity<String>(mensaje, NOT_FOUND);
+			return new ResponseEntity<>(mensaje, NOT_FOUND);
 		}
 		return  ok(edificioOptional.get());
 	}
@@ -49,23 +49,23 @@ public class EdificioController {
 	@PostMapping
 	public ResponseEntity<Edificio> addEdificio(@RequestBody Edificio edificio) {
 		edificioService.save(edificio);
-		return new ResponseEntity<Edificio>(edificio, CREATED);
+		return new ResponseEntity<>(edificio, CREATED);
 	}
 	
 	
 	@PutMapping("/{edificioId}")
-	public ResponseEntity<?> updateEdificio(@PathVariable int edificioId, @RequestBody Edificio edificio){
+	public ResponseEntity<?> updateEdificio(@PathVariable Long edificioId, @RequestBody Edificio edificio){
 		Optional<Edificio> edificioToUpdateOptional = edificioService.findById(edificioId);
 		if(edificioToUpdateOptional.isPresent()) {
 			edificioService.update(edificioId, edificio);
 			return ok(edificio);
 		}
 		String mensaje = "El edificio con id: " + edificioId + " no existe";
-		return new ResponseEntity<String>(mensaje, NOT_FOUND);
+		return new ResponseEntity<>(mensaje, NOT_FOUND);
 	}
 	
 	@DeleteMapping("/{edificioId}")
-	public ResponseEntity<String> deleteEdificio(@PathVariable int edificioId){
+	public ResponseEntity<String> deleteEdificio(@PathVariable Long edificioId){
 		Optional<Edificio> edificioToDeleteOptional = edificioService.findById(edificioId);
 		if(edificioToDeleteOptional.isPresent()) {
 			edificioService.deleteById(edificioId);
@@ -73,7 +73,7 @@ public class EdificioController {
 			return ok(mensaje);
 		}
 		String mensaje = "El edificio con id: " + edificioId + " no existe";
-		return new ResponseEntity<String>(mensaje, NOT_FOUND);
+		return new ResponseEntity<>(mensaje, NOT_FOUND);
 	}
 	
 	
