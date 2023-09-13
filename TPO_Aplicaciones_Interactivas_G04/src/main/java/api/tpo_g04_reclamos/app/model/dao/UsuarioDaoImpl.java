@@ -3,6 +3,7 @@ package api.tpo_g04_reclamos.app.model.dao;
 import java.util.List;
 import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -55,7 +56,5 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		Usuario usuario = currentSession.get(Usuario.class, id);
 		if(usuario != null)
 			currentSession.remove(usuario);
-		else
-			throw new IllegalArgumentException("Id usuario no válido");
 	}
 }
