@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
+import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 
 import java.util.List;
@@ -12,7 +13,9 @@ public interface IUnidadDao {
 	Optional<Unidad> findById(Long id);
 
 	Unidad save(Unidad unidad);
-	
+
+	Unidad update(Unidad unidad);
+
 	void deleteById(Long id);
 	
 }

@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
+import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -39,6 +40,13 @@ public class UnidadDaoImpl implements IUnidadDao {
 	@Override
 	@Transactional
 	public Unidad save(Unidad unidad) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		return currentSession.merge(unidad);
+	}
+
+	@Override
+	@Transactional
+	public Unidad update(Unidad unidad) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		return currentSession.merge(unidad);
 	}

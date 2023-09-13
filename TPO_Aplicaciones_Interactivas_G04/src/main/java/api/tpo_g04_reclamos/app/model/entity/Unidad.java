@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+import java.util.Objects;
+
 @Entity
 public class Unidad {
 
@@ -32,6 +34,15 @@ public class Unidad {
 
 	public Unidad(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
 		super();
+		this.piso = piso;
+		this.numero = numero;
+		this.edificio = edificio;
+		this.estado = estado;
+	}
+
+	public Unidad(Long id, int piso, int numero, Edificio edificio, EstadoUnidad estado) {
+		super();
+		this.id = id;
 		this.piso = piso;
 		this.numero = numero;
 		this.edificio = edificio;
@@ -83,8 +94,18 @@ public class Unidad {
 		return "Unidad [id=" + id + ", piso=" + piso + ", numero=" + numero + ", edificio=" + edificio + ", estado="
 				+ estado + "]";
 	}
-	
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Unidad unidad = (Unidad) o;
+		return piso == unidad.piso && numero == unidad.numero && id.equals(unidad.id) && edificio.getId().equals(unidad.edificio.getId()) && estado == unidad.estado;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, piso, numero, edificio, estado);
+	}
 	
 }
