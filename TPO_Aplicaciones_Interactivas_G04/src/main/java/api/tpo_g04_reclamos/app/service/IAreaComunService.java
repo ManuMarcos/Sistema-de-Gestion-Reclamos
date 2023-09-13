@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 
@@ -8,12 +9,12 @@ public interface IAreaComunService {
 
 	List<AreaComun> findAll();
 	
-	AreaComun findById(int id);
+	Optional<AreaComun> findById(Long id);
 	
-	void save(AreaComun areaComun);
+	AreaComun save(AreaComun areaComun);
 	
-	void update(int id, AreaComun areaComun);
+	AreaComun update(Long id, AreaComun areaComun);
 	
-	void deleteById(int id);
+	void deleteById(Long id);
 	
 }

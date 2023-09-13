@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -24,35 +25,30 @@ public class EdificioDaoImpl implements IEdificioDao{
 		
 		Query<Edificio> getQuery = currentSession.createQuery("from Edificio", Edificio.class);
 		
-		List<Edificio> edificios = getQuery.getResultList();
-		
-		return edificios;
+		return getQuery.getResultList();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Edificio findById(int id) {
+	public Optional<Edificio> findById(Long id) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Edificio edificio = currentSession.find(Edificio.class, id);
-		
-		return edificio;
+		return Optional.ofNullable(currentSession.find(Edificio.class, id));
 	}
 
 	
 	@Override
 	@Transactional
-	public void save(Edificio edificio) {
-		
+	public Edificio save(Edificio edificio) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		currentSession.persist(edificio);	
+		return currentSession.merge(edificio);
 	}
 
 	@Override
 	@Transactional
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		Edificio edificioToDelete = currentSession.get(Edificio.class, id);

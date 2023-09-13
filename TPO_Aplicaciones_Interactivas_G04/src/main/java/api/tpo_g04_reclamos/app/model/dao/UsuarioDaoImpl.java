@@ -1,7 +1,9 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import java.util.List;
+import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -12,45 +14,47 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @Repository
-public class UsuarioDao {
+public class UsuarioDaoImpl implements IUsuarioDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	@Override
 	@Transactional(readOnly = true)
 	public List<Usuario> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Query<Usuario> getQuery = currentSession.createQuery("from Usuario", Usuario.class);
-		List<Usuario> usuarios = getQuery.getResultList();
-		return usuarios;
+		return getQuery.getResultList();
 	}
 
+	@Override
 	@Transactional(readOnly = true)
-	public Usuario findById(int id) {
+	public Optional<Usuario> findById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Usuario usuario = currentSession.get(Usuario.class, id);
-		return usuario;
+		return Optional.ofNullable(usuario);
 	}
 
+	@Override
 	@Transactional
-	public void save(Usuario usuario) {
+	public Usuario save(Usuario usuario) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.persist(usuario);
+		return currentSession.merge(usuario);
+	}
+
+	@Override
+	@Transactional
+	public Usuario update(Usuario usuario) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		return currentSession.merge(usuario);
 	}
 	
+	@Override
 	@Transactional
-	public void update(Usuario usuario) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.merge(usuario);
-	}
-
-	@Transactional
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Usuario usuario = currentSession.get(Usuario.class, id);
 		if(usuario != null)
 			currentSession.remove(usuario);
-		else
-			throw new IllegalArgumentException("Id usuario no válido");
 	}
 }

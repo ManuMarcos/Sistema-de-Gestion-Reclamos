@@ -1,7 +1,10 @@
 package api.tpo_g04_reclamos.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +28,12 @@ public class AreaComunServiceImpl implements IAreaComunService {
 	}
 
 	@Override
-	public AreaComun findById(int id) {
+	public Optional<AreaComun> findById(Long id) {
 		return areaComunDao.findById(id);
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void save(AreaComun areaComun) {
 		Edificio edificio = edificioDao.findById(areaComun.getEdificio().getId());
 		
@@ -38,22 +42,38 @@ public class AreaComunServiceImpl implements IAreaComunService {
 			areaComun.setEdificio(edificio);
 			areaComunDao.save(areaComun);
 		}
+=======
+	public AreaComun save(AreaComun areaComun) {
+		return areaComunDao.save(areaComun);
+>>>>>>> 43367aca2e1aaacbaa27d1329697c81049b00827
 	}
 
 	@Override
-	public void update(int id, AreaComun areaComun) {
-		AreaComun areaComunToUpdate = areaComunDao.findById(id);
-		
-		if(areaComunToUpdate != null) {
-			areaComunToUpdate.setNombre(areaComun.getNombre());
-			areaComunDao.save(areaComunToUpdate);
+	public AreaComun update(Long id, AreaComun areaComun) {
+		this.areaComunExiste(id);
+
+		AreaComun areaComunToUpdate = areaComunDao.findById(id).get();
+
+		areaComunToUpdate.setNombre(areaComun.getNombre());
+		return areaComunDao.save(areaComunToUpdate);
+
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		this.areaComunExiste(id);
+
+		areaComunDao.deleteById(id);
+	}
+
+	private boolean areaComunExiste(Long id) {
+		Optional<AreaComun> areaComun = this.findById(id);
+
+		if(areaComun.isEmpty()) {
+			throw new ItemNotFoundException("El area comun no existe");
 		}
 
-	}
-
-	@Override
-	public void deleteById(int id) {
-		areaComunDao.deleteById(id);
+		return true;
 	}
 
 }

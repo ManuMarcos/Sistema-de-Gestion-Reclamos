@@ -2,7 +2,13 @@ package api.tpo_g04_reclamos.app.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
+import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
+import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -23,7 +29,7 @@ import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -49,43 +55,49 @@ public class EdificioController {
 	}
 	
 	@GetMapping("/{edificioId}")
-	public ResponseEntity<?> findById(@PathVariable int edificioId){
-		Edificio edificio = edificioService.findById(edificioId);
-		if(edificio == null) {
-			String mensaje =  "El edificio con id: " + edificioId + " no existe";
-			return new ResponseEntity<String>(mensaje, NOT_FOUND);
-		}
-		return  ok(edificio);
+	public ResponseEntity<?> findById(@PathVariable Long edificioId){
+		Edificio edificio = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio con id: %s no existe", edificioId)));
+		return ok(edificio);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Edificio> addEdificio(@RequestBody Edificio edificio) {
-		edificioService.save(edificio);
-		return new ResponseEntity<Edificio>(edificio, HttpStatus.CREATED);
+	public ResponseEntity<Edificio> addEdificio(@RequestBody EdificioDto edificio) {
+		Edificio edificioCreado = edificioService.save(edificio);
+		return new ResponseEntity<>(edificioCreado, CREATED);
+	}
+
+	@PostMapping("/{edificioId}/unidad")
+	public ResponseEntity<Edificio> addUnidad(@PathVariable Long edificioId, @RequestBody UnidadDto unidad) {
+		Edificio edificioAAgregarUnidad = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
+		edificioService.addUnidad(edificioAAgregarUnidad, unidad);
+
+		return new ResponseEntity<>(edificioAAgregarUnidad, OK);
+	}
+
+	@PostMapping("/{edificioId}/area-comun")
+	public ResponseEntity<Edificio> addAreaComun(@PathVariable Long edificioId, @RequestBody AreaComunDto areaComunDto) {
+		Edificio edificioAAgregarAreaComun = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
+		edificioService.addAreaComun(edificioAAgregarAreaComun, areaComunDto);
+
+		return new ResponseEntity<>(edificioAAgregarAreaComun, OK);
 	}
 	
-	
 	@PutMapping("/{edificioId}")
-	public ResponseEntity<?> updateEdificio(@PathVariable int edificioId, @RequestBody Edificio edificio){
-		Edificio edificioToUpdate = edificioService.findById(edificioId);
-		if(edificioToUpdate != null) {
-			edificioService.update(edificioId, edificio);
-			return ok(edificio);
-		}
-		String mensaje = "El edificio con id: " + edificioId + " no existe";
-		return new ResponseEntity<String>(mensaje, NOT_FOUND);
+	public ResponseEntity<?> updateEdificio(@PathVariable Long edificioId, @RequestBody Edificio edificio){
+		Edificio edificioUpdated = edificioService.update(edificioId, edificio);
+		return ok(edificioUpdated);
 	}
 	
 	@DeleteMapping("/{edificioId}")
-	public ResponseEntity<String> deleteEdificio(@PathVariable int edificioId){
-		Edificio edificioToDelete = edificioService.findById(edificioId);
-		if(edificioToDelete != null) {
+	public ResponseEntity<String> deleteEdificio(@PathVariable Long edificioId){
+		Optional<Edificio> edificioToDeleteOptional = edificioService.findById(edificioId);
+		if(edificioToDeleteOptional.isPresent()) {
 			edificioService.deleteById(edificioId);
 			String mensaje = "Edificio con id: " + edificioId + " eliminado correctamente!";
 			return ok(mensaje);
 		}
 		String mensaje = "El edificio con id: " + edificioId + " no existe";
-		return new ResponseEntity<String>(mensaje, NOT_FOUND);
+		return new ResponseEntity<>(mensaje, NOT_FOUND);
 	}
 	
 	public EdificioDto convertToDto(Edificio edificio) {

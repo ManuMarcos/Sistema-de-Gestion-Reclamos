@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -18,10 +19,6 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@Autowired
-	private IEdificioDao edificioDao;
-	
-	
 	@Override
 	@Transactional(readOnly = true)
 	public List<AreaComun> findAll() {
@@ -29,31 +26,27 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 		
 		Query<AreaComun> getQuery = currentSession.createQuery("from AreaComun", AreaComun.class);
 		
-		List<AreaComun> areasComunes = getQuery.getResultList();
-		
-		return areasComunes;
+		return getQuery.getResultList();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public AreaComun findById(int id) {
+	public Optional<AreaComun> findById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		AreaComun areaComun = currentSession.get(AreaComun.class, id);
-		
-		return areaComun;
+		return Optional.ofNullable(currentSession.get(AreaComun.class, id));
 	}
 
 	@Override
 	@Transactional
-	public void save(AreaComun areaComun) {
+	public AreaComun save(AreaComun areaComun) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.persist(areaComun);
+		return currentSession.merge(areaComun);
 	}
 
 	@Override
 	@Transactional
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		AreaComun areaComunToDelete = currentSession.get(AreaComun.class, id);

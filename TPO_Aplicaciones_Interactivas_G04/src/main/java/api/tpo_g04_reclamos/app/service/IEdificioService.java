@@ -1,18 +1,28 @@
 package api.tpo_g04_reclamos.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
+import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
+import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
+import api.tpo_g04_reclamos.app.model.entity.Unidad;
 
 public interface IEdificioService {
 
 	List<Edificio> findAll();
 	
-	Edificio findById(int id);
+	Optional<Edificio> findById(Long id);
 	
-	void save(Edificio edificio);
+	Edificio save(EdificioDto edificio);
 	
-	void update(int id, Edificio edificio);
+	Edificio update(Long id, Edificio edificio);
 	
-	void deleteById(int id);
+	void deleteById(Long id);
+
+	void addUnidad(Edificio edificio, UnidadDto unidad);
+
+	void addAreaComun(Edificio edificio, AreaComunDto areaComunDto);
+
 }

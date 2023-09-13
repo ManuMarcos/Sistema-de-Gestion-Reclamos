@@ -15,12 +15,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+import java.util.Objects;
+
 @Entity
 public class Unidad {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	private int piso;
 	private int numero;
 	
@@ -52,11 +54,20 @@ public class Unidad {
 		this.estado = estado;
 	}
 
-	public int getId() {
+	public Unidad(Long id, int piso, int numero, Edificio edificio, EstadoUnidad estado) {
+		super();
+		this.id = id;
+		this.piso = piso;
+		this.numero = numero;
+		this.edificio = edificio;
+		this.estado = estado;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -97,8 +108,18 @@ public class Unidad {
 		return "Unidad [id=" + id + ", piso=" + piso + ", numero=" + numero + ", edificio=" + edificio + ", estado="
 				+ estado + "]";
 	}
-	
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Unidad unidad = (Unidad) o;
+		return piso == unidad.piso && numero == unidad.numero && id.equals(unidad.id) && edificio.getId().equals(unidad.edificio.getId()) && estado == unidad.estado;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, piso, numero, edificio, estado);
+	}
 	
 }

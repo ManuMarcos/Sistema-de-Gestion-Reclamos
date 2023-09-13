@@ -1,17 +1,18 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 
 public interface IAreaComunDao {
 
-	public List<AreaComun> findAll();
+	List<AreaComun> findAll();
 	
-	public AreaComun findById(int id);
+	Optional<AreaComun> findById(Long id);
 	
-	public void save(AreaComun areaComun);
+	AreaComun save(AreaComun areaComun);
 	
-	public void deleteById(int id);
+	void deleteById(Long id);
 	
 }
