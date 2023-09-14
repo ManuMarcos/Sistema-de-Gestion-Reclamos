@@ -29,11 +29,11 @@ public class Reclamo {
     private EstadoReclamo estado;
 
     @OneToOne
-    @JoinColumn(name = "usuario_fk_id")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @OneToOne
-    @JoinColumn(name = "unidad_fk_id")
+    @JoinColumn(name = "unidad_id")
     private Unidad unidad;
 
     @OneToOne
