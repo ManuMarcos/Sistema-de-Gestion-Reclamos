@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -65,4 +66,16 @@ public class AreaComun{
 		return "AreaComun [id=" + this.id + ", edificio=" + this.edificio + ", nombre=" + this.nombre + "]";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		AreaComun areaComun = (AreaComun) o;
+		return id.equals(areaComun.id) && edificio.getId().equals(areaComun.edificio.getId()) && nombre.equals(areaComun.nombre);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, edificio, nombre);
+	}
 }

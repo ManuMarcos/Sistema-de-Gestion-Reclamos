@@ -19,7 +19,10 @@ public class Imagen {
     @Lob
     @Column(name="image_data", nullable=false, columnDefinition="LONGBLOB")
     private byte[] data;
-    
+
+	@ManyToOne
+	@JoinColumn(name = "reclamo_id")
+	private Reclamo reclamo;
     
 	public Imagen() {
 		super();
