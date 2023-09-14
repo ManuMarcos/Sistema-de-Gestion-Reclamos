@@ -18,7 +18,7 @@ import java.util.HexFormat;
 import java.util.List;
 import java.util.Optional;
 
-import static api.tpo_g04_reclamos.app.model.enums.EstadoReclamo.ABIERTO;
+import static api.tpo_g04_reclamos.app.model.enums.EstadoReclamo.*;
 import static api.tpo_g04_reclamos.app.model.enums.EstadoUnidad.ALQUILADA;
 import static api.tpo_g04_reclamos.app.model.enums.EstadoUnidad.SIN_ALQUILAR;
 import static api.tpo_g04_reclamos.app.model.enums.TipoUsuario.PROPIETARIO;
@@ -61,6 +61,7 @@ public class ReclamoDaoImplTests {
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "unidad");
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificio");
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "imagenes");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuario");
 	}
 
 	@Test
@@ -77,62 +78,48 @@ public class ReclamoDaoImplTests {
 		assertEquals(reclamoCreado.getAreaComun(), reclamoGuardadoOptional.get().getAreaComun());
 	}
 	
-	/*@Test
-	public void findAllTest() {
-		Unidad unidadCreada1 = unidadDao.save(unidadDao.save(new Unidad(3, 2, edificioExistente, propietarioExistente1, ALQUILADA)));
-		Unidad unidadCreada2 = unidadDao.save(unidadDao.save(new Unidad(1, 4, edificioExistente, propietarioExistente2, SIN_ALQUILAR)));
-		Unidad unidadCreada3 = unidadDao.save(unidadDao.save(new Unidad(2, 3, edificioExistente, propietarioExistente3, ALQUILADA)));
-
-		List<Unidad> unidadesCreadas = unidadDao.findAll();
-
-		assertEquals(unidadesCreadas.size(), 3);
-		assertTrue(unidadesCreadas.containsAll(List.of(
-				new Unidad(unidadCreada1.getId(), 3, 2, edificioExistente, propietarioExistente1, ALQUILADA),
-				new Unidad(unidadCreada2.getId(), 1, 4, edificioExistente, propietarioExistente2, SIN_ALQUILAR),
-				new Unidad(unidadCreada3.getId(), 2, 3, edificioExistente, propietarioExistente3, ALQUILADA))));
-	}
-
 	@Test
-	public void findByIdTest() {
-		Unidad unidadCreada = unidadDao.save(new Unidad(1, 3, edificioExistente, SIN_ALQUILAR));
+	public void findAllTest() {
+		Reclamo reclamoCreado1 = reclamoDao.save(new Reclamo(3, imagenesExistentes, "description1", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
+		Reclamo reclamoCreado2 = reclamoDao.save(new Reclamo(1, imagenesExistentes, "description1", EN_PROCESO, null, null, null));
 
-		Optional<Unidad> unidadGuardadaOptional = unidadDao.findById(unidadCreada.getId());
+		List<Reclamo> reclamosCreados = reclamoDao.findAll();
 
-		assertTrue(unidadGuardadaOptional.isPresent());
-		assertEquals(unidadCreada.getPiso(), unidadGuardadaOptional.get().getPiso());
-		assertEquals(unidadCreada.getNumero(), unidadGuardadaOptional.get().getNumero());
-		assertEquals(unidadCreada.getEstado(), unidadGuardadaOptional.get().getEstado());
+		assertEquals(reclamosCreados.size(), 2);
+		assertTrue(reclamosCreados.containsAll(List.of(
+				new Reclamo(reclamoCreado1.getId(), 3, imagenesExistentes, "description1", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente),
+				new Reclamo(reclamoCreado2.getId(), 1, imagenesExistentes, "description1", EN_PROCESO, null, null, null))));
 	}
 
 	@Test
 	public void updateTest() {
-		Unidad unidadCreada = unidadDao.save(new Unidad(1, 3, edificioExistente, SIN_ALQUILAR));
+		Reclamo reclamoCreado = reclamoDao.save(new Reclamo(3, imagenesExistentes, "descripcion", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
 
-		Optional<Unidad> unidadAntesDeActualizar = unidadDao.findById(unidadCreada.getId());
+		Optional<Reclamo> reclamoAntesDeActualizar = reclamoDao.findById(reclamoCreado.getId());
 
-		unidadCreada.setPiso(3);
-		unidadCreada.setNumero(1);
-		unidadDao.update(unidadCreada);
+		reclamoCreado.setDescripcion("nuevaDescripcion");
+		reclamoCreado.setNumero(1);
+		reclamoDao.update(reclamoCreado);
 
-		Optional<Unidad> unidadDespuesDeActualizar = unidadDao.findById(unidadCreada.getId());
+		Optional<Reclamo> reclamoDespuesDeActualizar = reclamoDao.findById(reclamoCreado.getId());
 
-		assertEquals(1, unidadAntesDeActualizar.get().getPiso());
-		assertEquals(3, unidadDespuesDeActualizar.get().getPiso());
-		assertEquals(3, unidadAntesDeActualizar.get().getNumero());
-		assertEquals(1, unidadDespuesDeActualizar.get().getNumero());
+		assertEquals("descripcion", reclamoAntesDeActualizar.get().getDescripcion());
+		assertEquals("nuevaDescripcion", reclamoDespuesDeActualizar.get().getDescripcion());
+		assertEquals(3, reclamoAntesDeActualizar.get().getNumero());
+		assertEquals(1, reclamoDespuesDeActualizar.get().getNumero());
 	}
 
 	@Test
 	public void deleteById() {
-		Unidad unidadCreada = unidadDao.save(new Unidad(2, 5, edificioExistente, SIN_ALQUILAR));
+		Reclamo reclamoCreado = reclamoDao.save(new Reclamo(3, imagenesExistentes, "descripcion", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
 
-		Optional<Unidad> unidadAntesDeBorrar = unidadDao.findById(unidadCreada.getId());
+		Optional<Reclamo> reclamoAntesDeBorrar = reclamoDao.findById(reclamoCreado.getId());
 
-		unidadDao.deleteById(unidadCreada.getId());
+		reclamoDao.deleteById(reclamoCreado.getId());
 
-		Optional<Unidad> unidadDespuesDeBorrar = unidadDao.findById(unidadCreada.getId());
+		Optional<Reclamo> reclamoDespuesDeBorrar = reclamoDao.findById(reclamoCreado.getId());
 
-		assertTrue(unidadAntesDeBorrar.isPresent());
-		assertTrue(unidadDespuesDeBorrar.isEmpty());
-	}*/
+		assertTrue(reclamoAntesDeBorrar.isPresent());
+		assertTrue(reclamoDespuesDeBorrar.isEmpty());
+	}
 }

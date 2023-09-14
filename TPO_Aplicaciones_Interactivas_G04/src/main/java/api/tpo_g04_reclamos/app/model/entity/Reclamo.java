@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -45,6 +46,17 @@ public class Reclamo {
     }
 
     public Reclamo(int numero, List<Imagen> imagenes, String descripcion, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
+        this.numero = numero;
+        this.imagenes = imagenes;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.usuario = usuario;
+        this.unidad = unidad;
+        this.areaComun = areaComun;
+    }
+
+    public Reclamo(Long id, int numero, List<Imagen> imagenes, String descripcion, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
+        this.id = id;
         this.numero = numero;
         this.imagenes = imagenes;
         this.descripcion = descripcion;
@@ -114,4 +126,16 @@ public class Reclamo {
         this.areaComun = areaComun;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reclamo reclamo = (Reclamo) o;
+        return numero == reclamo.numero && id.equals(reclamo.id) && descripcion.equals(reclamo.descripcion) && estado == reclamo.estado && Objects.equals(usuario, reclamo.usuario) && Objects.equals(unidad, reclamo.unidad) && Objects.equals(areaComun, reclamo.areaComun);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numero, descripcion, estado, usuario, unidad, areaComun);
+    }
 }
