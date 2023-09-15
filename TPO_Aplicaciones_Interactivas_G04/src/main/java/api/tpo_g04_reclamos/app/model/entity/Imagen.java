@@ -76,6 +76,9 @@ public class Imagen {
 		this.data = data;
 	}
     
-	
+	@Override
+	public boolean equals(Object obj) {
+		return ((Imagen)obj).getId() == this.getId();
+	}
     
 }
