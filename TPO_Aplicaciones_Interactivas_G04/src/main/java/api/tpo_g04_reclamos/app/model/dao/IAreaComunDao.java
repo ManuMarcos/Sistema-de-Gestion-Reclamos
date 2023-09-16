@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
+import api.tpo_g04_reclamos.app.model.entity.Unidad;
 
 public interface IAreaComunDao {
 
@@ -12,7 +13,9 @@ public interface IAreaComunDao {
 	Optional<AreaComun> findById(Long id);
 	
 	AreaComun save(AreaComun areaComun);
-	
+
+	AreaComun update(AreaComun areaComun);
+
 	void deleteById(Long id);
 	
 }

@@ -60,9 +60,9 @@ public class UnidadDaoImplTests {
 	
 	@Test
 	public void findAllTest() {
-		Unidad unidadCreada1 = unidadDao.save(unidadDao.save(new Unidad(3, 2, edificioExistente, propietarioExistente1, ALQUILADA)));
-		Unidad unidadCreada2 = unidadDao.save(unidadDao.save(new Unidad(1, 4, edificioExistente, propietarioExistente2, SIN_ALQUILAR)));
-		Unidad unidadCreada3 = unidadDao.save(unidadDao.save(new Unidad(2, 3, edificioExistente, propietarioExistente3, ALQUILADA)));
+		Unidad unidadCreada1 = unidadDao.save(new Unidad(3, 2, edificioExistente, propietarioExistente1, ALQUILADA));
+		Unidad unidadCreada2 = unidadDao.save(new Unidad(1, 4, edificioExistente, propietarioExistente2, SIN_ALQUILAR));
+		Unidad unidadCreada3 = unidadDao.save(new Unidad(2, 3, edificioExistente, propietarioExistente3, ALQUILADA));
 
 		List<Unidad> unidadesCreadas = unidadDao.findAll();
 

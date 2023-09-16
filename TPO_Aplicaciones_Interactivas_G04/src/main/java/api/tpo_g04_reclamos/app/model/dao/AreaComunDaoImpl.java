@@ -46,6 +46,13 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 
 	@Override
 	@Transactional
+	public AreaComun update(AreaComun areaComun) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		return currentSession.merge(areaComun);
+	}
+
+	@Override
+	@Transactional
 	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		

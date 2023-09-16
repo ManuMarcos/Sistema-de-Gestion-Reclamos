@@ -96,7 +96,7 @@ public class Edificio {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Edificio edificio = (Edificio) o;
-		return id.equals(edificio.id) && direccion.equals(edificio.direccion) && areasComunes.equals(edificio.areasComunes) && unidades.equals(edificio.unidades);
+		return id.equals(edificio.id) && direccion.equals(edificio.direccion);
 	}
 
 	@Override
