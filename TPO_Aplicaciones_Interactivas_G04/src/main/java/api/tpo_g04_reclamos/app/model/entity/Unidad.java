@@ -24,7 +24,7 @@ public class Unidad {
 	private Usuario propietario;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "usuario_unidad",
+	@JoinTable(name = "usuario_unidades",
 				joinColumns = @JoinColumn(name = "inquilino_id"),
 				inverseJoinColumns = @JoinColumn(name = "unidad_id"))
 	private List<Usuario> inquilinos;
