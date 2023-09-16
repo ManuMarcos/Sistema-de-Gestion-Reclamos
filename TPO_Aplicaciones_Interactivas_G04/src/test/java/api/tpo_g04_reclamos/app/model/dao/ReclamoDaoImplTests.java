@@ -53,11 +53,11 @@ public class ReclamoDaoImplTests {
 
 	@AfterAll
 	public static void deleteAll(@Autowired JdbcTemplate jdbcTemplate) {
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "area_comun");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "unidad");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificio");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "areas_comunes");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "unidades");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificios");
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "imagenes");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuario");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuarios");
 	}
 
 	@Test

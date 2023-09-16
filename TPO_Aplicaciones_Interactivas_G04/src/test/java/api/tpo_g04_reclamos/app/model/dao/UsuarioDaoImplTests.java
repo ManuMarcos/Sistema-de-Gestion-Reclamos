@@ -23,7 +23,7 @@ public class UsuarioDaoImplTests {
 	@AfterEach
 	public void clearDatabaseB(@Autowired JdbcTemplate jdbcTemplate) {
 		System.out.println("borrando usuarios...");
-	    JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuario");
+	    JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuarios");
 	}
 	
 	@Test

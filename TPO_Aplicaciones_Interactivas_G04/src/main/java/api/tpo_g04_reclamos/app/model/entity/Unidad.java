@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "unidades")
 public class Unidad {
 
 	@Id
@@ -20,13 +20,13 @@ public class Unidad {
 	private Edificio edificio;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "propietario_fk_id")
+	@JoinColumn(name = "propietario_id")
 	private Usuario propietario;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "usuario_unidad",
-				joinColumns = @JoinColumn(name = "inquilino_fk_id"),
-				inverseJoinColumns = @JoinColumn(name = "unidad_fk_id"))
+				joinColumns = @JoinColumn(name = "inquilino_id"),
+				inverseJoinColumns = @JoinColumn(name = "unidad_id"))
 	private List<Usuario> inquilinos;
 	
 	private EstadoUnidad estado;

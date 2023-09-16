@@ -22,7 +22,7 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 	public List<AreaComun> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<AreaComun> getQuery = currentSession.createQuery("from AreaComun", AreaComun.class);
+		Query<AreaComun> getQuery = currentSession.createQuery("from areas_comunes", AreaComun.class);
 		
 		return getQuery.getResultList();
 	}

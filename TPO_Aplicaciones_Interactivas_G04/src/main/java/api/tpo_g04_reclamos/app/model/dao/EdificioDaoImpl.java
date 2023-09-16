@@ -22,7 +22,7 @@ public class EdificioDaoImpl implements IEdificioDao{
 	public List<Edificio> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<Edificio> getQuery = currentSession.createQuery("from Edificio", Edificio.class);
+		Query<Edificio> getQuery = currentSession.createQuery("from edificios", Edificio.class);
 		
 		return getQuery.getResultList();
 	}

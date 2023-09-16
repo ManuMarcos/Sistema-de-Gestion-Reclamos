@@ -33,12 +33,12 @@ public class AreaComunTests {
     @AfterEach
     public void clearDatabaseB(@Autowired JdbcTemplate jdbcTemplate) {
         System.out.println("borrando reclamos...");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "area_comun");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "areas_comunes");
     }
 
     @AfterAll
     public static void deleteAll(@Autowired JdbcTemplate jdbcTemplate) {
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificio");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificios");
     }
 
     @Test

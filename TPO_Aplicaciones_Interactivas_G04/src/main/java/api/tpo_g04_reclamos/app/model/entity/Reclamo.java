@@ -9,8 +9,7 @@ import java.util.Objects;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-@Entity
-@Table(name = "reclamos")
+@Entity(name = "reclamos")
 public class Reclamo {
 
     @Id
@@ -37,7 +36,7 @@ public class Reclamo {
     private Unidad unidad;
 
     @OneToOne
-    @JoinColumn(name = "area_comun_fk_id")
+    @JoinColumn(name = "area_comun_id")
     private AreaComun areaComun;
 
     public Reclamo() {

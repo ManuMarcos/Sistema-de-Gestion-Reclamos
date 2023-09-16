@@ -3,6 +3,7 @@ package api.tpo_g04_reclamos.app.model.dao;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -43,9 +44,15 @@ public class UnidadDaoImplTests {
 	@AfterEach
 	public void clearDatabaseB(@Autowired JdbcTemplate jdbcTemplate) {
 		System.out.println("borrando unidades...");
-	    JdbcTestUtils.deleteFromTables(jdbcTemplate, "unidad");
+	    JdbcTestUtils.deleteFromTables(jdbcTemplate, "unidades");
 	}
-	
+
+	@AfterAll
+	public static void deleteAll(@Autowired JdbcTemplate jdbcTemplate) {
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificios");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuarios");
+	}
+
 	@Test
 	public void saveTest() {
 		Unidad unidadCreada = unidadDao.save(new Unidad(3, 2, edificioExistente, ALQUILADA));

@@ -3,8 +3,7 @@ package api.tpo_g04_reclamos.app.model.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity
-@Table(name = "imagenes")
+@Entity(name = "imagenes")
 public class Imagen {
 
     @Id

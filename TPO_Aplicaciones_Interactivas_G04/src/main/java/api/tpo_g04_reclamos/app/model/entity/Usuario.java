@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "usuarios")
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

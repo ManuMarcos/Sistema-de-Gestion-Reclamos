@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
-@Entity
-@Table(name = "area_comun")
+@Entity(name = "areas_comunes")
 public class AreaComun{
 
 	@Id

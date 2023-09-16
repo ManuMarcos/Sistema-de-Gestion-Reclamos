@@ -21,7 +21,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	@Transactional(readOnly = true)
 	public List<Usuario> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query<Usuario> getQuery = currentSession.createQuery("from Usuario", Usuario.class);
+		Query<Usuario> getQuery = currentSession.createQuery("from usuarios", Usuario.class);
 		return getQuery.getResultList();
 	}
 
