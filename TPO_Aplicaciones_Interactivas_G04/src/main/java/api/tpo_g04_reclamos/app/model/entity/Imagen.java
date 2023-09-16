@@ -1,8 +1,7 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "imagenes")

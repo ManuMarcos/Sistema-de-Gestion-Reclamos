@@ -1,7 +1,6 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import api.tpo_g04_reclamos.app.model.entity.Reclamo;
-import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;

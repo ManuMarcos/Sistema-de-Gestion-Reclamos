@@ -1,16 +1,15 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
-import java.util.List;
-import java.util.Optional;
-
+import api.tpo_g04_reclamos.app.model.entity.Edificio;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import api.tpo_g04_reclamos.app.model.entity.Edificio;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class EdificioDaoImpl implements IEdificioDao{

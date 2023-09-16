@@ -1,10 +1,9 @@
 package api.tpo_g04_reclamos.app.model.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import java.util.List;
 
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,

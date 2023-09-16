@@ -2,8 +2,6 @@ package api.tpo_g04_reclamos.app.controller.dto;
 
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 public class UnidadDto {
 

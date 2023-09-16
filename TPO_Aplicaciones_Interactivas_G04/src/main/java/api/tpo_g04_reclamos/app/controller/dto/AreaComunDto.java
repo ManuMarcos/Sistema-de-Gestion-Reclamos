@@ -1,8 +1,6 @@
 package api.tpo_g04_reclamos.app.controller.dto;
 
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 public class AreaComunDto {
 

@@ -2,7 +2,6 @@ package api.tpo_g04_reclamos.app.model.entity;
 
 import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
 import jakarta.persistence.*;
-import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;

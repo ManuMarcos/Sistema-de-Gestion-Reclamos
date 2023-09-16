@@ -1,20 +1,10 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
+import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
+import jakarta.persistence.*;
+
 import java.util.List;
 import java.util.Objects;
-
-import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Unidad {

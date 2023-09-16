@@ -1,21 +1,19 @@
 package api.tpo_g04_reclamos.app.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
 import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.BadRequestException;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.model.dao.IEdificioDao;
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
+import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import api.tpo_g04_reclamos.app.model.dao.IEdificioDao;
-import api.tpo_g04_reclamos.app.model.entity.Edificio;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EdificioServiceImpl implements IEdificioService{
