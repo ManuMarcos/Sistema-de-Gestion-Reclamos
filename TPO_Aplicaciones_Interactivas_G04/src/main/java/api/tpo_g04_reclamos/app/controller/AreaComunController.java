@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.controller;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,12 +24,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import api.tpo_g04_reclamos.app.model.dao.IEdificioDao;
 import api.tpo_g04_reclamos.app.model.dto.AreaComunDto;
 import api.tpo_g04_reclamos.app.model.dto.AreaComunRequestDto;
+
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
-import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.service.IAreaComunService;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.ResponseEntity.ok;
 

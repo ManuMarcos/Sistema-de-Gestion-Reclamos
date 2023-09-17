@@ -1,11 +1,9 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "imagenes")
+@Entity(name = "imagenes")
 public class Imagen {
 
     @Id
@@ -76,6 +74,9 @@ public class Imagen {
 		this.data = data;
 	}
     
-	
+	@Override
+	public boolean equals(Object obj) {
+		return ((Imagen)obj).getId() == this.getId();
+	}
     
 }

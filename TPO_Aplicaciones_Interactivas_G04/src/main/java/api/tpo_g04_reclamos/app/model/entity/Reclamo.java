@@ -2,7 +2,6 @@ package api.tpo_g04_reclamos.app.model.entity;
 
 import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
 import jakarta.persistence.*;
-import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +9,7 @@ import java.util.Objects;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-@Entity
-@Table(name = "reclamos")
+@Entity(name = "reclamos")
 public class Reclamo {
 
     @Id
@@ -38,7 +36,7 @@ public class Reclamo {
     private Unidad unidad;
 
     @OneToOne
-    @JoinColumn(name = "area_comun_fk_id")
+    @JoinColumn(name = "area_comun_id")
     private AreaComun areaComun;
 
     public Reclamo() {

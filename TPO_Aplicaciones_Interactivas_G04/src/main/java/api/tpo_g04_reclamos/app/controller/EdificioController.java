@@ -1,31 +1,18 @@
 package api.tpo_g04_reclamos.app.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
 import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
-import api.tpo_g04_reclamos.app.model.entity.Unidad;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.ok;

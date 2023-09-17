@@ -1,9 +1,9 @@
 package api.tpo_g04_reclamos.app.service;
 
+import api.tpo_g04_reclamos.app.model.entity.AreaComun;
+
 import java.util.List;
 import java.util.Optional;
-
-import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 
 public interface IAreaComunService {
 

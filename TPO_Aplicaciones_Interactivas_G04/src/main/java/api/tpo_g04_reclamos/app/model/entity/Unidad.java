@@ -1,22 +1,12 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
+import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
+import jakarta.persistence.*;
+
 import java.util.List;
 import java.util.Objects;
 
-import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-
-@Entity
+@Entity(name = "unidades")
 public class Unidad {
 
 	@Id
@@ -30,13 +20,13 @@ public class Unidad {
 	private Edificio edificio;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "propietario_fk_id")
+	@JoinColumn(name = "propietario_id")
 	private Usuario propietario;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "usuario_unidad",
-				joinColumns = @JoinColumn(name = "inquilino_fk_id"),
-				inverseJoinColumns = @JoinColumn(name = "unidad_fk_id"))
+	@JoinTable(name = "usuario_unidades",
+				joinColumns = @JoinColumn(name = "inquilino_id"),
+				inverseJoinColumns = @JoinColumn(name = "unidad_id"))
 	private List<Usuario> inquilinos;
 	
 	private EstadoUnidad estado;

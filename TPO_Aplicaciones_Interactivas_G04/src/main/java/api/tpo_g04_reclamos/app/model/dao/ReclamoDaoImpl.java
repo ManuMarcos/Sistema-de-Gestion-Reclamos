@@ -1,7 +1,6 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import api.tpo_g04_reclamos.app.model.entity.Reclamo;
-import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;
@@ -23,7 +22,7 @@ public class ReclamoDaoImpl implements IReclamoDao {
 	public List<Reclamo> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<Reclamo> getQuery = currentSession.createQuery("from Reclamo", Reclamo.class);
+		Query<Reclamo> getQuery = currentSession.createQuery("from reclamos", Reclamo.class);
 		
 		return getQuery.getResultList();
 	}

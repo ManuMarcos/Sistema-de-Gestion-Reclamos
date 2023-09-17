@@ -23,7 +23,7 @@ public class UnidadDaoImpl implements IUnidadDao {
 	public List<Unidad> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<Unidad> getQuery = currentSession.createQuery("from Unidad", Unidad.class);
+		Query<Unidad> getQuery = currentSession.createQuery("from unidades", Unidad.class);
 		
 		return getQuery.getResultList();
 	}

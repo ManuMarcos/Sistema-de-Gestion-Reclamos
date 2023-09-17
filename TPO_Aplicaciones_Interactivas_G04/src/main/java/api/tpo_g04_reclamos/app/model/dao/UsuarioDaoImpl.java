@@ -1,17 +1,15 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
-import java.util.List;
-import java.util.Optional;
-
-import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.model.entity.Usuario;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import api.tpo_g04_reclamos.app.model.entity.Usuario;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UsuarioDaoImpl implements IUsuarioDao {
@@ -23,7 +21,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	@Transactional(readOnly = true)
 	public List<Usuario> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
-		Query<Usuario> getQuery = currentSession.createQuery("from Usuario", Usuario.class);
+		Query<Usuario> getQuery = currentSession.createQuery("from usuarios", Usuario.class);
 		return getQuery.getResultList();
 	}
 

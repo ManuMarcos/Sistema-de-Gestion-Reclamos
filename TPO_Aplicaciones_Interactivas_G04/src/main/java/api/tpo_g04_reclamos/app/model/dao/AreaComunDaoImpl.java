@@ -1,17 +1,15 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class AreaComunDaoImpl implements IAreaComunDao {
@@ -24,7 +22,7 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 	public List<AreaComun> findAll() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<AreaComun> getQuery = currentSession.createQuery("from AreaComun", AreaComun.class);
+		Query<AreaComun> getQuery = currentSession.createQuery("from areas_comunes", AreaComun.class);
 		
 		return getQuery.getResultList();
 	}
@@ -40,6 +38,13 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 	@Override
 	@Transactional
 	public AreaComun save(AreaComun areaComun) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		return currentSession.merge(areaComun);
+	}
+
+	@Override
+	@Transactional
+	public AreaComun update(AreaComun areaComun) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		return currentSession.merge(areaComun);
 	}

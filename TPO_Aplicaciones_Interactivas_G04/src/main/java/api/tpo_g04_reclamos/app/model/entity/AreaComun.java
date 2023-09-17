@@ -1,20 +1,10 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "area_comun")
+@Entity(name = "areas_comunes")
 public class AreaComun{
 
 	@Id
@@ -33,6 +23,13 @@ public class AreaComun{
 
 	public AreaComun(Edificio edificio, String nombre) {
 		super();
+		this.edificio = edificio;
+		this.nombre = nombre;
+	}
+
+	public AreaComun(Long id, Edificio edificio, String nombre) {
+		super();
+		this.id = id;
 		this.edificio = edificio;
 		this.nombre = nombre;
 	}

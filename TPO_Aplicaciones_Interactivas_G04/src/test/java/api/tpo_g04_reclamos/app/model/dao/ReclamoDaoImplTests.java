@@ -1,9 +1,6 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import api.tpo_g04_reclamos.app.model.entity.*;
-import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
-import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
-import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,14 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
-import java.awt.*;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.Optional;
 
-import static api.tpo_g04_reclamos.app.model.enums.EstadoReclamo.*;
+import static api.tpo_g04_reclamos.app.model.enums.EstadoReclamo.ABIERTO;
+import static api.tpo_g04_reclamos.app.model.enums.EstadoReclamo.EN_PROCESO;
 import static api.tpo_g04_reclamos.app.model.enums.EstadoUnidad.ALQUILADA;
-import static api.tpo_g04_reclamos.app.model.enums.EstadoUnidad.SIN_ALQUILAR;
 import static api.tpo_g04_reclamos.app.model.enums.TipoUsuario.PROPIETARIO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -57,11 +53,11 @@ public class ReclamoDaoImplTests {
 
 	@AfterAll
 	public static void deleteAll(@Autowired JdbcTemplate jdbcTemplate) {
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "area_comun");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "unidad");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificio");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "areas_comunes");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "unidades");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificios");
 		JdbcTestUtils.deleteFromTables(jdbcTemplate, "imagenes");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuario");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "usuarios");
 	}
 
 	@Test
