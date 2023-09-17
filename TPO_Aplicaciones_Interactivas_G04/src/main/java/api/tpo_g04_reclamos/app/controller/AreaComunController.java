@@ -2,7 +2,7 @@ package api.tpo_g04_reclamos.app.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,13 +39,12 @@ public class AreaComunController {
 	@Autowired
 	private IAreaComunService areaComunService;
 	
-
-	@Autowired
-	private IEdificioService edificioService;
 	
+	@GetMapping
+	public List<AreaComun> findAll(){
+		return areaComunService.findAll();
+	}
 	
-	
-
 	
 	@GetMapping("/{areaComunId}")
 	public ResponseEntity<?> findById(@PathVariable Long areaComunId){
@@ -73,7 +73,20 @@ public class AreaComunController {
 	}
 	*/
 	
-	
+
+	@PutMapping("/{areaComunId}")
+	public ResponseEntity<?> updateAreaComun(@PathVariable Long areaComunId, @RequestBody AreaComun areaComun) {
+		Optional<AreaComun> areaComunToUpdate = areaComunService.findById(areaComunId);
+
+		if (!areaComunToUpdate.isPresent()) {
+			String mensaje = "Area Comun con id: " + areaComunId + " no encontrada";
+			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+		}
+		AreaComun areaComunUpdated = areaComunService.update(areaComunId, areaComun);
+		
+		return new ResponseEntity<>(areaComunUpdated, HttpStatus.OK);
+	}
+
 	
 	@DeleteMapping("/{areaComunId}")
 	public ResponseEntity<String> deleteById(@PathVariable Long areaComunId){

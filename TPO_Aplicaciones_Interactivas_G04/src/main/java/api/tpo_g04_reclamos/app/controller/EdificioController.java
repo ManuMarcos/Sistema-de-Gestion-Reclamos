@@ -37,12 +37,20 @@ public class EdificioController {
 	@Autowired
 	private IEdificioService edificioService;
 	
-
 	
+	@GetMapping
+	public List<Edificio> findAll(){
+		return edificioService.findAll();
+	}
+
 	@GetMapping("/{edificioId}")
 	public ResponseEntity<?> findById(@PathVariable Long edificioId){
-		Edificio edificio = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio con id: %s no existe", edificioId)));
-		return ok(edificio);
+		Optional<Edificio> edificio = edificioService.findById(edificioId);
+		if(!edificio.isPresent()) {
+			String mensaje = "Edificio con id" +  edificioId + " no encontrado";
+			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(edificio, HttpStatus.OK);
 	}
 	
 	@PostMapping
