@@ -25,6 +25,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	public Optional<Usuario> findById(Long id) {
 		return usuarioDao.findById(id);
 	}
+	
+	@Override
+	public Optional<Usuario> findUser(String username, String password) {
+		// TODO Auto-generated method stub
+		return usuarioDao.findUser(username, password);
+	}
 
 	@Override
 	public Usuario save(UsuarioDto usuario) {
@@ -59,5 +65,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 		return true;
 	}
+
+	
 
 }

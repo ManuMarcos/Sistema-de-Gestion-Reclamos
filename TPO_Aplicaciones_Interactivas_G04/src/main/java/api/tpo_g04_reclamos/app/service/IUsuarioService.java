@@ -11,6 +11,8 @@ public interface IUsuarioService {
 	
 	Optional<Usuario> findById(Long id);
 	
+	Optional<Usuario> findUser(String username, String password);
+	
 	Usuario save(UsuarioDto usuario);
 	
 	Usuario update(Long id, UsuarioDto usuario);

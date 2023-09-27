@@ -74,7 +74,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	
 	
 	/**
-	 * 
+	 * Compara la password con la password guardada en la base de datos
 	 * @param password password sin codificar
 	 * @param passwordDB password codificado que esta guardado en la base de datos
 	 * @return
