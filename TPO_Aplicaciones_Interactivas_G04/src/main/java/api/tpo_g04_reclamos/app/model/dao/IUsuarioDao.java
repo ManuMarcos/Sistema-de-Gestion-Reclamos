@@ -10,9 +10,12 @@ public interface IUsuarioDao {
 
 	Optional<Usuario> findById(Long id);
 
+	Optional<Usuario> findUser(String username, String password);
+	
 	Usuario save(Usuario usuario);
 
 	Usuario update(Usuario usuario);
 
 	void deleteById(Long id);
+	
 }

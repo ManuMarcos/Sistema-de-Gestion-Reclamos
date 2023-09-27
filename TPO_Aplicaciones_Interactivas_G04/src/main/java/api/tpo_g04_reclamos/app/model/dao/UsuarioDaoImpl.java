@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,21 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	}
 
 	@Override
+	public Optional<Usuario> findUser(String username, String password) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Query<Usuario> query = currentSession.createQuery("FROM Usuario WHERE username = :username", Usuario.class);
+		query.setParameter("username", username);
+		Optional<Usuario> usuario = Optional.of(query.uniqueResult());
+		
+		if(usuario.isPresent() && checkPassword(password, usuario.get().getPassword())) {
+			return usuario;
+		}
+		return null;
+	}
+	
+
+	@Override
 	@Transactional
 	public Usuario save(Usuario usuario) {
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -55,4 +71,19 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		if(usuario != null)
 			currentSession.remove(usuario);
 	}
+	
+	
+	/**
+	 * 
+	 * @param password password sin codificar
+	 * @param passwordDB password codificado que esta guardado en la base de datos
+	 * @return
+	 */
+	private boolean checkPassword(String password, String passwordDB) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		//String hashedPassword = passwordEncoder.encode(password);
+		return passwordEncoder.matches(password, passwordDB);
+	}
+
+	
 }
