@@ -38,14 +38,14 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	public Optional<Usuario> findUser(String username, String password) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<Usuario> query = currentSession.createQuery("FROM Usuario WHERE username = :username", Usuario.class);
+		Query<Usuario> query = currentSession.createQuery("FROM usuarios WHERE nombre = :username", Usuario.class);
 		query.setParameter("username", username);
-		Optional<Usuario> usuario = Optional.of(query.uniqueResult());
+		Usuario usuario = query.uniqueResult();
 		
-		if(usuario.isPresent() && checkPassword(password, usuario.get().getPassword())) {
-			return usuario;
+		if(usuario != null && checkPassword(password, usuario.getPassword())) {
+			return Optional.of(usuario);
 		}
-		return null;
+		return Optional.empty();
 	}
 	
 

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -23,17 +24,29 @@ public class SecurityConfig {
 		
     	//Esto indica que todas las request requieren de autenticacion
 		http.authorizeHttpRequests(
-				(authz -> authz.anyRequest().authenticated()));
+				(authz) -> authz.anyRequest().authenticated())
+				.addFilterBefore(jwtAuth(), UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 	
     @Bean
+    JwtAuthFilter jwtAuth() {
+    	return new JwtAuthFilter(secretKey());
+    }
+    
+    
+    @Bean
     WebSecurityCustomizer webSecurityCustomizer() {
     	
     	//Aquellas urls que esten aca no requeriran autenticacion
-    	return (web) -> web.ignoring().requestMatchers("auth/login", "saludos/hola");
+    	return (web) -> web.ignoring().requestMatchers("auth/login", "/usuarios");
     }
 	
+    
+    /**
+     * Genera la clave que sera utilizada para firmar el token
+     * @return
+     */
     @Bean
 	SecretKey secretKey() {
 		//Genera una clave por si solo para el algoritmo HS256
