@@ -20,7 +20,6 @@ import java.util.Date;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-	
 	private final SecretKey secretKey;
 	
 	public JwtAuthFilter(SecretKey secretKey) {
@@ -58,7 +57,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		String bearerToken = request.getHeader("Authorization");
 		
 		if(bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			bearerToken.substring(7);
+			return bearerToken.substring(7);
 		}
 		return null;
 	}

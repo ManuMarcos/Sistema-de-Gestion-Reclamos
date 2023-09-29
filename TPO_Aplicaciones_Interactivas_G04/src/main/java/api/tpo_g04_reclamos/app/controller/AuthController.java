@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.controller;
 
+import java.security.PrivateKey;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -31,13 +32,15 @@ public class AuthController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody UsuarioDto credentials){
+		
+		//Se validan las credenciales
 		if(usuarioService.findUser(credentials.getNombre(), credentials.getPassword()).isPresent()) {
 			String token = 
 					Jwts.builder()
 					.setSubject(credentials.getNombre())
 					.setIssuedAt(new Date())
 					.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME_IN_MIN * 60 * 1000))
-					.signWith(secretKey, SignatureAlgorithm.ES256)
+					.signWith(secretKey, SignatureAlgorithm.HS256)
 					.compact();
 					
 			return new ResponseEntity<>(token, HttpStatus.OK);

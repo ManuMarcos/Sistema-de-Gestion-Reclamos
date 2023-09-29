@@ -5,6 +5,7 @@ import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.dao.IUsuarioDao;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Autowired
 	private IUsuarioDao usuarioDao;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public List<Usuario> findAll() {
@@ -34,7 +38,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Override
 	public Usuario save(UsuarioDto usuario) {
-		return usuarioDao.save(new Usuario(usuario.getNombre(), usuario.getPassword(), usuario.getTipoUsuario()));
+		return usuarioDao.save(new Usuario(usuario.getNombre(), passwordEncoder.encode(usuario.getPassword()), usuario.getTipoUsuario()));
 	}
 
 	@Override

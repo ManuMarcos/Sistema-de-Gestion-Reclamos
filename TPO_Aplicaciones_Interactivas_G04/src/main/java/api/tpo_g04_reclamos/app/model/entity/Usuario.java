@@ -3,16 +3,24 @@ package api.tpo_g04_reclamos.app.model.entity;
 import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity(name = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nombre;
 	private String password;
+	
+	@Enumerated(EnumType.STRING)
 	private TipoUsuario tipoUsuario;
 	
 	@Column(name = "fecha_creacion")
@@ -99,5 +107,41 @@ public class Usuario {
 	public String toString() {
 		return String.format("Id:[%d];Nombre:[%s];Password[%s];FechaCreacion:[%s]", 
 				this.id, this.nombre, this.password, this.fechaCreacion.toString());
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return List.of(new SimpleGrantedAuthority(tipoUsuario.name()));
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.nombre;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }
