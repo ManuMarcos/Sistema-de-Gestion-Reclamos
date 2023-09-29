@@ -45,8 +45,8 @@ public class SecurityConfig {
     	
     	//Aquellas urls que esten aca no requeriran autenticacion
     	return (web) -> web.ignoring()
-    			.requestMatchers("auth/login")
-    			.requestMatchers(HttpMethod.POST, "/usuarios");
+    			.requestMatchers("auth/login");
+    			//.requestMatchers(HttpMethod.POST, "/usuarios");
     }
 	
     
