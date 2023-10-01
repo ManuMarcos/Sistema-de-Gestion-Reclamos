@@ -45,16 +45,16 @@ public class AreaComunController {
 	
 	
 	@GetMapping
-	public List<AreaComun> findAll(){
-		return areaComunService.findAll();
+	public List<AreaComunDto> findAll(){
+		return AreaComunDto.fromList(areaComunService.findAll());
 	}
 	
 	
 	@GetMapping("/{areaComunId}")
-	public ResponseEntity<?> findById(@PathVariable Long areaComunId){
+	public ResponseEntity<AreaComunDto> findById(@PathVariable Long areaComunId){
 		AreaComun areaComun = areaComunService.findById(areaComunId).orElseThrow(() -> new ItemNotFoundException(String.format("El area comun con id: %s no existe", areaComunId)));
 
-		return ok(areaComun);
+		return ok(new AreaComunDto(areaComun));
 	}
 	
 	/*
@@ -88,7 +88,7 @@ public class AreaComunController {
 		}
 		AreaComun areaComunUpdated = areaComunService.update(areaComunId, areaComun);
 		
-		return new ResponseEntity<>(areaComunUpdated, HttpStatus.OK);
+		return new ResponseEntity<>(new AreaComunDto(areaComunUpdated), HttpStatus.OK);
 	}
 
 	

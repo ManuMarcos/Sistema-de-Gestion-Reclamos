@@ -1,12 +1,17 @@
 package api.tpo_g04_reclamos.app.model.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class AreaComunDto {
 
-	private int id;
+	private Long id;
 
 	private String nombre;
 
@@ -14,17 +19,17 @@ public class AreaComunDto {
 		super();
 	}
 
-	public AreaComunDto(int id, String nombre) {
+	public AreaComunDto(Long id, String nombre) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -35,5 +40,18 @@ public class AreaComunDto {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	public AreaComunDto(AreaComun ac) {
+		this.id = ac.getId();
+		this.nombre = ac.getNombre();
+	}
+	
+    public static List<AreaComunDto> fromList(List<AreaComun> lac)
+    {
+    	var ldto = new ArrayList<AreaComunDto>(); 
+    	for (AreaComun ac : lac)
+			ldto.add(new AreaComunDto(ac));
+    	return ldto;
+    }
 
 }
