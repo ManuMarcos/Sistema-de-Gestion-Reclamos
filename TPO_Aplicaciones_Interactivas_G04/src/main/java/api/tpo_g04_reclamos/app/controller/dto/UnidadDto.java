@@ -1,5 +1,8 @@
 package api.tpo_g04_reclamos.app.controller.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
@@ -14,6 +17,14 @@ public class UnidadDto {
     private Usuario propietario;
     private EstadoUnidad estado;
 
+    public UnidadDto(Unidad u) {
+    	this.id = u.getId();
+    	this.piso = u.getPiso();
+    	this.edificio = u.getEdificio();
+    	this.propietario = null;
+    	this.estado = u.getEstado();
+    }
+    
     public UnidadDto(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
         this.piso = piso;
         this.numero = numero;
@@ -44,5 +55,13 @@ public class UnidadDto {
     public EstadoUnidad getEstado() {
         return estado;
     }
+
+	public static List<UnidadDto> fromList(List<Unidad> unidades) {
+		// TODO: corregir el DTO. Tiene referencias a clases del modelo. Deberian ser DTOs anidados.
+    	var ldto = new ArrayList<UnidadDto>(); 
+    	for (Unidad u : unidades)
+			ldto.add(new UnidadDto(u));
+    	return ldto;
+	}
 
 }

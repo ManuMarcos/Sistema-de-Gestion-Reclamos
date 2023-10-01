@@ -26,8 +26,8 @@ public class EdificioController {
 	
 	
 	@GetMapping
-	public List<Edificio> findAll(){
-		return edificioService.findAll();
+	public List<EdificioDto> findAll(){
+		return EdificioDto.fromList(edificioService.findAll());
 	}
 
 	@GetMapping("/{edificioId}")
@@ -37,35 +37,35 @@ public class EdificioController {
 			String mensaje = "Edificio con id" +  edificioId + " no encontrado";
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(edificio, HttpStatus.OK);
+		return new ResponseEntity<>(new EdificioDto(edificio.get()), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Edificio> addEdificio(@RequestBody EdificioDto edificio) {
+	public ResponseEntity<EdificioDto> addEdificio(@RequestBody EdificioDto edificio) {
 		Edificio edificioCreado = edificioService.save(edificio);
-		return new ResponseEntity<>(edificioCreado, CREATED);
+		return new ResponseEntity<>(new EdificioDto(edificioCreado), CREATED);
 	}
 
 	@PostMapping("/{edificioId}/unidad")
-	public ResponseEntity<Edificio> addUnidad(@PathVariable Long edificioId, @RequestBody UnidadDto unidad) {
+	public ResponseEntity<EdificioDto> addUnidad(@PathVariable Long edificioId, @RequestBody UnidadDto unidad) {
 		Edificio edificioAAgregarUnidad = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
 		edificioService.addUnidad(edificioAAgregarUnidad, unidad);
 
-		return new ResponseEntity<>(edificioAAgregarUnidad, OK);
+		return new ResponseEntity<>(new EdificioDto(edificioAAgregarUnidad), OK);
 	}
 
 	@PostMapping("/{edificioId}/area-comun")
-	public ResponseEntity<Edificio> addAreaComun(@PathVariable Long edificioId, @RequestBody AreaComunDto areaComunDto) {
+	public ResponseEntity<EdificioDto> addAreaComun(@PathVariable Long edificioId, @RequestBody AreaComunDto areaComunDto) {
 		Edificio edificioAAgregarAreaComun = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
 		edificioService.addAreaComun(edificioAAgregarAreaComun, areaComunDto);
 
-		return new ResponseEntity<>(edificioAAgregarAreaComun, OK);
+		return new ResponseEntity<>(new EdificioDto(edificioAAgregarAreaComun), OK);
 	}
 	
 	@PutMapping("/{edificioId}")
-	public ResponseEntity<?> updateEdificio(@PathVariable Long edificioId, @RequestBody Edificio edificio){
+	public ResponseEntity<EdificioDto> updateEdificio(@PathVariable Long edificioId, @RequestBody Edificio edificio){
 		Edificio edificioUpdated = edificioService.update(edificioId, edificio);
-		return ok(edificioUpdated);
+		return ok(new EdificioDto(edificioUpdated));
 	}
 	
 	@DeleteMapping("/{edificioId}")
