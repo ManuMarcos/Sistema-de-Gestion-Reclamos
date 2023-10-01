@@ -1,6 +1,8 @@
 package api.tpo_g04_reclamos.app.controller.dto;
 
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
+import api.tpo_g04_reclamos.app.model.entity.Unidad;
+import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
 
 public class UnidadDto {
@@ -9,6 +11,7 @@ public class UnidadDto {
     private int piso;
     private int numero;
     private Edificio edificio;
+    private Usuario propietario;
     private EstadoUnidad estado;
 
     public UnidadDto(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
@@ -32,6 +35,10 @@ public class UnidadDto {
 
     public Edificio getEdificio() {
         return edificio;
+    }
+
+    public Usuario getPropietario() {
+        return propietario;
     }
 
     public EstadoUnidad getEstado() {

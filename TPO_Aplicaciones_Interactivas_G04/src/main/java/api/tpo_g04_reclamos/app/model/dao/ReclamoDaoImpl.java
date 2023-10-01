@@ -1,8 +1,10 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
 import api.tpo_g04_reclamos.app.model.entity.Reclamo;
+import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -25,6 +27,16 @@ public class ReclamoDaoImpl implements IReclamoDao {
 		Query<Reclamo> getQuery = currentSession.createQuery("from reclamos", Reclamo.class);
 		
 		return getQuery.getResultList();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Reclamo> findByEstado(EstadoReclamo estado) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		TypedQuery<Reclamo> typedQuery = currentSession.createQuery("SELECT r FROM reclamos r WHERE r.estado = :estado", Reclamo.class);
+
+		return typedQuery.getResultList();
 	}
 
 	@Override

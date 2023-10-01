@@ -34,6 +34,14 @@ public class Imagen {
 		this.data = data;
 	}
 
+	public Imagen(String id, String nombre, String tipo, byte[] data) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.tipo = tipo;
+		this.data = data;
+	}
+
 
 	public String getId() {
 		return id;
