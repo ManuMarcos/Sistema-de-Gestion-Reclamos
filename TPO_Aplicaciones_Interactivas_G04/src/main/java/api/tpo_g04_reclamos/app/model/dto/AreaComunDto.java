@@ -40,18 +40,4 @@ public class AreaComunDto {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	public AreaComunDto(AreaComun ac) {
-		this.id = ac.getId();
-		this.nombre = ac.getNombre();
-	}
-	
-    public static List<AreaComunDto> fromList(List<AreaComun> lac)
-    {
-    	var ldto = new ArrayList<AreaComunDto>(); 
-    	for (AreaComun ac : lac)
-			ldto.add(new AreaComunDto(ac));
-    	return ldto;
-    }
-
 }

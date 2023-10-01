@@ -42,8 +42,10 @@ public class ReclamoServiceImpl implements IReclamoService {
 		List<Imagen> imagenes = reclamoDto.getImagenes().stream().map(imagenDto -> new Imagen(imagenDto.getId(), imagenDto.getNombre(), imagenDto.getTipo(), imagenDto.getData())).toList();
 		Usuario usuario = new Usuario(reclamoDto.getUsuario().getId(), reclamoDto.getUsuario().getNombre(), reclamoDto.getUsuario().getPassword(), reclamoDto.getUsuario().getTipoUsuario());
 		Unidad unidad = new Unidad(reclamoDto.getUnidad().getId(), reclamoDto.getUnidad().getPiso(), reclamoDto.getUnidad().getNumero(), reclamoDto.getUnidad().getEdificio(), reclamoDto.getUnidad().getPropietario(), reclamoDto.getUnidad().getEstado());
-		AreaComun areaComun = new AreaComun(reclamoDto.getAreaComun().getId(), reclamoDto.getAreaComun().getEdificio(), reclamoDto.getAreaComun().getNombre());
-
+		
+		// TODO: arreglar. le esta pidiendo un model a un DTO.
+		// AreaComun areaComun = new AreaComun(reclamoDto.getAreaComun().getId(), reclamoDto.getAreaComun().getEdificio(), reclamoDto.getAreaComun().getNombre());
+		AreaComun areaComun = null; //sacar al corregir el TODO de arriba.
 		return reclamoDao.save(new Reclamo(reclamoDto.getNumero(), imagenes, reclamoDto.getDescripcion(), reclamoDto.getEstado(), usuario, unidad, areaComun));
 	}
 

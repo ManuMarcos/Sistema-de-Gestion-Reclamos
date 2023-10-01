@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import api.tpo_g04_reclamos.app.model.dao.IEdificioDao;
-import api.tpo_g04_reclamos.app.model.dto.AreaComunDto;
+import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
 import api.tpo_g04_reclamos.app.model.dto.AreaComunRequestDto;
 
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;

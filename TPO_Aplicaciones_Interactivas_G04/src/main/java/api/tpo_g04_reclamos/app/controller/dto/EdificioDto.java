@@ -3,7 +3,6 @@ package api.tpo_g04_reclamos.app.controller.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import api.tpo_g04_reclamos.app.model.dto.AreaComunDto;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 
 public class EdificioDto {

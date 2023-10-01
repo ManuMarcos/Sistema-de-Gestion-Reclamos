@@ -12,6 +12,7 @@ import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +41,10 @@ public class EdificioServiceImpl implements IEdificioService{
 	@Override
 	public Edificio save(EdificioDto edificioDto) {
 		List<Unidad> unidadesAAgregar = edificioDto.getUnidades().stream().map(unidad -> new Unidad(unidad.getPiso(), unidad.getNumero(), unidad.getEdificio(), unidad.getEstado())).toList();
-		List<AreaComun> areasComunesAAgregar = edificioDto.getAreasComunes().stream().map(areaComun -> new AreaComun(areaComun.getEdificio(), areaComun.getNombre())).toList();
-
+		
+		// TODO: Arreglar. Le esta pidiendo un model a un DTO.
+		// List<AreaComun> areasComunesAAgregar = edificioDto.getAreasComunes().stream().map(areaComun -> new AreaComun(areaComun.getEdificio(), areaComun.getNombre())).toList();
+		List<AreaComun> areasComunesAAgregar = new ArrayList<AreaComun>(); //sacar al corregir linea anterior.
 		// TODO probar si cascade guarda las areas comunes y unidades asociandolas a ese edificio
 		return edificioDao.save(new Edificio(edificioDto.getDireccion(), areasComunesAAgregar, unidadesAAgregar));
 	}
@@ -82,9 +85,10 @@ public class EdificioServiceImpl implements IEdificioService{
 			throw new BadRequestException("Area Comun no se puede agregar, no pertenece al mismo edificio");
 		}
 
-		AreaComun areaComunAAgregar = new AreaComun(areaComunDto.getEdificio(), areaComunDto.getNombre());
-		AreaComun areaComundCreada = areaComunService.save(areaComunAAgregar);
-
+		// TODO: arreglar. le esta pidiendo un model a un DTO.
+		// AreaComun areaComunAAgregar = new AreaComun(areaComunDto.getEdificio(), areaComunDto.getNombre());
+		// AreaComun areaComundCreada = areaComunService.save(areaComunAAgregar);
+		AreaComun areaComundCreada = null; // sacar al corregir lo anterior.
 		edificio.getAreasComunes().add(areaComundCreada);
 		edificioDao.save(edificio);
 	}
