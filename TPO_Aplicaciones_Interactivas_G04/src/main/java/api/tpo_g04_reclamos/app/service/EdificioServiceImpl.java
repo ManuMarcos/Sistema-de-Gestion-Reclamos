@@ -42,9 +42,11 @@ public class EdificioServiceImpl implements IEdificioService{
 	public Edificio save(EdificioDto edificioDto) {
 		List<Unidad> unidadesAAgregar = edificioDto.getUnidades().stream().map(unidad -> new Unidad(unidad.getPiso(), unidad.getNumero(), unidad.getEdificio(), unidad.getEstado())).toList();
 		
-		// TODO: Arreglar. Le esta pidiendo un model a un DTO.
-		// List<AreaComun> areasComunesAAgregar = edificioDto.getAreasComunes().stream().map(areaComun -> new AreaComun(areaComun.getEdificio(), areaComun.getNombre())).toList();
-		List<AreaComun> areasComunesAAgregar = new ArrayList<AreaComun>(); //sacar al corregir linea anterior.
+		List<AreaComun> areasComunesAAgregar = new ArrayList<AreaComun>();
+		for (AreaComunDto acDTO : edificioDto.getAreasComunes()) {
+			var edificioDTO = acDTO.getEdificio();
+			areasComunesAAgregar.add(new AreaComun(findById(edificioDTO.getId()).get(), acDTO.getNombre())); //TODO: probar
+		}
 		// TODO probar si cascade guarda las areas comunes y unidades asociandolas a ese edificio
 		return edificioDao.save(new Edificio(edificioDto.getDireccion(), areasComunesAAgregar, unidadesAAgregar));
 	}
@@ -85,10 +87,9 @@ public class EdificioServiceImpl implements IEdificioService{
 			throw new BadRequestException("Area Comun no se puede agregar, no pertenece al mismo edificio");
 		}
 
-		// TODO: arreglar. le esta pidiendo un model a un DTO.
-		// AreaComun areaComunAAgregar = new AreaComun(areaComunDto.getEdificio(), areaComunDto.getNombre());
-		// AreaComun areaComundCreada = areaComunService.save(areaComunAAgregar);
-		AreaComun areaComundCreada = null; // sacar al corregir lo anterior.
+		var edificioDTO = areaComunDto.getEdificio();
+		AreaComun areaComunAAgregar = new AreaComun(findById(edificioDTO.getId()).get(), areaComunDto.getNombre()); //TODO: probar
+		AreaComun areaComundCreada = areaComunService.save(areaComunAAgregar);
 		edificio.getAreasComunes().add(areaComundCreada);
 		edificioDao.save(edificio);
 	}
