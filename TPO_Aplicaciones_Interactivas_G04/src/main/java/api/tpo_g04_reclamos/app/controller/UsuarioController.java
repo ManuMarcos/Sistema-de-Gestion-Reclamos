@@ -21,27 +21,27 @@ public class UsuarioController {
     private IUsuarioService usuarioService;
 
 	@GetMapping
-	public ResponseEntity<List<Usuario>> findAll(){
-		return new ResponseEntity<>(usuarioService.findAll(), OK);
+	public ResponseEntity<List<UsuarioDto>> findAll(){
+		return new ResponseEntity<>(UsuarioDto.fromList(usuarioService.findAll()), OK);
 	}
 	
 	@GetMapping("/{usuarioId}")
-	public ResponseEntity<Usuario> findById(@PathVariable Long usuarioId){
+	public ResponseEntity<UsuarioDto> findById(@PathVariable Long usuarioId){
 		Usuario usuario = usuarioService.findById(usuarioId).orElseThrow(() -> new ItemNotFoundException("El usuario no existe"));
 
-		return new ResponseEntity<>(usuario, OK);
+		return new ResponseEntity<>(new UsuarioDto(usuario), OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Usuario> addUsuario(@RequestBody UsuarioDto usuario) {
+	public ResponseEntity<UsuarioDto> addUsuario(@RequestBody UsuarioDto usuario) {
 		Usuario usuarioCreado = usuarioService.save(usuario);
-		return new ResponseEntity<>(usuarioCreado, CREATED);
+		return new ResponseEntity<>(new UsuarioDto(usuarioCreado), CREATED);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDto usuario) {
+	public ResponseEntity<UsuarioDto> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDto usuario) {
 		Usuario usuarioActualizado = usuarioService.update(id, usuario);
-		return new ResponseEntity<>(usuarioActualizado, OK);
+		return new ResponseEntity<>(new UsuarioDto(usuarioActualizado), OK);
 	}
 	
 	@DeleteMapping("/{usuarioId}")
