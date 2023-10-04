@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,7 +29,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
     	//Esto indica que todas las request requieren de autenticacion
-		http.authorizeHttpRequests(
+		http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
 				(authz) -> authz.anyRequest().authenticated())
 				.addFilterBefore(jwtAuth(), UsernamePasswordAuthenticationFilter.class);
 		return http.build();
@@ -46,6 +47,7 @@ public class SecurityConfig {
     	//Aquellas urls que esten aca no requeriran autenticacion
     	return (web) -> web.ignoring()
     			.requestMatchers("auth/login");
+    			//.requestMatchers(HttpMethod.POST, "/edificios");
     			//.requestMatchers(HttpMethod.POST, "/usuarios");
     }
 	

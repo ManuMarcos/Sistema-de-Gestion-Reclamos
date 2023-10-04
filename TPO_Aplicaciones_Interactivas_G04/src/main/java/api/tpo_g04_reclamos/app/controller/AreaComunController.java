@@ -57,25 +57,6 @@ public class AreaComunController {
 		return ok(new AreaComunDto(areaComun));
 	}
 	
-	/*
-	@PostMapping
-	public ResponseEntity<?> addAreaComun(@RequestBody AreaComunRequestDto areaComunRequestDto){
-		//AreaComunDto areaComunDto = objectMapper.readValue(areaComun, AreaComunDto.class);
-		//Compruebo que haya un edificio con id
-		if(areaComunRequestDto != null) {
-			Edificio edificio = edificioService.findById(areaComunRequestDto.getEdificioDto().getId());
-			//Compruebo si el edificio existe
-			if (edificio != null) {
-				areaComunService.save(new AreaComun(edificio, areaComunRequestDto.getNombre()));
-				return new ResponseEntity<AreaComunRequestDto>(areaComunRequestDto, HttpStatus.CREATED);
-			}
-			String mensaje = "El edificio con el id: " + areaComunRequestDto.getEdificioDto().getId() + " no existe";
-			return new ResponseEntity<String>(mensaje, HttpStatus.NOT_FOUND);
-		}
-		String mensaje = "El edificio es nulo";
-		return new ResponseEntity<String>(mensaje, HttpStatus.BAD_REQUEST);
-	}
-	*/
 	
 
 	@PutMapping("/{areaComunId}")

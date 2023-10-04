@@ -12,6 +12,15 @@ public class EdificioDto {
     private List<AreaComunDto> areasComunes = new ArrayList<>();
     private List<UnidadDto> unidades = new ArrayList<>();
 
+    
+    public EdificioDto() {}
+    
+    
+    public EdificioDto(String direccion) {
+    	this.direccion = direccion;
+    }
+    
+    
     public EdificioDto(Edificio e) {
 		this.id = e.getId();
 		this.direccion = e.getDireccion();
