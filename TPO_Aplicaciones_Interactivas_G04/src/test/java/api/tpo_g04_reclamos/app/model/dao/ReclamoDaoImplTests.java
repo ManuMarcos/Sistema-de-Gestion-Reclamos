@@ -62,7 +62,7 @@ public class ReclamoDaoImplTests {
 
 	@Test
 	public void saveTest() {
-		Reclamo reclamoCreado = reclamoDao.save(new Reclamo(3, imagenesExistentes, "description", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
+		Reclamo reclamoCreado = reclamoDao.save(new Reclamo(3, imagenesExistentes, "description", "", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
 
 		Optional<Reclamo> reclamoGuardadoOptional = reclamoDao.findById(reclamoCreado.getId());
 
@@ -76,20 +76,20 @@ public class ReclamoDaoImplTests {
 	
 	@Test
 	public void findAllTest() {
-		Reclamo reclamoCreado1 = reclamoDao.save(new Reclamo(3, imagenesExistentes, "description1", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
-		Reclamo reclamoCreado2 = reclamoDao.save(new Reclamo(1, imagenesExistentes, "description1", EN_PROCESO, null, null, null));
+		Reclamo reclamoCreado1 = reclamoDao.save(new Reclamo(3, imagenesExistentes, "description1", "", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
+		Reclamo reclamoCreado2 = reclamoDao.save(new Reclamo(1, imagenesExistentes, "description1", "", EN_PROCESO, null, null, null));
 
 		List<Reclamo> reclamosCreados = reclamoDao.findAll();
 
 		assertEquals(reclamosCreados.size(), 2);
 		assertTrue(reclamosCreados.containsAll(List.of(
-				new Reclamo(reclamoCreado1.getId(), 3, imagenesExistentes, "description1", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente),
-				new Reclamo(reclamoCreado2.getId(), 1, imagenesExistentes, "description1", EN_PROCESO, null, null, null))));
+				new Reclamo(reclamoCreado1.getId(), 3, imagenesExistentes, "description1", "", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente),
+				new Reclamo(reclamoCreado2.getId(), 1, imagenesExistentes, "description1", "", EN_PROCESO, null, null, null))));
 	}
 
 	@Test
 	public void updateTest() {
-		Reclamo reclamoCreado = reclamoDao.save(new Reclamo(3, imagenesExistentes, "descripcion", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
+		Reclamo reclamoCreado = reclamoDao.save(new Reclamo(3, imagenesExistentes, "descripcion", "", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
 
 		Optional<Reclamo> reclamoAntesDeActualizar = reclamoDao.findById(reclamoCreado.getId());
 
@@ -107,7 +107,7 @@ public class ReclamoDaoImplTests {
 
 	@Test
 	public void deleteById() {
-		Reclamo reclamoCreado = reclamoDao.save(new Reclamo(3, imagenesExistentes, "descripcion", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
+		Reclamo reclamoCreado = reclamoDao.save(new Reclamo(3, imagenesExistentes, "descripcion", "", ABIERTO, usuarioExistente, unidadExistente, areaComunExistente));
 
 		Optional<Reclamo> reclamoAntesDeBorrar = reclamoDao.findById(reclamoCreado.getId());
 

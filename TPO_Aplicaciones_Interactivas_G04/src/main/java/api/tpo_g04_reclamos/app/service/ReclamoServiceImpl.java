@@ -48,7 +48,7 @@ public class ReclamoServiceImpl implements IReclamoService {
 		var edificio = new EdificioServiceImpl().findById(edificioDTO.getId()); //TODO: probar
 		AreaComun areaComun = new AreaComun(acDTO.getId(), edificio.get(), acDTO.getNombre());
 
-		return reclamoDao.save(new Reclamo(reclamoDto.getNumero(), imagenes, reclamoDto.getDescripcion(), reclamoDto.getEstado(), usuario, unidad, areaComun));
+		return reclamoDao.save(new Reclamo(reclamoDto.getNumero(), imagenes, reclamoDto.getDescripcion(), reclamoDto.getMotivo(), reclamoDto.getEstado(), usuario, unidad, areaComun));
 	}
 
 	@Override

@@ -25,6 +25,8 @@ public class ReclamoDto {
     private List<ImagenDto> imagenes = new ArrayList<>();
 
     private String descripcion;
+    
+    private String motivo;
 
     private EstadoReclamo estado;
 
@@ -34,12 +36,13 @@ public class ReclamoDto {
 
     private AreaComunDto areaComun;
 
-    public ReclamoDto(Long id, int numero, List<ImagenDto> imagenes, String descripcion, EstadoReclamo estado, UsuarioDto usuario, UnidadDto unidad, AreaComunDto areaComun) {
+    public ReclamoDto(Long id, int numero, List<ImagenDto> imagenes, String descripcion, String motivo, EstadoReclamo estado, UsuarioDto usuario, UnidadDto unidad, AreaComunDto areaComun) {
         super();
         this.id = id;
         this.numero = numero;
         this.imagenes = imagenes;
         this.descripcion = descripcion;
+        this.motivo = motivo;
         this.estado = estado;
         this.usuario = usuario;
         this.unidad = unidad;
@@ -62,6 +65,10 @@ public class ReclamoDto {
         return descripcion;
     }
 
+    public String getMotivo() {
+		return motivo;
+	}
+    
     public EstadoReclamo getEstado() {
         return estado;
     }

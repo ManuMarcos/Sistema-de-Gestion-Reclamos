@@ -22,7 +22,7 @@ public class Reclamo {
     private List<Imagen> imagenes = new ArrayList<>();
 
     private String descripcion;
-
+    private String motivo;
     // edificio deberia borrarse del UML, referencia la tiene unidad
 
     private EstadoReclamo estado;
@@ -43,21 +43,23 @@ public class Reclamo {
         super();
     }
 
-    public Reclamo(int numero, List<Imagen> imagenes, String descripcion, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
+    public Reclamo(int numero, List<Imagen> imagenes, String descripcion, String motivo, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
         this.numero = numero;
         this.imagenes = imagenes;
         this.descripcion = descripcion;
+        this.motivo = motivo;
         this.estado = estado;
         this.usuario = usuario;
         this.unidad = unidad;
         this.areaComun = areaComun;
     }
 
-    public Reclamo(Long id, int numero, List<Imagen> imagenes, String descripcion, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
+    public Reclamo(Long id, int numero, List<Imagen> imagenes, String descripcion, String motivo, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
         this.id = id;
         this.numero = numero;
         this.imagenes = imagenes;
         this.descripcion = descripcion;
+        this.motivo = motivo;
         this.estado = estado;
         this.usuario = usuario;
         this.unidad = unidad;
@@ -92,6 +94,14 @@ public class Reclamo {
         this.descripcion = descripcion;
     }
 
+    public String getMotivo() {
+		return motivo;
+	}
+    
+    public void setMotivo(String motivo) {
+		this.motivo = motivo;
+	}
+    
     public EstadoReclamo getEstado() {
         return estado;
     }
