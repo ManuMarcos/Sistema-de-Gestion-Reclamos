@@ -1,6 +1,5 @@
-package api.tpo_g04_reclamos.app.controller.request;
+package api.tpo_g04_reclamos.app.controller.dto;
 
-import api.tpo_g04_reclamos.app.controller.dto.ReclamoDto;
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 
 import java.util.List;

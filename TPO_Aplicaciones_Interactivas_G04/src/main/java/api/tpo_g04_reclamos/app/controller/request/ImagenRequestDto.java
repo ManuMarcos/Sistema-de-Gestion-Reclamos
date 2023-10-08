@@ -1,4 +1,4 @@
-package api.tpo_g04_reclamos.app.controller.dto;
+package api.tpo_g04_reclamos.app.controller.request;
 
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 
