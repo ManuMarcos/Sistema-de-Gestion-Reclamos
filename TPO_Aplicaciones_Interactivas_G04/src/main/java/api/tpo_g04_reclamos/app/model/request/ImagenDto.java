@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.model.request;
 
+import api.tpo_g04_reclamos.app.controller.dto.ReclamoDto;
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 
 import java.util.List;
@@ -14,9 +15,9 @@ public class ImagenDto {
 
     private byte[] data;
 
-    private ReclamoRequestDto reclamo;
+    private ReclamoDto reclamo;
 
-    public ImagenDto(String id, String nombre, String tipo, byte[] data, ReclamoRequestDto reclamo) {
+    public ImagenDto(String id, String nombre, String tipo, byte[] data, ReclamoDto reclamo) {
         super();
         this.id = id;
         this.nombre = nombre;
@@ -31,7 +32,7 @@ public class ImagenDto {
         this.nombre = imagen.getNombre();
         this.tipo = imagen.getTipo();
         this.data = imagen.getData();
-        this.reclamo = imagen.getReclamo() != null ? new ReclamoRequestDto(imagen.getReclamo()) : null;
+        this.reclamo = imagen.getReclamo() != null ? new ReclamoDto(imagen.getReclamo()) : null;
     }
 
     public String getId() {
@@ -50,7 +51,7 @@ public class ImagenDto {
         return data;
     }
 
-    public ReclamoRequestDto getReclamo() {
+    public ReclamoDto getReclamo() {
         return reclamo;
     }
 
