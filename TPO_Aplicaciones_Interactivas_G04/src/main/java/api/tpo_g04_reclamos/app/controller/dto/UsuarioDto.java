@@ -29,13 +29,13 @@ public class UsuarioDto {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public UsuarioDto(Usuario u) {
+    public UsuarioDto(Usuario usuario) {
         super();
-        this.id = u.getId();
-        this.nombre = u.getNombre();
-        this.password = u.getPassword();
-        this.tipoUsuario = u.getTipoUsuario();
-        this.fechaCreacion = u.getFechaCreacion();
+        this.id = usuario.getId();
+        this.nombre = usuario.getNombre();
+        this.password = usuario.getPassword();
+        this.tipoUsuario = usuario.getTipoUsuario();
+        this.fechaCreacion = usuario.getFechaCreacion();
     }
     
     public Long getId() {
@@ -58,11 +58,7 @@ public class UsuarioDto {
         return fechaCreacion;
     }
     
-    public static List<UsuarioDto> fromList(List<Usuario> lu)
-    {
-    	var ldto = new ArrayList<UsuarioDto>(); 
-    	for (Usuario u : lu)
-			ldto.add(new UsuarioDto(u));
-    	return ldto;
+    public static List<UsuarioDto> fromList(List<Usuario> usuarios) {
+        return usuarios.stream().map(UsuarioDto::new).toList();
     }
 }

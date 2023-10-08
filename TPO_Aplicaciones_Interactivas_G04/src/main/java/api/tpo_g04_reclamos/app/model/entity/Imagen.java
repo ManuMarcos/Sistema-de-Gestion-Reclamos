@@ -81,7 +81,15 @@ public class Imagen {
 	public void setData(byte[] data) {
 		this.data = data;
 	}
-    
+
+	public Reclamo getReclamo() {
+		return reclamo;
+	}
+
+	public void setReclamo(Reclamo reclamo) {
+		this.reclamo = reclamo;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		return ((Imagen)obj).getId() == this.getId();

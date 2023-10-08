@@ -2,7 +2,7 @@ package api.tpo_g04_reclamos.app.controller.dto;
 
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 
-public class ImagenDto {
+public class ImagenRequestDto {
     private String id;
     private String nombre;
     private String tipo;
@@ -19,7 +19,7 @@ public class ImagenDto {
     public byte[] getData() {
 		return data;
 	}
-    public ImagenDto(Imagen img) {
+    public ImagenRequestDto(Imagen img) {
     	this.id = img.getId();
     	this.nombre = img.getNombre();
     	this.tipo = img.getTipo();

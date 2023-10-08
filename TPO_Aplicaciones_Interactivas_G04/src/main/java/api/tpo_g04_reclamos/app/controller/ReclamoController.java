@@ -1,8 +1,9 @@
 package api.tpo_g04_reclamos.app.controller;
 
+import api.tpo_g04_reclamos.app.controller.dto.ReclamoDto;
 import api.tpo_g04_reclamos.app.controller.dto.ReclamoSearchDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
-import api.tpo_g04_reclamos.app.model.request.ReclamoDto;
+import api.tpo_g04_reclamos.app.model.request.ReclamoRequestDto;
 import api.tpo_g04_reclamos.app.model.entity.Reclamo;
 import api.tpo_g04_reclamos.app.service.IReclamoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,32 +23,32 @@ public class ReclamoController {
     private IReclamoService reclamoService;
 
 	@GetMapping
-	public ResponseEntity<List<Reclamo>> findAll(){
-		return new ResponseEntity<>(reclamoService.findAll(), OK);
+	public ResponseEntity<List<ReclamoDto>> findAll(){
+		return new ResponseEntity<>(ReclamoDto.fromList(reclamoService.findAll()), OK);
 	}
 
-	@GetMapping("/filtro")
-	public ResponseEntity<List<Reclamo>> findAllByEstado(@RequestBody ReclamoSearchDto reclamoSearchDto){
-		return new ResponseEntity<>(reclamoService.findByEstado(reclamoSearchDto.getEstado()), OK);
+	@GetMapping("/search")
+	public ResponseEntity<List<ReclamoDto>> findAllByEstado(@RequestBody ReclamoSearchDto reclamoSearchDto){
+		return new ResponseEntity<>(ReclamoDto.fromList(reclamoService.findByEstado(reclamoSearchDto.getEstado())), OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Reclamo> findById(@PathVariable Long id){
+	public ResponseEntity<ReclamoDto> findById(@PathVariable Long id){
 		Reclamo reclamo = reclamoService.findById(id).orElseThrow(() -> new ItemNotFoundException("El reclamo no existe"));
 
-		return new ResponseEntity<>(reclamo, OK);
+		return new ResponseEntity<>(new ReclamoDto(reclamo), OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Reclamo> createReclamo(@RequestBody ReclamoDto reclamo) {
+	public ResponseEntity<ReclamoDto> createReclamo(@RequestBody ReclamoRequestDto reclamo) {
 		Reclamo reclamoCreado = reclamoService.save(reclamo);
-		return new ResponseEntity<>(reclamoCreado, CREATED);
+		return new ResponseEntity<>(new ReclamoDto(reclamoCreado), CREATED);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Reclamo> updateReclamo(@PathVariable Long id, @RequestBody ReclamoDto reclamo) {
+	public ResponseEntity<ReclamoDto> updateReclamo(@PathVariable Long id, @RequestBody ReclamoRequestDto reclamo) {
 		Reclamo reclamoActualizado = reclamoService.update(id, reclamo);
-		return new ResponseEntity<>(reclamoActualizado, OK);
+		return new ResponseEntity<>(new ReclamoDto(reclamoActualizado), OK);
 	}
 	
 	@DeleteMapping("/{id}")

@@ -1,6 +1,6 @@
 package api.tpo_g04_reclamos.app.controller;
 
-import api.tpo_g04_reclamos.app.controller.dto.ImagenDto;
+import api.tpo_g04_reclamos.app.controller.dto.ImagenRequestDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 import api.tpo_g04_reclamos.app.service.IImagenService;
@@ -19,10 +19,10 @@ public class ImagenController {
 	private IImagenService imagenService;
 	
 	@GetMapping("/{imagenId}")
-	public ResponseEntity<ImagenDto> findById(@PathVariable String imagenId){
+	public ResponseEntity<ImagenRequestDto> findById(@PathVariable String imagenId){
 		Imagen imagen = imagenService.findById(imagenId).orElseThrow(() -> new ItemNotFoundException("La imagen no existe"));
 
-		return new ResponseEntity<>(new ImagenDto(imagen), OK);
+		return new ResponseEntity<>(new ImagenRequestDto(imagen), OK);
 	}
 	
 	@PostMapping
