@@ -1,8 +1,7 @@
-package api.tpo_g04_reclamos.app.model.request;
+package api.tpo_g04_reclamos.app.controller.request;
 
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
-import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
 
 import java.util.ArrayList;

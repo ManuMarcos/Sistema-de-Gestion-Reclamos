@@ -1,13 +1,11 @@
 package api.tpo_g04_reclamos.app.controller;
 
-import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
 import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
-import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
-import api.tpo_g04_reclamos.app.model.request.AreaComunRequestDto;
-import api.tpo_g04_reclamos.app.model.request.EdificioRequestDto;
-import api.tpo_g04_reclamos.app.model.request.UnidadRequestDto;
+import api.tpo_g04_reclamos.app.controller.request.AreaComunRequestDto;
+import api.tpo_g04_reclamos.app.controller.request.EdificioRequestDto;
+import api.tpo_g04_reclamos.app.controller.request.UnidadRequestDto;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

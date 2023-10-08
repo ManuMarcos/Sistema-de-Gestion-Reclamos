@@ -2,9 +2,7 @@ package api.tpo_g04_reclamos.app.controller.dto;
 
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 import api.tpo_g04_reclamos.app.model.entity.Reclamo;
-import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
-import api.tpo_g04_reclamos.app.model.request.ImagenDto;
 
 import java.util.ArrayList;
 import java.util.List;
