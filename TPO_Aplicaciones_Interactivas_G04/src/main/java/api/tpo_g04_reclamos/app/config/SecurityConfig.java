@@ -48,7 +48,7 @@ public class SecurityConfig {
     	return (web) -> web.ignoring()
     			.requestMatchers("auth/login");
     			//.requestMatchers(HttpMethod.POST, "/edificios");
-    			//.requestMatchers(HttpMethod.POST, "/usuarios");
+    			//requestMatchers(HttpMethod.POST, "/usuarios");
     }
 	
     

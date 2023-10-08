@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import api.tpo_g04_reclamos.app.controller.dto.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
 import api.tpo_g04_reclamos.app.service.IUsuarioService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestController
 @RequestMapping("/auth")
@@ -31,7 +35,7 @@ public class AuthController {
 	private SecretKey secretKey;
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody UsuarioDto credentials){
+	public ResponseEntity<LoginResponse> login(@RequestBody UsuarioDto credentials){
 		
 		//Se validan las credenciales
 		if(usuarioService.findUser(credentials.getNombre(), credentials.getPassword()).isPresent()) {
@@ -43,10 +47,10 @@ public class AuthController {
 					.signWith(secretKey, SignatureAlgorithm.HS256)
 					.compact();
 					
-			return new ResponseEntity<>(token, HttpStatus.OK);
+			return new ResponseEntity<>(new LoginResponse(token), OK);
 		}
 		else {
-			return new ResponseEntity<>("Credenciales invalidas", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(new LoginResponse("Credenciales invalidas"), UNAUTHORIZED);
 		}
 	}
 	
