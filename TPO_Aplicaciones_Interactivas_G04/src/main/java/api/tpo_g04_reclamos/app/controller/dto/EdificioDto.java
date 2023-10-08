@@ -2,8 +2,11 @@ package api.tpo_g04_reclamos.app.controller.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
+
+import static java.util.stream.Collectors.toList;
 
 public class EdificioDto {
 
@@ -48,12 +51,8 @@ public class EdificioDto {
         return unidades;
     }
     
-    public static List<EdificioDto> fromList(List<Edificio> edificios)
-    {
-    	var ldto = new ArrayList<EdificioDto>(); 
-    	for (Edificio edificio : edificios)
-			ldto.add(new EdificioDto(edificio));
-    	return ldto;
+    public static List<EdificioDto> fromList(List<Edificio> edificios) {
+        return edificios.stream().map(EdificioDto::new).collect(toList());
     }
 
 }
