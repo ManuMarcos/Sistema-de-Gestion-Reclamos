@@ -6,6 +6,10 @@ import javax.crypto.SecretKey;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -18,19 +22,22 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+@EnableMethodSecurity
+public class SecurityConfig{
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
     	//Esto indica que todas las request requieren de autenticacion
 		http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
-				(authz) -> authz.anyRequest().authenticated())
+				(authz) -> authz	
+					.anyRequest().authenticated())
 				.addFilterBefore(jwtAuth(), UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
@@ -51,17 +58,7 @@ public class SecurityConfig {
     			//requestMatchers(HttpMethod.POST, "/usuarios");
     }
 	
-    
-    @Bean
-    InMemoryUserDetailsManager userDetailsService() {
-    	UserDetails user = User.withDefaultPasswordEncoder()
-    			.username("admin")
-    			.password("password")
-    			.build();
-    	return new InMemoryUserDetailsManager(user);
-    }
-    
-    
+   
     /**
      * Genera la clave que sera utilizada para firmar el token
      * @return

@@ -47,7 +47,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 		Usuario usuario = this.findById(id).get();
 		usuario.setNombre(usuarioDto.getNombre());
-		usuario.setPassword(usuarioDto.getPassword());
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 		usuario.setTipoUsuario(usuarioDto.getTipoUsuario());
 
 		return usuarioDao.update(usuario);

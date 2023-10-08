@@ -7,6 +7,7 @@ import java.util.Optional;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,7 @@ public class AreaComunController {
 	}
 
 	@PutMapping("/{areaComunId}")
+	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<?> updateAreaComun(@PathVariable Long areaComunId, @RequestBody AreaComun areaComun) {
 		Optional<AreaComun> areaComunToUpdate = areaComunService.findById(areaComunId);
 
@@ -57,6 +59,7 @@ public class AreaComunController {
 	}
 
 	@DeleteMapping("/{areaComunId}")
+	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<String> deleteById(@PathVariable Long areaComunId){
 		AreaComun areaComunToDeleteOptional = areaComunService.findById(areaComunId).orElseThrow(() -> new ItemNotFoundException(String.format("El area comun con id: %s no existe", areaComunId)));
 		areaComunService.deleteById(areaComunId);
