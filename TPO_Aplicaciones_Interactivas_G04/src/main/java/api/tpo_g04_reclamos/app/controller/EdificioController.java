@@ -83,9 +83,4 @@ public class EdificioController {
 		return new ResponseEntity<>(mensaje, NOT_FOUND);
 	}
 	
-	
-	
-	
-	
-	
 }
