@@ -43,14 +43,12 @@ public class EdificioController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<EdificioDto> addEdificio(@RequestBody EdificioRequestDto edificio) {
 		Edificio edificioCreado = edificioService.save(edificio);
 		return new ResponseEntity<>(new EdificioDto(edificioCreado), CREATED);
 	}
 
 	@PostMapping("/{edificioId}/unidad")
-	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<EdificioDto> addUnidad(@PathVariable Long edificioId, @RequestBody UnidadRequestDto unidad) {
 		Edificio edificioAAgregarUnidad = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
 		edificioService.addUnidad(edificioAAgregarUnidad, unidad);
@@ -59,7 +57,6 @@ public class EdificioController {
 	}
 
 	@PostMapping("/{edificioId}/area-comun")
-	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<EdificioDto> addAreaComun(@PathVariable Long edificioId, @RequestBody AreaComunRequestDto areaComunDto) {
 		Edificio edificioAAgregarAreaComun = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
 		edificioService.addAreaComun(edificioAAgregarAreaComun, areaComunDto);
@@ -68,14 +65,12 @@ public class EdificioController {
 	}
 	
 	@PutMapping("/{edificioId}")
-	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<EdificioDto> updateEdificio(@PathVariable Long edificioId, @RequestBody Edificio edificio){
 		Edificio edificioUpdated = edificioService.update(edificioId, edificio);
 		return ok(new EdificioDto(edificioUpdated));
 	}
 	
 	@DeleteMapping("/{edificioId}")
-	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<String> deleteEdificio(@PathVariable Long edificioId){
 		Optional<Edificio> edificioToDeleteOptional = edificioService.findById(edificioId);
 		if(edificioToDeleteOptional.isPresent()) {

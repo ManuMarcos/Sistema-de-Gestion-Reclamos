@@ -45,7 +45,6 @@ public class AreaComunController {
 	}
 
 	@PutMapping("/{areaComunId}")
-	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<?> updateAreaComun(@PathVariable Long areaComunId, @RequestBody AreaComun areaComun) {
 		Optional<AreaComun> areaComunToUpdate = areaComunService.findById(areaComunId);
 
@@ -59,7 +58,6 @@ public class AreaComunController {
 	}
 
 	@DeleteMapping("/{areaComunId}")
-	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<String> deleteById(@PathVariable Long areaComunId){
 		AreaComun areaComunToDeleteOptional = areaComunService.findById(areaComunId).orElseThrow(() -> new ItemNotFoundException(String.format("El area comun con id: %s no existe", areaComunId)));
 		areaComunService.deleteById(areaComunId);

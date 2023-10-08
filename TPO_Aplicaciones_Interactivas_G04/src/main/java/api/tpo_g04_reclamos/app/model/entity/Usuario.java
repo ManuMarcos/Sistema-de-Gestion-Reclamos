@@ -112,7 +112,7 @@ public class Usuario implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return List.of(new SimpleGrantedAuthority(tipoUsuario.name()));
+		return List.of(new SimpleGrantedAuthority(tipoUsuario.toString()));
 	}
 
 	@Override

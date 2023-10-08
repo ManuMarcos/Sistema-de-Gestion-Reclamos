@@ -34,7 +34,6 @@ public class UsuarioController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<UsuarioDto> addUsuario(@RequestBody UsuarioDto usuario) {
 		Usuario usuarioCreado = usuarioService.save(usuario);
 		return new ResponseEntity<>(new UsuarioDto(usuarioCreado), CREATED);
@@ -47,7 +46,6 @@ public class UsuarioController {
 	}
 	
 	@DeleteMapping("/{usuarioId}")
-	@PreAuthorize("hasAuthority('PERSONAL_INTERNO')")
 	public ResponseEntity<String> deleteUsuario(@PathVariable Long usuarioId){
 		usuarioService.deleteById(usuarioId);
 
