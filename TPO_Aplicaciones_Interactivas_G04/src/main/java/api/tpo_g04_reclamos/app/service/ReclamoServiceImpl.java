@@ -42,7 +42,6 @@ public class ReclamoServiceImpl implements IReclamoService {
 	
 	@Override
 	public List<Reclamo> findByEstado(EstadoReclamo estado) {
-		// TODO Auto-generated method stub
 		return reclamoDao.findByEstado(estado);
 	}
 

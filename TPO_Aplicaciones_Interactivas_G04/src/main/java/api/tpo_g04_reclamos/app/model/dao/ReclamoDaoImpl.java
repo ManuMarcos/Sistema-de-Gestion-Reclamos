@@ -36,6 +36,8 @@ public class ReclamoDaoImpl implements IReclamoDao {
 
 		TypedQuery<Reclamo> typedQuery = currentSession.createQuery("SELECT r FROM reclamos r WHERE r.estado = :estado", Reclamo.class);
 
+		typedQuery.setParameter("estado", estado);
+
 		return typedQuery.getResultList();
 	}
 
