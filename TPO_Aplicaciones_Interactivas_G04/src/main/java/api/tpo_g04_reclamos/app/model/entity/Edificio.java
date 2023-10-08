@@ -16,24 +16,18 @@ public class Edificio {
 
 	@OneToMany(mappedBy = "edificio", cascade = CascadeType.ALL)
 	private List<AreaComun> areasComunes = new ArrayList<>();
-	
-	
+
 	@OneToMany(mappedBy = "edificio", cascade = CascadeType.ALL)
 	private List<Unidad> unidades = new ArrayList<>();
-
 
 	public Edificio() {
 		super();
 	}
-	
-	
 
 	public Edificio(String direccion) {
 		super();
 		this.direccion = direccion;
 	}
-
-
 
 	public Edificio(String direccion, List<AreaComun> areasComunes, List<Unidad> unidades) {
 		super();
@@ -41,9 +35,6 @@ public class Edificio {
 		this.areasComunes = areasComunes;
 		this.unidades = unidades;
 	}
-
-	
-	
 	
 	public Edificio(Long id, String direccion, List<AreaComun> areasComunes, List<Unidad> unidades) {
 		super();
@@ -52,8 +43,6 @@ public class Edificio {
 		this.areasComunes = areasComunes;
 		this.unidades = unidades;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -74,8 +63,7 @@ public class Edificio {
 	public void agregarAreaComun(AreaComun areaComun) {
 		this.areasComunes.add(areaComun);
 	}
-	
-	
+
 	public List<AreaComun> getAreasComunes() {
 		return areasComunes;
 	}
@@ -90,12 +78,6 @@ public class Edificio {
 
 	public void setUnidades(List<Unidad> unidades) {
 		this.unidades = unidades;
-	}
-
-	@Override
-	public String toString() {
-		return "Edificio [id=" + id + ", direccion=" + direccion + ", areasComunes=" + areasComunes + ", unidades="
-				+ unidades + "]";
 	}
 
 	@Override

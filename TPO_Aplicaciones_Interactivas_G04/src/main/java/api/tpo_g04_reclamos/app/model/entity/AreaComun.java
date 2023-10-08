@@ -27,6 +27,11 @@ public class AreaComun{
 		this.nombre = nombre;
 	}
 
+	public AreaComun(String nombre) {
+		super();
+		this.nombre = nombre;
+	}
+
 	public AreaComun(Long id, Edificio edificio, String nombre) {
 		super();
 		this.id = id;

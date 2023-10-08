@@ -21,11 +21,15 @@ public class EdificioDto {
     }
     
     
-    public EdificioDto(Edificio e) {
-		this.id = e.getId();
-		this.direccion = e.getDireccion();
-		this.areasComunes = AreaComunDto.fromList(e.getAreasComunes());
-		this.unidades = UnidadDto.fromList(e.getUnidades());
+    public EdificioDto(Edificio edificio) {
+		this.id = edificio.getId();
+		this.direccion = edificio.getDireccion();
+        if(!edificio.getAreasComunes().isEmpty()) {
+            this.areasComunes = AreaComunDto.fromList(edificio.getAreasComunes());
+        }
+        if(!edificio.getUnidades().isEmpty()) {
+            this.unidades = UnidadDto.fromList(edificio.getUnidades());
+        }
 	}
 
 	public Long getId() {
@@ -44,11 +48,11 @@ public class EdificioDto {
         return unidades;
     }
     
-    public static List<EdificioDto> fromList(List<Edificio> le)
+    public static List<EdificioDto> fromList(List<Edificio> edificios)
     {
     	var ldto = new ArrayList<EdificioDto>(); 
-    	for (Edificio e : le)
-			ldto.add(new EdificioDto(e));
+    	for (Edificio edificio : edificios)
+			ldto.add(new EdificioDto(edificio));
     	return ldto;
     }
 

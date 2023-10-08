@@ -5,6 +5,8 @@ import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
+import api.tpo_g04_reclamos.app.model.request.AreaComunRequestDto;
+import api.tpo_g04_reclamos.app.model.request.EdificioRequestDto;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +43,7 @@ public class EdificioController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<EdificioDto> addEdificio(@RequestBody EdificioDto edificio) {
+	public ResponseEntity<EdificioDto> addEdificio(@RequestBody EdificioRequestDto edificio) {
 		Edificio edificioCreado = edificioService.save(edificio);
 		return new ResponseEntity<>(new EdificioDto(edificioCreado), CREATED);
 	}
@@ -55,7 +57,7 @@ public class EdificioController {
 	}
 
 	@PostMapping("/{edificioId}/area-comun")
-	public ResponseEntity<EdificioDto> addAreaComun(@PathVariable Long edificioId, @RequestBody AreaComunDto areaComunDto) {
+	public ResponseEntity<EdificioDto> addAreaComun(@PathVariable Long edificioId, @RequestBody AreaComunRequestDto areaComunDto) {
 		Edificio edificioAAgregarAreaComun = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
 		edificioService.addAreaComun(edificioAAgregarAreaComun, areaComunDto);
 

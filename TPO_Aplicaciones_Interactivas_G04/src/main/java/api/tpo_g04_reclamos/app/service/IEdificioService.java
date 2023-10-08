@@ -4,6 +4,8 @@ import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
 import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
+import api.tpo_g04_reclamos.app.model.request.AreaComunRequestDto;
+import api.tpo_g04_reclamos.app.model.request.EdificioRequestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +16,7 @@ public interface IEdificioService {
 	
 	Optional<Edificio> findById(Long id);
 	
-	Edificio save(EdificioDto edificio);
+	Edificio save(EdificioRequestDto edificio);
 	
 	Edificio update(Long id, Edificio edificio);
 	
@@ -22,6 +24,6 @@ public interface IEdificioService {
 
 	void addUnidad(Edificio edificio, UnidadDto unidad);
 
-	void addAreaComun(Edificio edificio, AreaComunDto areaComunDto);
+	void addAreaComun(Edificio edificio, AreaComunRequestDto areaComunDto);
 
 }

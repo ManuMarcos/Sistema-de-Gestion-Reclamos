@@ -1,10 +1,4 @@
-package api.tpo_g04_reclamos.app.model.dto;
-
-import api.tpo_g04_reclamos.app.model.entity.Reclamo;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
+package api.tpo_g04_reclamos.app.model.request;
 
 public class ImagenDto {
 

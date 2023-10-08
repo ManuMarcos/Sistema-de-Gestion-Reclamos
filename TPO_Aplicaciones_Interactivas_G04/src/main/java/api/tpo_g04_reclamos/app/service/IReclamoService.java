@@ -1,9 +1,7 @@
 package api.tpo_g04_reclamos.app.service;
 
-import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
-import api.tpo_g04_reclamos.app.model.dto.ReclamoDto;
+import api.tpo_g04_reclamos.app.model.request.ReclamoDto;
 import api.tpo_g04_reclamos.app.model.entity.Reclamo;
-import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
 
 import java.util.List;

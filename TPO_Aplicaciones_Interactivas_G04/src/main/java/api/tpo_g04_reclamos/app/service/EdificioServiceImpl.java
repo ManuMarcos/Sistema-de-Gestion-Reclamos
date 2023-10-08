@@ -9,6 +9,8 @@ import api.tpo_g04_reclamos.app.model.dao.IEdificioDao;
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
+import api.tpo_g04_reclamos.app.model.request.AreaComunRequestDto;
+import api.tpo_g04_reclamos.app.model.request.EdificioRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +24,10 @@ public class EdificioServiceImpl implements IEdificioService{
 	@Autowired
 	private IEdificioDao edificioDao;
 
-	// TODO crear unidadService
 	@Autowired
 	private IUnidadService unidadService;
 
+	@Autowired
 	private IAreaComunService areaComunService;
 
 	@Override
@@ -39,16 +41,10 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	@Override
-	public Edificio save(EdificioDto edificioDto) {
-		List<Unidad> unidadesAAgregar = edificioDto.getUnidades().stream().map(unidad -> new Unidad(unidad.getPiso(), unidad.getNumero(), unidad.getEdificio(), unidad.getEstado())).toList();
-		
-		List<AreaComun> areasComunesAAgregar = new ArrayList<AreaComun>();
-		for (AreaComunDto acDTO : edificioDto.getAreasComunes()) {
-			var edificioDTO = acDTO.getEdificio();
-			areasComunesAAgregar.add(new AreaComun(findById(edificioDTO.getId()).get(), acDTO.getNombre())); //TODO: probar
-		}
-		// TODO probar si cascade guarda las areas comunes y unidades asociandolas a ese edificio
-		return edificioDao.save(new Edificio(edificioDto.getDireccion(), areasComunesAAgregar, unidadesAAgregar));
+	public Edificio save(EdificioRequestDto edificioDto) {
+		Edificio edificio = edificioDao.save(new Edificio(edificioDto.getDireccion()));
+
+		return edificio;
 	}
 
 	@Override
@@ -82,15 +78,11 @@ public class EdificioServiceImpl implements IEdificioService{
 		edificioDao.save(edificio);
 	}
 
-	public void addAreaComun(Edificio edificio, AreaComunDto areaComunDto) {
-		if(!edificio.getId().equals(areaComunDto.getEdificio().getId())) {
-			throw new BadRequestException("Area Comun no se puede agregar, no pertenece al mismo edificio");
-		}
+	public void addAreaComun(Edificio edificio, AreaComunRequestDto areaComunDto) {
+		AreaComun areaComunAAgregar = new AreaComun(edificio, areaComunDto.getNombre());
 
-		var edificioDTO = areaComunDto.getEdificio();
-		AreaComun areaComunAAgregar = new AreaComun(findById(edificioDTO.getId()).get(), areaComunDto.getNombre()); //TODO: probar
-		AreaComun areaComundCreada = areaComunService.save(areaComunAAgregar);
-		edificio.getAreasComunes().add(areaComundCreada);
+		edificio.getAreasComunes().add(areaComunAAgregar);
+
 		edificioDao.save(edificio);
 	}
 

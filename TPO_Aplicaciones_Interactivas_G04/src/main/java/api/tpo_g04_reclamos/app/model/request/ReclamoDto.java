@@ -1,17 +1,9 @@
-package api.tpo_g04_reclamos.app.model.dto;
+package api.tpo_g04_reclamos.app.model.request;
 
 import api.tpo_g04_reclamos.app.controller.dto.AreaComunDto;
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
-import api.tpo_g04_reclamos.app.model.entity.AreaComun;
-import api.tpo_g04_reclamos.app.model.entity.Imagen;
-import api.tpo_g04_reclamos.app.model.entity.Unidad;
-import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 import java.util.ArrayList;
 import java.util.List;

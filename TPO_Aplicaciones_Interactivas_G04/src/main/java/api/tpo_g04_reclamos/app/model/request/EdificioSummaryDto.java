@@ -1,4 +1,4 @@
-package api.tpo_g04_reclamos.app.model.dto;
+package api.tpo_g04_reclamos.app.model.request;
 
 public class EdificioSummaryDto {
 

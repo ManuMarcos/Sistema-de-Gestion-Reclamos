@@ -1,15 +1,11 @@
 package api.tpo_g04_reclamos.app.service;
 
-import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
-import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.dao.IReclamoDao;
-import api.tpo_g04_reclamos.app.model.dao.IUsuarioDao;
-import api.tpo_g04_reclamos.app.model.dto.ReclamoDto;
+import api.tpo_g04_reclamos.app.model.request.ReclamoDto;
 import api.tpo_g04_reclamos.app.model.entity.*;
 import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +16,9 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 	@Autowired
 	private IReclamoDao reclamoDao;
+
+	@Autowired
+	private IEdificioService edificioService;
 	
 	@Override
 	public List<Reclamo> findAll() {
@@ -44,8 +43,7 @@ public class ReclamoServiceImpl implements IReclamoService {
 		Unidad unidad = new Unidad(reclamoDto.getUnidad().getId(), reclamoDto.getUnidad().getPiso(), reclamoDto.getUnidad().getNumero(), reclamoDto.getUnidad().getEdificio(), reclamoDto.getUnidad().getPropietario(), reclamoDto.getUnidad().getEstado());
 		
 		var acDTO = reclamoDto.getAreaComun();
-		var edificioDTO = acDTO.getEdificio();
-		var edificio = new EdificioServiceImpl().findById(edificioDTO.getId()); //TODO: probar
+		var edificio = edificioService.findById(acDTO.getEdificioId());
 		AreaComun areaComun = new AreaComun(acDTO.getId(), edificio.get(), acDTO.getNombre());
 
 		return reclamoDao.save(new Reclamo(reclamoDto.getNumero(), imagenes, reclamoDto.getDescripcion(), reclamoDto.getMotivo(), reclamoDto.getEstado(), usuario, unidad, areaComun));

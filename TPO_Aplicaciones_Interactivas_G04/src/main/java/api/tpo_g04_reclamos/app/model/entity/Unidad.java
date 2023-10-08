@@ -43,6 +43,13 @@ public class Unidad {
 		this.estado = estado;
 	}
 
+	public Unidad(int piso, int numero, EstadoUnidad estado) {
+		super();
+		this.piso = piso;
+		this.numero = numero;
+		this.estado = estado;
+	}
+
 	public Unidad(int piso, int numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
 		super();
 		this.piso = piso;
