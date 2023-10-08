@@ -9,7 +9,7 @@ public class ReclamoRequestDto {
 
     private int numero;
 
-    private List<Long> imagenesIds = new ArrayList<>();
+    private List<String> imagenesIds = new ArrayList<>();
 
     private String descripcion;
     
@@ -23,7 +23,7 @@ public class ReclamoRequestDto {
 
     private Long areaComunId;
 
-    public ReclamoRequestDto(int numero, List<Long> imagenesIds, String descripcion, String motivo, EstadoReclamo estado, Long usuarioId, Long unidadId, Long areaComunId) {
+    public ReclamoRequestDto(int numero, List<String> imagenesIds, String descripcion, String motivo, EstadoReclamo estado, Long usuarioId, Long unidadId, Long areaComunId) {
         this.numero = numero;
         this.imagenesIds = imagenesIds;
         this.descripcion = descripcion;
@@ -38,7 +38,7 @@ public class ReclamoRequestDto {
         return numero;
     }
 
-    public List<Long> getImagenesIds() {
+    public List<String> getImagenesIds() {
         return imagenesIds;
     }
 

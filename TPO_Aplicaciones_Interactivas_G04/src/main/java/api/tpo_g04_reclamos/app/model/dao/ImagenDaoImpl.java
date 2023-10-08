@@ -1,12 +1,15 @@
 package api.tpo_g04_reclamos.app.model.dao;
 
+import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,6 +23,16 @@ public class ImagenDaoImpl implements IImagenDao {
 	public Optional<Imagen> findById(String id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		return Optional.ofNullable(currentSession.get(Imagen.class, id));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Imagen> findAllByIds(List<String> ids) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Query<Imagen> getQuery = currentSession.createQuery("FROM imagenes WHERE id IN :ids", Imagen.class);
+
+		return getQuery.getResultList();
 	}
 
 	@Override

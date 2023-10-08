@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,6 +44,11 @@ public class ImagenServiceImpl implements IImagenService {
 			throw new IllegalArgumentException("getbytes failed", ex);
 		}
 
+	}
+
+	@Override
+	public List<Imagen> findAllByIds(List<String> ids) {
+		return imagenDao.findAllByIds(ids);
 	}
 
 	private boolean imagenExiste(String id) {

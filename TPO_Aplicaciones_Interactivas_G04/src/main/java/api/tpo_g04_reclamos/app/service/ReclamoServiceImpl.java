@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.service;
 
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.model.dao.IAreaComunDao;
 import api.tpo_g04_reclamos.app.model.dao.IReclamoDao;
 import api.tpo_g04_reclamos.app.model.request.ReclamoRequestDto;
 import api.tpo_g04_reclamos.app.model.entity.*;
@@ -18,10 +19,16 @@ public class ReclamoServiceImpl implements IReclamoService {
 	private IReclamoDao reclamoDao;
 
 	@Autowired
-	private IEdificioService edificioService;
+	private IUnidadService unidadService;
+
+	@Autowired
+	private IAreaComunService areaComunService;
 
 	@Autowired
 	private IUsuarioService usuarioService;
+
+	@Autowired
+	private IImagenService imagenService;
 	
 	@Override
 	public List<Reclamo> findAll() {
@@ -41,15 +48,10 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 	@Override
 	public Reclamo save(ReclamoRequestDto reclamoRequestDto) {
-		var acDTO = reclamoRequestDto.getAreaComunId();
-		var edificio = edificioService.findById(acDTO.getEdificioId()).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
-		var propietario = usuarioService.findById(reclamoRequestDto.getUnidadId().getPropietarioId()).orElseThrow(() -> new ItemNotFoundException("El propietario no existe"));
-
-		List<Imagen> imagenes = reclamoRequestDto.getImagenesIds().stream().map(imagenDto -> new Imagen(imagenDto.getId(), imagenDto.getNombre(), imagenDto.getTipo(), imagenDto.getData())).toList();
-		Usuario usuario = new Usuario(reclamoRequestDto.getUsuarioId().getId(), reclamoRequestDto.getUsuarioId().getNombre(), reclamoRequestDto.getUsuarioId().getPassword(), reclamoRequestDto.getUsuarioId().getTipoUsuario());
-		Unidad unidad = new Unidad(reclamoRequestDto.getUnidadId().getId(), reclamoRequestDto.getUnidadId().getPiso(), reclamoRequestDto.getUnidadId().getNumero(), edificio, propietario, reclamoRequestDto.getUnidadId().getEstado());
-
-		AreaComun areaComun = new AreaComun(acDTO.getId(), edificio, acDTO.getNombre());
+		Unidad unidad = unidadService.findById(reclamoRequestDto.getAreaComunId()).orElseThrow(() -> new ItemNotFoundException("La Unidad no existe"));
+		List<Imagen> imagenes = imagenService.findAllByIds(reclamoRequestDto.getImagenesIds());
+		Usuario usuario = usuarioService.findById(reclamoRequestDto.getUsuarioId()).orElseThrow(() -> new ItemNotFoundException("El Usuario no existe"));
+		AreaComun areaComun = areaComunService.findById(reclamoRequestDto.getAreaComunId()).orElseThrow(() -> new ItemNotFoundException("El Area Comun no existe"));
 
 		return reclamoDao.save(new Reclamo(reclamoRequestDto.getNumero(), imagenes, reclamoRequestDto.getDescripcion(), reclamoRequestDto.getMotivo(), reclamoRequestDto.getEstado(), usuario, unidad, areaComun));
 	}
