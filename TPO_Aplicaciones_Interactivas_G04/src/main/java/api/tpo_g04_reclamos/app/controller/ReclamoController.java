@@ -3,7 +3,7 @@ package api.tpo_g04_reclamos.app.controller;
 import api.tpo_g04_reclamos.app.controller.dto.ReclamoDto;
 import api.tpo_g04_reclamos.app.controller.dto.ReclamoSearchDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
-import api.tpo_g04_reclamos.app.model.request.ReclamoRequestDto;
+import api.tpo_g04_reclamos.app.controller.request.ReclamoRequestDto;
 import api.tpo_g04_reclamos.app.model.entity.Reclamo;
 import api.tpo_g04_reclamos.app.service.IReclamoService;
 import org.springframework.beans.factory.annotation.Autowired;

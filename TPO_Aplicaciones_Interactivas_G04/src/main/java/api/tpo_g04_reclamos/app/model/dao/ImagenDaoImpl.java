@@ -32,6 +32,8 @@ public class ImagenDaoImpl implements IImagenDao {
 
 		Query<Imagen> getQuery = currentSession.createQuery("FROM imagenes WHERE id IN :ids", Imagen.class);
 
+		getQuery.setParameterList("ids", ids);
+
 		return getQuery.getResultList();
 	}
 
