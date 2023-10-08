@@ -13,22 +13,22 @@ public class UnidadDto {
     private Long id;
     private int piso;
     private int numero;
-    private Edificio edificio;
-    private Usuario propietario;
+    private Long edificioId;
+    private Long propietarioId;
     private EstadoUnidad estado;
 
-    public UnidadDto(Unidad u) {
-    	this.id = u.getId();
-    	this.piso = u.getPiso();
-    	this.edificio = u.getEdificio();
-    	this.propietario = null;
-    	this.estado = u.getEstado();
+    public UnidadDto(Unidad unidad) {
+    	this.id = unidad.getId();
+    	this.piso = unidad.getPiso();
+    	this.edificioId = unidad.getEdificio().getId();
+        this.propietarioId = unidad.getPropietario() != null ? unidad.getPropietario().getId() : null;
+    	this.estado = unidad.getEstado();
     }
     
     public UnidadDto(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
         this.piso = piso;
         this.numero = numero;
-        this.edificio = edificio;
+        this.edificioId = edificio.getId();
         this.estado = estado;
     }
 
@@ -44,12 +44,12 @@ public class UnidadDto {
         return numero;
     }
 
-    public Edificio getEdificio() {
-        return edificio;
+    public Long getEdificioId() {
+        return edificioId;
     }
 
-    public Usuario getPropietario() {
-        return propietario;
+    public Long getPropietarioId() {
+        return propietarioId;
     }
 
     public EstadoUnidad getEstado() {
@@ -57,11 +57,7 @@ public class UnidadDto {
     }
 
 	public static List<UnidadDto> fromList(List<Unidad> unidades) {
-		// TODO: corregir el DTO. Tiene referencias a clases del modelo. Deberian ser DTOs anidados.
-    	var ldto = new ArrayList<UnidadDto>(); 
-    	for (Unidad u : unidades)
-			ldto.add(new UnidadDto(u));
-    	return ldto;
+        return unidades.stream().map(UnidadDto::new).toList();
 	}
 
 }

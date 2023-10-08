@@ -6,6 +6,7 @@ import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.request.AreaComunRequestDto;
 import api.tpo_g04_reclamos.app.model.request.EdificioRequestDto;
+import api.tpo_g04_reclamos.app.model.request.UnidadRequestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,7 @@ public interface IEdificioService {
 	
 	void deleteById(Long id);
 
-	void addUnidad(Edificio edificio, UnidadDto unidad);
+	void addUnidad(Edificio edificio, UnidadRequestDto unidad);
 
 	void addAreaComun(Edificio edificio, AreaComunRequestDto areaComunDto);
 

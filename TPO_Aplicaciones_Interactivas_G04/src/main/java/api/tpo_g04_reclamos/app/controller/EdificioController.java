@@ -7,6 +7,7 @@ import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.request.AreaComunRequestDto;
 import api.tpo_g04_reclamos.app.model.request.EdificioRequestDto;
+import api.tpo_g04_reclamos.app.model.request.UnidadRequestDto;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class EdificioController {
 	}
 
 	@PostMapping("/{edificioId}/unidad")
-	public ResponseEntity<EdificioDto> addUnidad(@PathVariable Long edificioId, @RequestBody UnidadDto unidad) {
+	public ResponseEntity<EdificioDto> addUnidad(@PathVariable Long edificioId, @RequestBody UnidadRequestDto unidad) {
 		Edificio edificioAAgregarUnidad = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
 		edificioService.addUnidad(edificioAAgregarUnidad, unidad);
 

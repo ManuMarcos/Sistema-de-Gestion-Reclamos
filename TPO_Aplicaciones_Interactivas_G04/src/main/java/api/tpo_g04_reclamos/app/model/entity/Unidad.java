@@ -109,10 +109,8 @@ public class Unidad {
 		this.estado = estado;
 	}
 
-	@Override
-	public String toString() {
-		return "Unidad [id=" + id + ", piso=" + piso + ", numero=" + numero + ", edificio=" + edificio + ", estado="
-				+ estado + "]";
+	public Usuario getPropietario() {
+		return propietario;
 	}
 
 

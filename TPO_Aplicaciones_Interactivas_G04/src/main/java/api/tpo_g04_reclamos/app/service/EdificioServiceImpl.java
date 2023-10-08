@@ -11,6 +11,7 @@ import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import api.tpo_g04_reclamos.app.model.request.AreaComunRequestDto;
 import api.tpo_g04_reclamos.app.model.request.EdificioRequestDto;
+import api.tpo_g04_reclamos.app.model.request.UnidadRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,6 @@ public class EdificioServiceImpl implements IEdificioService{
 
 	@Autowired
 	private IEdificioDao edificioDao;
-
-	@Autowired
-	private IUnidadService unidadService;
-
-	@Autowired
-	private IAreaComunService areaComunService;
 
 	@Override
 	public List<Edificio> findAll() {
@@ -66,23 +61,17 @@ public class EdificioServiceImpl implements IEdificioService{
 		edificioDao.deleteById(id);
 	}
 
-	public void addUnidad(Edificio edificio, UnidadDto unidadDto) {
-		if(!edificio.getId().equals(unidadDto.getEdificio().getId())) {
-			throw new BadRequestException("Unidad no se puede agregar, no pertenece al mismo edificio");
-		}
+	public void addUnidad(Edificio edificio, UnidadRequestDto unidadDto) {
+		Unidad nuevaUnidad = new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), edificio, unidadDto.getEstado());
 
-		UnidadDto unidadAAgregar = new UnidadDto(unidadDto.getPiso(), unidadDto.getNumero(), unidadDto.getEdificio(), unidadDto.getEstado());
-		Unidad unidadCreada = unidadService.save(unidadAAgregar);
-
-		edificio.getUnidades().add(unidadCreada);
+		edificio.agregarUnidad(nuevaUnidad);
 		edificioDao.save(edificio);
 	}
 
 	public void addAreaComun(Edificio edificio, AreaComunRequestDto areaComunDto) {
-		AreaComun areaComunAAgregar = new AreaComun(edificio, areaComunDto.getNombre());
+		AreaComun nuevaAreaComun = new AreaComun(edificio, areaComunDto.getNombre());
 
-		edificio.getAreasComunes().add(areaComunAAgregar);
-
+		edificio.agregarAreaComun(nuevaAreaComun);
 		edificioDao.save(edificio);
 	}
 

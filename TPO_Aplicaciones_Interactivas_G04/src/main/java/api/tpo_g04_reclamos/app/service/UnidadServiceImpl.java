@@ -3,6 +3,7 @@ package api.tpo_g04_reclamos.app.service;
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.dao.IUnidadDao;
+import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class UnidadServiceImpl implements IUnidadService {
 
 	@Autowired
 	private IUnidadDao unidadDao;
+
+	@Autowired
+	private IEdificioService edificioService;
 	
 	@Override
 	public List<Unidad> findAll() {
@@ -28,7 +32,8 @@ public class UnidadServiceImpl implements IUnidadService {
 
 	@Override
 	public Unidad save(UnidadDto unidadDto) {
-		return unidadDao.save(new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), unidadDto.getEdificio(), unidadDto.getEstado()));
+		Edificio edificio = edificioService.findById(unidadDto.getEdificioId()).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
+		return unidadDao.save(new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), edificio, unidadDto.getEstado()));
 	}
 
 	@Override
@@ -36,8 +41,9 @@ public class UnidadServiceImpl implements IUnidadService {
 		this.unidadExiste(id);
 
 		Unidad unidadToUpdate = unidadDao.findById(id).get();
+		Edificio edificio = edificioService.findById(unidadDto.getEdificioId()).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
 
-		unidadToUpdate.setEdificio(unidadDto.getEdificio());
+		unidadToUpdate.setEdificio(edificio);
 		unidadToUpdate.setEstado(unidadDto.getEstado());
 		unidadToUpdate.setPiso(unidadDto.getPiso());
 		unidadToUpdate.setNumero(unidadDto.getNumero());

@@ -19,6 +19,9 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 	@Autowired
 	private IEdificioService edificioService;
+
+	@Autowired
+	private IUsuarioService usuarioService;
 	
 	@Override
 	public List<Reclamo> findAll() {
@@ -38,13 +41,15 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 	@Override
 	public Reclamo save(ReclamoDto reclamoDto) {
+		var acDTO = reclamoDto.getAreaComun();
+		var edificio = edificioService.findById(acDTO.getEdificioId()).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
+		var propietario = usuarioService.findById(reclamoDto.getUnidad().getPropietarioId()).orElseThrow(() -> new ItemNotFoundException("El propietario no existe"));
+
 		List<Imagen> imagenes = reclamoDto.getImagenes().stream().map(imagenDto -> new Imagen(imagenDto.getId(), imagenDto.getNombre(), imagenDto.getTipo(), imagenDto.getData())).toList();
 		Usuario usuario = new Usuario(reclamoDto.getUsuario().getId(), reclamoDto.getUsuario().getNombre(), reclamoDto.getUsuario().getPassword(), reclamoDto.getUsuario().getTipoUsuario());
-		Unidad unidad = new Unidad(reclamoDto.getUnidad().getId(), reclamoDto.getUnidad().getPiso(), reclamoDto.getUnidad().getNumero(), reclamoDto.getUnidad().getEdificio(), reclamoDto.getUnidad().getPropietario(), reclamoDto.getUnidad().getEstado());
-		
-		var acDTO = reclamoDto.getAreaComun();
-		var edificio = edificioService.findById(acDTO.getEdificioId());
-		AreaComun areaComun = new AreaComun(acDTO.getId(), edificio.get(), acDTO.getNombre());
+		Unidad unidad = new Unidad(reclamoDto.getUnidad().getId(), reclamoDto.getUnidad().getPiso(), reclamoDto.getUnidad().getNumero(), edificio, propietario, reclamoDto.getUnidad().getEstado());
+
+		AreaComun areaComun = new AreaComun(acDTO.getId(), edificio, acDTO.getNombre());
 
 		return reclamoDao.save(new Reclamo(reclamoDto.getNumero(), imagenes, reclamoDto.getDescripcion(), reclamoDto.getMotivo(), reclamoDto.getEstado(), usuario, unidad, areaComun));
 	}
