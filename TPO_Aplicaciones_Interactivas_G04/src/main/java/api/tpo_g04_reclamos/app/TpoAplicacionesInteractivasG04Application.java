@@ -1,13 +1,12 @@
 package api.tpo_g04_reclamos.app;
 
+import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
+import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
+import api.tpo_g04_reclamos.app.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
-import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
-import api.tpo_g04_reclamos.app.service.IUsuarioService;
 
 @SpringBootApplication
 public class TpoAplicacionesInteractivasG04Application implements CommandLineRunner{

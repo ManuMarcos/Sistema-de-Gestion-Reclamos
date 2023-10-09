@@ -1,7 +1,6 @@
 package api.tpo_g04_reclamos.app.controller;
 
 import api.tpo_g04_reclamos.app.controller.dto.ImagenDto;
-import api.tpo_g04_reclamos.app.controller.request.ImagenRequestDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 import api.tpo_g04_reclamos.app.service.IImagenService;

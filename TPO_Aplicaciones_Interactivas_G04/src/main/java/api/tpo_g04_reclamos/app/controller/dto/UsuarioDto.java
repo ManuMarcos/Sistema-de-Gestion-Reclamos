@@ -3,7 +3,6 @@ package api.tpo_g04_reclamos.app.controller.dto;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

@@ -4,9 +4,6 @@ import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UnidadRequestDto {
 
     private int piso;
@@ -36,13 +33,5 @@ public class UnidadRequestDto {
     public EstadoUnidad getEstado() {
         return estado;
     }
-
-	public static List<UnidadRequestDto> fromList(List<Unidad> unidades) {
-		// TODO: corregir el DTO. Tiene referencias a clases del modelo. Deberian ser DTOs anidados.
-    	var ldto = new ArrayList<UnidadRequestDto>();
-    	for (Unidad u : unidades)
-			ldto.add(new UnidadRequestDto(u));
-    	return ldto;
-	}
 
 }

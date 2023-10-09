@@ -1,8 +1,5 @@
 package api.tpo_g04_reclamos.app.controller.request;
 
-import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class AreaComunRequestDto {
 
 	private String nombre;

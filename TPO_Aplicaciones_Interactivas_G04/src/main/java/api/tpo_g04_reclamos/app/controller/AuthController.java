@@ -1,23 +1,19 @@
 package api.tpo_g04_reclamos.app.controller;
 
-import java.security.PrivateKey;
-import java.util.Date;
-
-import javax.crypto.SecretKey;
-
 import api.tpo_g04_reclamos.app.controller.dto.LoginResponse;
+import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
+import api.tpo_g04_reclamos.app.service.IUsuarioService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
-import api.tpo_g04_reclamos.app.service.IUsuarioService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import javax.crypto.SecretKey;
+import java.util.Date;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;

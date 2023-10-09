@@ -1,6 +1,5 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
-import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

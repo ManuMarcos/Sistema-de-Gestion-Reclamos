@@ -1,11 +1,10 @@
 package api.tpo_g04_reclamos.app.controller.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import java.util.List;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class AreaComunDto {
@@ -38,11 +37,7 @@ public class AreaComunDto {
 		this.edificioId = ac.getEdificio().getId();
 	}
 	
-    public static List<AreaComunDto> fromList(List<AreaComun> areasComunes)
-    {
-    	var ldto = new ArrayList<AreaComunDto>(); 
-    	for (AreaComun areaComun : areasComunes)
-			ldto.add(new AreaComunDto(areaComun));
-    	return ldto;
+    public static List<AreaComunDto> fromList(List<AreaComun> areasComunes) {
+        return areasComunes.stream().map(AreaComunDto::new).toList();
     }
 }

@@ -1,10 +1,9 @@
 package api.tpo_g04_reclamos.app.controller.dto;
 
+import api.tpo_g04_reclamos.app.model.entity.Edificio;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import api.tpo_g04_reclamos.app.model.entity.Edificio;
 
 import static java.util.stream.Collectors.toList;
 

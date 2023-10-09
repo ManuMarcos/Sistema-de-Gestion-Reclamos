@@ -1,12 +1,10 @@
 package api.tpo_g04_reclamos.app.controller.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
-import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
+
+import java.util.List;
 
 public class UnidadDto {
 

@@ -1,16 +1,15 @@
 package api.tpo_g04_reclamos.app.controller;
 
 import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
-import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
-import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.controller.request.AreaComunRequestDto;
 import api.tpo_g04_reclamos.app.controller.request.EdificioRequestDto;
 import api.tpo_g04_reclamos.app.controller.request.UnidadRequestDto;
+import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class EdificioController {
 	@GetMapping("/{edificioId}")
 	public ResponseEntity<?> findById(@PathVariable Long edificioId){
 		Optional<Edificio> edificio = edificioService.findById(edificioId);
-		if(!edificio.isPresent()) {
+		if(edificio.isEmpty()) {
 			String mensaje = "Edificio con id" +  edificioId + " no encontrado";
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
