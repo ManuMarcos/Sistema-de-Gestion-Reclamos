@@ -25,7 +25,7 @@ public class EdificioDaoImplTest {
 	@AfterEach
 	public void clearDatabaseB(@Autowired JdbcTemplate jdbcTemplate) {
 		System.out.println("borrando edificios...");
-	    JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificio");
+	    JdbcTestUtils.deleteFromTables(jdbcTemplate, "edificios");
 	}
 	
 	
