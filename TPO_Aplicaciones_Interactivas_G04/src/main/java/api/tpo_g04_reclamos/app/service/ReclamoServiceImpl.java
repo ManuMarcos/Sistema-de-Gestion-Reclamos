@@ -46,7 +46,7 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 	@Override
 	public Reclamo save(ReclamoRequestDto reclamoRequestDto) {
-		Unidad unidad = unidadService.findById(reclamoRequestDto.getAreaComunId()).orElseThrow(() -> new ItemNotFoundException("La Unidad no existe"));
+		Unidad unidad = unidadService.findById(reclamoRequestDto.getUnidadId()).orElseThrow(() -> new ItemNotFoundException("La Unidad no existe"));
 		List<Imagen> imagenes = imagenService.findAllByIds(reclamoRequestDto.getImagenesIds());
 		Usuario usuario = usuarioService.findById(reclamoRequestDto.getUsuarioId()).orElseThrow(() -> new ItemNotFoundException("El Usuario no existe"));
 		AreaComun areaComun = areaComunService.findById(reclamoRequestDto.getAreaComunId()).orElseThrow(() -> new ItemNotFoundException("El Area Comun no existe"));
