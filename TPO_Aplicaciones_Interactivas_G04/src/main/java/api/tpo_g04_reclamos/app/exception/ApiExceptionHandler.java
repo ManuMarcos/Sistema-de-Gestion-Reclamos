@@ -2,6 +2,7 @@ package api.tpo_g04_reclamos.app.exception;
 
 import api.tpo_g04_reclamos.app.exception.exceptions.BadRequestException;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.exception.exceptions.ReclamoNoSePuedeCrearException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +20,11 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<String> handleBadRequest(Exception e) {
+        return new ResponseEntity<>("Error: " + e.getMessage(), BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ReclamoNoSePuedeCrearException.class)
+    public ResponseEntity<String> handleReclamoNoSePuedeCrear(Exception e) {
         return new ResponseEntity<>("Error: " + e.getMessage(), BAD_REQUEST);
     }
 

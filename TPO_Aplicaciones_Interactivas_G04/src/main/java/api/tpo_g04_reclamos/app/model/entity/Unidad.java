@@ -113,6 +113,10 @@ public class Unidad {
 		return propietario;
 	}
 
+	public List<Usuario> getInquilinos() {
+		return inquilinos;
+	}
+
 
 	@Override
 	public boolean equals(Object o) {

@@ -2,6 +2,7 @@ package api.tpo_g04_reclamos.app.service;
 
 import api.tpo_g04_reclamos.app.controller.request.ReclamoRequestDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.exception.exceptions.ReclamoNoSePuedeCrearException;
 import api.tpo_g04_reclamos.app.model.dao.IReclamoDao;
 import api.tpo_g04_reclamos.app.model.entity.*;
 import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static api.tpo_g04_reclamos.app.model.enums.EstadoUnidad.ALQUILADA;
+import static api.tpo_g04_reclamos.app.model.enums.EstadoUnidad.SIN_ALQUILAR;
 
 @Service
 public class ReclamoServiceImpl implements IReclamoService {
@@ -46,12 +50,30 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 	@Override
 	public Reclamo save(ReclamoRequestDto reclamoRequestDto) {
-		Unidad unidad = unidadService.findById(reclamoRequestDto.getUnidadId()).orElseThrow(() -> new ItemNotFoundException("La Unidad no existe"));
-		List<Imagen> imagenes = imagenService.findAllByIds(reclamoRequestDto.getImagenesIds());
-		Usuario usuario = usuarioService.findById(reclamoRequestDto.getUsuarioId()).orElseThrow(() -> new ItemNotFoundException("El Usuario no existe"));
-		AreaComun areaComun = areaComunService.findById(reclamoRequestDto.getAreaComunId()).orElseThrow(() -> new ItemNotFoundException("El Area Comun no existe"));
+		Optional<Unidad> unidadOptional = unidadService.findById(reclamoRequestDto.getUnidadId());
+		AreaComun areaComun = areaComunService.findById(reclamoRequestDto.getAreaComunId()).orElse(null);
 
-		return reclamoDao.save(new Reclamo(reclamoRequestDto.getNumero(), imagenes, reclamoRequestDto.getDescripcion(), reclamoRequestDto.getMotivo(), reclamoRequestDto.getEstado(), usuario, unidad, areaComun));
+		Usuario usuario = usuarioService.findById(reclamoRequestDto.getUsuarioId()).orElseThrow(() -> new ItemNotFoundException("El Usuario no existe"));
+
+		// veo si es una unidad para ver si es posible generar el reclamo con el usuario
+		if(unidadOptional.isPresent()) {
+			if(this.reclamoSePuedeCrear(unidadOptional.get(), usuario)) {
+				throw new ReclamoNoSePuedeCrearException(String.format("El reclamo no se puede crear por el usuario %s", usuario.getId()));
+			}
+		}
+
+		List<Imagen> imagenes = imagenService.findAllByIds(reclamoRequestDto.getImagenesIds());
+
+		return reclamoDao.save(new Reclamo(reclamoRequestDto.getNumero(), imagenes, reclamoRequestDto.getDescripcion(), reclamoRequestDto.getMotivo(), reclamoRequestDto.getEstado(), usuario, unidadOptional.orElse(null), areaComun));
+	}
+
+	private boolean reclamoSePuedeCrear(Unidad unidad, Usuario usuario) {
+		List<Long> inquilinosIds = unidad.getInquilinos().stream().map(Usuario::getId).toList();
+		if(ALQUILADA.equals(unidad.getEstado()) && inquilinosIds.contains(usuario.getId())) {
+			return true;
+		}
+
+		return SIN_ALQUILAR.equals(unidad.getEstado()) && unidad.getPropietario().getId().equals(usuario.getId());
 	}
 
 	@Override
