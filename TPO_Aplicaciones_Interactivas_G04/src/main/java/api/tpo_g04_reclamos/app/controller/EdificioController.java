@@ -3,6 +3,7 @@ package api.tpo_g04_reclamos.app.controller;
 import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
 import api.tpo_g04_reclamos.app.controller.request.AreaComunRequestDto;
 import api.tpo_g04_reclamos.app.controller.request.EdificioRequestDto;
+import api.tpo_g04_reclamos.app.controller.request.EdificioUpdateDto;
 import api.tpo_g04_reclamos.app.controller.request.UnidadRequestDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
@@ -64,7 +65,7 @@ public class EdificioController {
 	}
 	
 	@PutMapping("/{edificioId}")
-	public ResponseEntity<EdificioDto> updateEdificio(@PathVariable Long edificioId, @RequestBody Edificio edificio){
+	public ResponseEntity<EdificioDto> updateEdificio(@PathVariable Long edificioId, @RequestBody EdificioUpdateDto edificio){
 		Edificio edificioUpdated = edificioService.update(edificioId, edificio);
 		return ok(new EdificioDto(edificioUpdated));
 	}

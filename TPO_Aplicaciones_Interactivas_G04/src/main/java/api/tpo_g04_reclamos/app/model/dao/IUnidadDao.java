@@ -11,6 +11,8 @@ public interface IUnidadDao {
 	
 	Optional<Unidad> findById(Long id);
 
+	List<Unidad> findAllByIds(List<Long> ids);
+
 	Unidad save(Unidad unidad);
 
 	Unidad update(Unidad unidad);

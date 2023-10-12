@@ -31,6 +31,11 @@ public class UnidadServiceImpl implements IUnidadService {
 	}
 
 	@Override
+	public List<Unidad> findAllByIds(List<Long> ids) {
+		return unidadDao.findAllByIds(ids);
+	}
+
+	@Override
 	public Unidad save(UnidadDto unidadDto) {
 		Edificio edificio = edificioService.findById(unidadDto.getEdificioId()).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
 		return unidadDao.save(new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), edificio, unidadDto.getEstado()));

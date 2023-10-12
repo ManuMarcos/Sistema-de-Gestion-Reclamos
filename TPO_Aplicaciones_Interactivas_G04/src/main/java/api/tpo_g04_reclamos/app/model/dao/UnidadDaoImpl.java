@@ -30,6 +30,18 @@ public class UnidadDaoImpl implements IUnidadDao {
 
 	@Override
 	@Transactional(readOnly = true)
+	public List<Unidad> findAllByIds(List<Long> ids) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Query<Unidad> getQuery = currentSession.createQuery("FROM unidades WHERE id IN :ids", Unidad.class);
+
+		getQuery.setParameterList("ids", ids);
+
+		return getQuery.getResultList();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public Optional<Unidad> findById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		

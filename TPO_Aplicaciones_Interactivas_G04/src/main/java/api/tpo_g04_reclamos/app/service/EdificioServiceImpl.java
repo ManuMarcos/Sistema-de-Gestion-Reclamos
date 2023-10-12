@@ -2,10 +2,13 @@ package api.tpo_g04_reclamos.app.service;
 
 import api.tpo_g04_reclamos.app.controller.request.AreaComunRequestDto;
 import api.tpo_g04_reclamos.app.controller.request.EdificioRequestDto;
+import api.tpo_g04_reclamos.app.controller.request.EdificioUpdateDto;
 import api.tpo_g04_reclamos.app.controller.request.UnidadRequestDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.BadRequestException;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.model.dao.IAreaComunDao;
 import api.tpo_g04_reclamos.app.model.dao.IEdificioDao;
+import api.tpo_g04_reclamos.app.model.dao.IUnidadDao;
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
@@ -20,6 +23,12 @@ public class EdificioServiceImpl implements IEdificioService{
 
 	@Autowired
 	private IEdificioDao edificioDao;
+
+	@Autowired
+	private IUnidadDao unidadDao;
+
+	@Autowired
+	private IAreaComunDao areaComunDao;
 
 	@Override
 	public List<Edificio> findAll() {
@@ -37,14 +46,16 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	@Override
-	public Edificio update(Long id, Edificio edificio) {
-		this.edificioExiste(id);
-		this.unidadesYAreasComunesPertenecen(edificio);
+	public Edificio update(Long id, EdificioUpdateDto edificio) {
+		Edificio edificioToUpdate = this.findById(id).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio con id %s no existe", id.toString())));
 
-		Edificio edificioToUpdate = edificioDao.findById(id).get();
+		List<AreaComun> areasComunes = areaComunDao.findAllByIds(edificio.getAreasComunesIds());
+		List<Unidad> unidades = unidadDao.findAllByIds(edificio.getUnidadesIds());
+		this.unidadesYAreasComunesPertenecen(edificio.getId(), areasComunes, unidades);
+
 		edificioToUpdate.setDireccion(edificio.getDireccion());
-		edificioToUpdate.setAreasComunes(edificio.getAreasComunes());
-		edificioToUpdate.setUnidades(edificio.getUnidades());
+		edificioToUpdate.setAreasComunes(areasComunes);
+		edificioToUpdate.setUnidades(unidades);
 		return edificioDao.save(edificioToUpdate);
 	}
 
@@ -79,12 +90,12 @@ public class EdificioServiceImpl implements IEdificioService{
 		return true;
 	}
 
-	private boolean unidadesYAreasComunesPertenecen(Edificio edificio) {
-		List<AreaComun> areasComunesNoPertenecientes = edificio.getAreasComunes().stream()
-				.filter(areaComun -> !areaComun.getEdificio().getId().equals(edificio.getId())).toList();
+	private boolean unidadesYAreasComunesPertenecen(Long edificioId, List<AreaComun> areasComunes, List<Unidad> unidades) {
+		List<AreaComun> areasComunesNoPertenecientes = areasComunes.stream()
+				.filter(areaComun -> !areaComun.getEdificio().getId().equals(edificioId)).toList();
 
-		List<Unidad> unidadesNoPertenecientes = edificio.getUnidades().stream()
-				.filter(unidad -> !unidad.getEdificio().getId().equals(edificio.getId())).toList();
+		List<Unidad> unidadesNoPertenecientes = unidades.stream()
+				.filter(unidad -> !unidad.getEdificio().getId().equals(edificioId)).toList();
 
 		if(!areasComunesNoPertenecientes.isEmpty() || !unidadesNoPertenecientes.isEmpty()) {
 			throw new BadRequestException("No se puede hacer update del edificio, areasComunes o unidades no pertenecen");

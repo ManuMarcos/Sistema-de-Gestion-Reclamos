@@ -10,6 +10,8 @@ public interface IAreaComunService {
 	List<AreaComun> findAll();
 	
 	Optional<AreaComun> findById(Long id);
+
+	List<AreaComun> findAllByIds(List<Long> ids);
 	
 	AreaComun save(AreaComun areaComun);
 	

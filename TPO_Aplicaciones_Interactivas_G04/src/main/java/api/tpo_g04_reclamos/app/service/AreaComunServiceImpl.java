@@ -30,6 +30,11 @@ public class AreaComunServiceImpl implements IAreaComunService {
 	}
 
 	@Override
+	public List<AreaComun> findAllByIds(List<Long> ids) {
+		return areaComunDao.findAllByIds(ids);
+	}
+
+	@Override
 
 	public AreaComun save(AreaComun areaComun) {
 		return areaComunDao.save(areaComun);

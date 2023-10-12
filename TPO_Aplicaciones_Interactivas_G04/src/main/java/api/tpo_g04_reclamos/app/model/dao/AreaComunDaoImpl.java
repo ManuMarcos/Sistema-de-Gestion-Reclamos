@@ -36,6 +36,18 @@ public class AreaComunDaoImpl implements IAreaComunDao {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
+	public List<AreaComun> findAllByIds(List<Long> ids) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Query<AreaComun> getQuery = currentSession.createQuery("FROM areas_comunes WHERE id IN :ids", AreaComun.class);
+
+		getQuery.setParameterList("ids", ids);
+
+		return getQuery.getResultList();
+	}
+
+	@Override
 	@Transactional
 	public AreaComun save(AreaComun areaComun) {
 		Session currentSession = entityManager.unwrap(Session.class);
