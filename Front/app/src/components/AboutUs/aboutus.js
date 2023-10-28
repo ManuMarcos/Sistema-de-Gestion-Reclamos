@@ -12,9 +12,8 @@ const AboutUs = () => {
         <div>
             <h2>Acerca de Nosotros</h2>
             <p>Poner nombres de integrantes TPO?</p>
-
             <div>
-                <button onClick={navegarAtras}>Volver</button>
+            <button class="btn btn-primary" type="submit"onClick={navegarAtras}>Volver</button>
             </div>
         </div>
     );
