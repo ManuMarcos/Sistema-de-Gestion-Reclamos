@@ -1,9 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from "../Home/home";
 import AboutUs from "../AboutUs/aboutus";
 import Error404 from "../Error/error404";
 import NavBar from "./navbar";
+import NuevoReclamo from "../Reclamos/NuevoReclamo/nuevoReclamo";
 
 function Navigation() {
     return (
@@ -16,6 +17,7 @@ function Navigation() {
 
                     {/*Ruta de manejo de error 404 */}
                     <Route path="*" element={<Error404 />} />
+                    <Route path="/Reclamos/Nuevo" element={<NuevoReclamo />} />
                 </Routes>
             </div>
         </Router>
