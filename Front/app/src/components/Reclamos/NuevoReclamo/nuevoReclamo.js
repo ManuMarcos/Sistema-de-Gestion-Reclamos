@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // TODO: datos del usuario. salen del login supongo...
 // los sacaria de un context... por ahora hardcodeo masomenos...
 const usuario = {
-  id: 12,
+  id: 2,
 };
 
 // TODO: datos del edificio asociado al usuario. salen del login supongo...
@@ -44,6 +44,42 @@ const datosEdificio = {
   ],
 };
 
+async function login_sacar_luego() {
+  // Default options are marked with *
+  const response = await fetch("http://localhost:8080/auth/login", {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    headers: {
+      "Content-type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods' : "POST, GET, PUT",
+      'Access-Control-Allow-Headers' : "Content-Type",
+    },
+    body: JSON.stringify({
+      nombre : "ivo",
+      password : "ivo"
+    }) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+async function post_reclamo_nuevo(token, req_data) {
+  // Default options are marked with *
+  const response = await fetch("http://localhost:8080/reclamos", {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    headers: {
+      "Content-type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods' : "POST, GET, PUT",
+      'Access-Control-Allow-Headers' : "Content-Type",
+      'Authorization': 'Bearer ' + token,
+    },
+    body: JSON.stringify(req_data)
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
 const NuevoReclamo = () => {
   const RadioOption = {
     AreaComun: 0,
@@ -59,24 +95,35 @@ const NuevoReclamo = () => {
     // TODO: submit images, get Ids...
     let descripcion = e.target.elements[2].value;
 
-    // TODO: fijarse que datos necesito en el request.
+    // TODO: fijarse que datos realmente necesito. se estan pidiendo cosas de mas me parece.
     let req_data = {}
-    req_data["numero"] = -1;
-    req_data["imagenesIds"] = ["pepito_id"];
+    req_data["numero"] = 0;
+    req_data["imagenesIds"] = [];
     req_data["descripcion"] = descripcion;
-    req_data["motivo"] = "";
+    req_data["motivo"] = "motivo_fruta";
     req_data["estado"] = 0;
     req_data["usuarioId"] = usuario.id; //TODO: del contexto.
     if(chosenRadioOption === RadioOption.AreaComun)
     {
-      req_data["unidadId"] = 1; //TODO
+      req_data["unidadId"] = -1; //TODO
       req_data["areaComunId"] = -1; //TODO
     } else {
       req_data["unidadId"] = -1; //TODO
-      req_data["areaComunId"] = 1; //TODO
+      req_data["areaComunId"] = -1; //TODO
     }
     console.log("Mensajillo saliente:")
     console.log(req_data)
+
+    // TODO: consigo el accessToken depsues ver que hacer...
+    login_sacar_luego()
+    .then((data) => {
+      console.log("token: " + data["accessToken"] )
+      post_reclamo_nuevo(data["accessToken"], req_data)
+      .then((data) => {console.log(data)})
+      .catch((err) => console.log(err))
+    })
+    .catch((err) => console.log(err))
+
   }
 
   function loadFile(e){
