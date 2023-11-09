@@ -51,10 +51,11 @@ async function post_reclamo_nuevo(token, req_data) {
     mode: "cors", // no-cors, *cors, same-origin
     headers: {
       "Content-type": "application/json",
-      'Access-Control-Allow-Origin': 'htpp://localhost:3000',
+      'Access-Control-Allow-Origin': 'htpp://localhost:3000/',
       'Access-Control-Allow-Methods' : "POST, GET, PUT",
       'Access-Control-Allow-Headers' : "Content-Type",
       'Authorization': 'Bearer ' + token,
+      'cache-control' : 'no-cache'
     },
     body: JSON.stringify(req_data)
   });
