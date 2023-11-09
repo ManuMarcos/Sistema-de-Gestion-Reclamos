@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class TpoAplicacionesInteractivasG04Application implements CommandLineRunner{
@@ -23,6 +26,19 @@ public class TpoAplicacionesInteractivasG04Application implements CommandLineRun
 		// TODO Auto-generated method stub
 		UsuarioDto usuario = new UsuarioDto("admin", "admin", TipoUsuario.PERSONAL_INTERNO);
 		usuarioService.save(usuario);
+		
+		UsuarioDto usuario2 = new UsuarioDto("ivo", "ivo", TipoUsuario.PROPIETARIO);
+		usuarioService.save(usuario2);
 	}
 
+	@Bean
+	WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+			}
+		};
+	}
+	
 }

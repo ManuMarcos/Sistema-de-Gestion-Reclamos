@@ -44,25 +44,6 @@ const datosEdificio = {
   ],
 };
 
-async function login_sacar_luego() {
-  // Default options are marked with *
-  const response = await fetch("http://localhost:8080/auth/login", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, *cors, same-origin
-    headers: {
-      "Content-type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods' : "POST, GET, PUT",
-      'Access-Control-Allow-Headers' : "Content-Type",
-    },
-    body: JSON.stringify({
-      nombre : "ivo",
-      password : "ivo"
-    }) // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
-}
-
 async function post_reclamo_nuevo(token, req_data) {
   // Default options are marked with *
   const response = await fetch("http://localhost:8080/reclamos", {
@@ -70,7 +51,7 @@ async function post_reclamo_nuevo(token, req_data) {
     mode: "cors", // no-cors, *cors, same-origin
     headers: {
       "Content-type": "application/json",
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'htpp://localhost:3000',
       'Access-Control-Allow-Methods' : "POST, GET, PUT",
       'Access-Control-Allow-Headers' : "Content-Type",
       'Authorization': 'Bearer ' + token,
@@ -114,16 +95,9 @@ const NuevoReclamo = () => {
     console.log("Mensajillo saliente:")
     console.log(req_data)
 
-    // TODO: consigo el accessToken depsues ver que hacer...
-    login_sacar_luego()
-    .then((data) => {
-      console.log("token: " + data["accessToken"] )
-      post_reclamo_nuevo(data["accessToken"], req_data)
+    post_reclamo_nuevo(sessionStorage.getItem("accessToken"), req_data)
       .then((data) => {console.log(data)})
       .catch((err) => console.log(err))
-    })
-    .catch((err) => console.log(err))
-
   }
 
   function loadFile(e){
