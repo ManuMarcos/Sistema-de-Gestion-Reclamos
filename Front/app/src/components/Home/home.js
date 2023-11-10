@@ -30,6 +30,7 @@ const Home = () => {
         .then((data) => {
             console.log("token: " + data["accessToken"] )
             sessionStorage.setItem("accessToken", data["accessToken"]);
+            sessionStorage.setItem("userId", data["userId"]);
         })
         .catch((err) => console.log(err))
     }
