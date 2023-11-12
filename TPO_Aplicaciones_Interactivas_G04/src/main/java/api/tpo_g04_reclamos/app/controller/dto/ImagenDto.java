@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ImagenDto {
 
-    private String id;
+    private Long id;
 
     private String nombre;
 
@@ -16,7 +16,7 @@ public class ImagenDto {
 
     private ReclamoDto reclamo;
 
-    public ImagenDto(String id, String nombre, String tipo, byte[] data, ReclamoDto reclamo) {
+    public ImagenDto(Long id, String nombre, String tipo, byte[] data, ReclamoDto reclamo) {
         super();
         this.id = id;
         this.nombre = nombre;
@@ -34,7 +34,7 @@ public class ImagenDto {
         this.reclamo = imagen.getReclamo() != null ? new ReclamoDto(imagen.getReclamo()) : null;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

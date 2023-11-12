@@ -19,7 +19,7 @@ public class ImagenController {
 	private IImagenService imagenService;
 	
 	@GetMapping("/{imagenId}")
-	public ResponseEntity<ImagenDto> findById(@PathVariable String imagenId){
+	public ResponseEntity<ImagenDto> findById(@PathVariable Long imagenId){
 		Imagen imagen = imagenService.findById(imagenId).orElseThrow(() -> new ItemNotFoundException("La imagen no existe"));
 
 		return new ResponseEntity<>(new ImagenDto(imagen), OK);

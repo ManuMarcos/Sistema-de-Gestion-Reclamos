@@ -19,12 +19,12 @@ public class ImagenServiceImpl implements IImagenService {
 	private IImagenDao imagenDao;
 	
 	@Override
-	public Optional<Imagen> findById(String id) {
+	public Optional<Imagen> findById(Long id) {
 		return imagenDao.findById(id);
 	}
 
 	@Override
-	public void deleteById(String id) {
+	public void deleteById(Long id) {
 		this.imagenExiste(id);
 
 		imagenDao.deleteById(id);
@@ -47,11 +47,11 @@ public class ImagenServiceImpl implements IImagenService {
 	}
 
 	@Override
-	public List<Imagen> findAllByIds(List<String> ids) {
+	public List<Imagen> findAllByIds(List<Long> ids) {
 		return imagenDao.findAllByIds(ids);
 	}
 
-	private boolean imagenExiste(String id) {
+	private boolean imagenExiste(Long id) {
 		Optional<Imagen> imagen = this.findById(id);
 
 		if(imagen.isEmpty()) {

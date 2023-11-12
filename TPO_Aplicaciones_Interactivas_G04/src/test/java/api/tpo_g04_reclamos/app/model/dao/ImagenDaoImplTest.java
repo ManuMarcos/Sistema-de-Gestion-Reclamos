@@ -31,7 +31,7 @@ public class ImagenDaoImplTest {
 		byte[] data = Base64.getDecoder().decode(b64data);
 		Imagen imagenGuardada = imagenDao.save(new Imagen("cuadrito_de_colores", "jpg", data));
 
-		String id = imagenGuardada.getId();
+		Long id = imagenGuardada.getId();
 		Optional<Imagen> imagenOptional = imagenDao.findById(id);
 
 		assertTrue(imagenOptional.isPresent());
