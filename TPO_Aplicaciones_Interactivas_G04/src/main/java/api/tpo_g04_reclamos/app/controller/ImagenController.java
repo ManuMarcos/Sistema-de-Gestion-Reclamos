@@ -26,8 +26,8 @@ public class ImagenController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file){
+	public ResponseEntity<Long> upload(@RequestParam("file") MultipartFile file){
 		Imagen img = imagenService.save(file);
-		return new ResponseEntity<>("File uploaded: " + img.getId(), OK);
+		return new ResponseEntity<>(img.getId(), OK);
 	}
 }

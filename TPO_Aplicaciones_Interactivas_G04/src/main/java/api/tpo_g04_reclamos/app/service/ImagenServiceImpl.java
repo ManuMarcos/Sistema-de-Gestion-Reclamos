@@ -38,8 +38,7 @@ public class ImagenServiceImpl implements IImagenService {
         }
 		try {
 			Imagen img = new Imagen(fileName, file.getContentType(), file.getBytes());
-			imagenDao.save(img);
-			return img;
+			return imagenDao.save(img);
 		} catch (IOException ex) {
 			throw new IllegalArgumentException("getbytes failed", ex);
 		}
