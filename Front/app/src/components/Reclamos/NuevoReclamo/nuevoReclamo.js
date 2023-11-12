@@ -1,4 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from 'react-router-dom'
+
+async function post_image(file)
+{
+  const formData = new FormData();
+  formData.append('file', file);
+  // Default options are marked with *
+  const response = await fetch("http://localhost:8080/imagen", {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    headers: {
+      //"Content-type": "multipart/form-data",
+      "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+      "Access-Control-Allow-Methods": "POST, GET, PUT",
+      "Access-Control-Allow-Headers": "Content-Type",
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      "cache-control": "no-cache",
+      'Content-Length': file.length,
+    },
+    body: formData,
+  });
+  return response; // parses JSON response into native JavaScript objects
+}
 
 async function post_reclamo_nuevo(req_data) {
   // Default options are marked with *
@@ -44,31 +67,48 @@ const NuevoReclamo = () => {
   const [chosenRadioOption, setRadioOption] = useState(RadioOption.AreaComun);
   const [images, setImages] = useState([]);
   const [datosEdificio, setDatosEdificio] = useState([]);
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
-    // TODO: recibir id por url param
-    let id_elegido = 1; // TODO: soportar filtro desde el BE
-    get_edificio(1).then((data) => {
-      console.log(data);
+    let id_elegido = parseInt(searchParams.get("edificio_id"))
+    get_edificio(id_elegido).then((data) => {
       let edificio = data.find(function (ed) {
         return ed.id === id_elegido;
       });
       setDatosEdificio(edificio);
     });
-  }, []);
+  }, [searchParams]);
 
   function SubmitEvent(e) {
     e.preventDefault();
-    // console.log(e);
 
-    // TODO: submit images, get Ids...
-    // for each image in list -> post
+    let files_ids = []
+    for(let i=0; i<images.length; ++i)
+    {
+      post_image(images[i])
+      .then((data) => {
+        // TODO: acá rompe. está fallando el controller de imagenes, y no retorna los ids al postear... creo que funcionaba
+        console.log(data.text)
+        files_ids.push(data)
+      })
+      .catch((err) => console.log(err))
+    }
 
-    let descripcion = e.target.elements[2].value;
+    console.log(files_ids)
+
+    console.log(e.target.elements)
+    let select_id = parseInt(e.target.elements[2].value)
+    console.log(select_id)
+    if(isNaN(select_id))
+    {
+      console.log("select_id invalido")
+      return;
+    }
+    let descripcion = e.target.elements[3].value;
 
     let req_data = {};
     req_data["numero"] = 0;
-    req_data["imagenesIds"] = []; // TODO: usar lista cargada en TODO anterior...
+    req_data["imagenesIds"] = [] // TODO: files_ids
     req_data["descripcion"] = descripcion;
     req_data["motivo"] = "motivo_fruta";
     req_data["estado"] = 0;
@@ -76,9 +116,9 @@ const NuevoReclamo = () => {
 
     if (chosenRadioOption === RadioOption.AreaComun) {
       req_data["unidadId"] = -1; //TODO
-      req_data["areaComunId"] = -1; //TODO
+      req_data["areaComunId"] = select_id //TODO
     } else {
-      req_data["unidadId"] = -1; //TODO
+      req_data["unidadId"] = select_id //TODO
       req_data["areaComunId"] = -1; //TODO
     }
     console.log(req_data);
@@ -154,7 +194,7 @@ const NuevoReclamo = () => {
                 <select className="form-select" name="ac" size="3">
                   {datosEdificio["areasComunes"].map((ac) => {
                     return (
-                      <option key={ac["id"]}>
+                      <option key={ac["id"]} value={ac["id"]}>
                         Id: {ac["id"]} - Nombre: {ac["nombre"]}
                       </option>
                     );
@@ -171,7 +211,7 @@ const NuevoReclamo = () => {
                 <select className="form-select" name="uni" size="3">
                 {datosEdificio["unidades"].map((uni) => {
                   return (
-                    <option key={uni["id"]}>
+                    <option key={uni["id"]} value={uni["id"]}>
                       Data: {JSON.stringify(uni)}
                     </option>
                   );

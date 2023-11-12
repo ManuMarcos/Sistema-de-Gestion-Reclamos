@@ -45,7 +45,8 @@ const Home = () => {
                 <input type="text" id="pass"/><br/>
                 <input type="submit" value="Submit"/>
             </form>
-            <Link to="/Reclamos/Nuevo"><button>Reclamos Nuevo</button></Link>
+            {/* TODO: hardcodeo el query param edificio_id */}
+            <Link to="/Reclamos/Nuevo?edificio_id=1"><button>Reclamos Nuevo</button></Link>
         </div>
     );
 }
