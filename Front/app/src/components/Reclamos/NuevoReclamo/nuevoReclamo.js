@@ -20,7 +20,7 @@ async function post_image(file)
     },
     body: formData,
   });
-  return response; // parses JSON response into native JavaScript objects
+  return response.text(); // parses JSON response into native JavaScript objects
 }
 
 async function post_reclamo_nuevo(req_data) {
@@ -87,8 +87,6 @@ const NuevoReclamo = () => {
     {
       post_image(images[i])
       .then((data) => {
-        // TODO: acá rompe. está fallando el controller de imagenes, y no retorna los ids al postear... creo que funcionaba
-        console.log(data.text)
         files_ids.push(data)
       })
       .catch((err) => console.log(err))
@@ -108,7 +106,7 @@ const NuevoReclamo = () => {
 
     let req_data = {};
     req_data["numero"] = 0;
-    req_data["imagenesIds"] = [] // TODO: files_ids
+    req_data["imagenesIds"] = files_ids
     req_data["descripcion"] = descripcion;
     req_data["motivo"] = "motivo_fruta";
     req_data["estado"] = 0;
@@ -123,11 +121,9 @@ const NuevoReclamo = () => {
     }
     console.log(req_data);
 
-    /*
     post_reclamo_nuevo(req_data)
       .then((data) => {console.log(data)})
       .catch((err) => console.log(err))
-      */
   }
 
   function loadFile(e) {
