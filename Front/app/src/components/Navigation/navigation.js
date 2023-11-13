@@ -5,6 +5,7 @@ import AboutUs from "../AboutUs/aboutus";
 import Error404 from "../Error/error404";
 import NavBar from "./navbar";
 import NuevoReclamo from "../Reclamos/NuevoReclamo/nuevoReclamo";
+import ListadoReclamos from "../Reclamos/ListadoReclamos/listadoReclamos";
 
 function Navigation() {
     return (
@@ -18,6 +19,7 @@ function Navigation() {
                     {/*Ruta de manejo de error 404 */}
                     <Route path="*" element={<Error404 />} />
                     <Route path="/Reclamos/Nuevo" element={<NuevoReclamo />} />
+                    <Route path="/Reclamos/Listado" element={<ListadoReclamos />} />
                 </Routes>
             </div>
         </Router>

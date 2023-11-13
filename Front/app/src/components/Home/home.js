@@ -47,6 +47,7 @@ const Home = () => {
             </form>
             {/* TODO: hardcodeo el query param edificio_id */}
             <Link to="/Reclamos/Nuevo?edificio_id=1"><button>Reclamos Nuevo</button></Link>
+            <Link to="/Reclamos/Listado"><button>Reclamos Listado</button></Link>
         </div>
     );
 }
