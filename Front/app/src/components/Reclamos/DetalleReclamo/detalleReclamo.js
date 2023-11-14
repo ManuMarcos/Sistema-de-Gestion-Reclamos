@@ -8,8 +8,14 @@ const DetalleReclamo = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    //TODO: conseguir imagenes a partir de list de ids del reclamo... creo que no está en el controller?
-  }, []);
+    console.log(rec["imagenesIds"])
+    if(rec["imagenesIds"] != null && rec["imagenesIds"].length > 0){
+      for(let i=0; i < rec["imagenesIds"].length; i++ ){
+        console.log(i)
+        //setImages((images) => [...images, e.target.files[0]])
+      }
+    }
+  }, [rec]);
 
   return (
     <div className="container">
@@ -81,7 +87,7 @@ const DetalleReclamo = () => {
         </div>
         */}
       </div>
-      {/*
+      {/* imagenes */}
       <div>
         {images.map((image) => {
           return (
@@ -95,7 +101,6 @@ const DetalleReclamo = () => {
           );
         })}
       </div>
-      */}
     </div>
   );
 };
