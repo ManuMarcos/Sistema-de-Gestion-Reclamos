@@ -4,8 +4,11 @@ import api.tpo_g04_reclamos.app.controller.dto.ReclamoDto;
 import api.tpo_g04_reclamos.app.controller.dto.ReclamoSearchDto;
 import api.tpo_g04_reclamos.app.controller.request.ReclamoRequestDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
+import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Reclamo;
+import api.tpo_g04_reclamos.app.service.IEdificioService;
 import api.tpo_g04_reclamos.app.service.IReclamoService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +26,11 @@ public class ReclamoController {
     private IReclamoService reclamoService;
 
 	@GetMapping
-	public ResponseEntity<List<ReclamoDto>> findAll(){
+	public ResponseEntity<List<ReclamoDto>> findAll(@RequestParam(value = "edificioId", required = false) String edificioId) {
+		if(Strings.isNotBlank(edificioId)) {
+			return new ResponseEntity<>(ReclamoDto.fromList(reclamoService.findAllByEdificioId(Long.valueOf(edificioId))), OK);
+		}
+
 		return new ResponseEntity<>(ReclamoDto.fromList(reclamoService.findAll()), OK);
 	}
 

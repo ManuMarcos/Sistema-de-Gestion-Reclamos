@@ -62,9 +62,11 @@ public class ReclamoServiceImpl implements IReclamoService {
 			}
 		}
 
+		Long edificioId = unidadOptional.isPresent() ? unidadOptional.get().getEdificio().getId() : areaComun.getEdificio().getId();
+
 		List<Imagen> imagenes = imagenService.findAllByIds(reclamoRequestDto.getImagenesIds());
 
-		return reclamoDao.save(new Reclamo(reclamoRequestDto.getNumero(), imagenes, reclamoRequestDto.getDescripcion(), reclamoRequestDto.getMotivo(), reclamoRequestDto.getEstado(), usuario, unidadOptional.orElse(null), areaComun));
+		return reclamoDao.save(new Reclamo(reclamoRequestDto.getNumero(), imagenes, reclamoRequestDto.getDescripcion(), reclamoRequestDto.getMotivo(), reclamoRequestDto.getEstado(), usuario, unidadOptional.orElse(null), areaComun, edificioId));
 	}
 
 	private boolean reclamoSePuedeCrear(Unidad unidad, Usuario usuario) {
@@ -92,6 +94,11 @@ public class ReclamoServiceImpl implements IReclamoService {
 		this.reclamoExiste(id);
 
 		reclamoDao.deleteById(id);
+	}
+
+	@Override
+	public List<Reclamo> findAllByEdificioId(Long edificioId) {
+		return reclamoDao.findAllByEdificioId(edificioId);
 	}
 
 	private boolean reclamoExiste(Long id) {

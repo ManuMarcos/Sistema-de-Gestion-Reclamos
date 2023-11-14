@@ -9,7 +9,9 @@ import java.util.Optional;
 
 public interface IReclamoService {
 	List<Reclamo> findAll();
-	
+
+	List<Reclamo> findAllByEdificioId(Long edificioId);
+
 	Optional<Reclamo> findById(Long id);
 	
 	List<Reclamo> findByEstado(EstadoReclamo estado);

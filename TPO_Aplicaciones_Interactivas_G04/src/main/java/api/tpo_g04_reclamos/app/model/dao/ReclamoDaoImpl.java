@@ -31,6 +31,18 @@ public class ReclamoDaoImpl implements IReclamoDao {
 
 	@Override
 	@Transactional(readOnly = true)
+	public List<Reclamo> findAllByEdificioId(Long edificioId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		TypedQuery<Reclamo> typedQuery = currentSession.createQuery("SELECT r FROM reclamos r WHERE r.edificioId = :edificioId", Reclamo.class);
+
+		typedQuery.setParameter("edificioId", edificioId);
+
+		return typedQuery.getResultList();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public List<Reclamo> findByEstado(EstadoReclamo estado) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
