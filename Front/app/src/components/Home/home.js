@@ -39,24 +39,21 @@ const Home = () => {
         <div >
             <h1>Inicio</h1>
             <p>Bienvenido a la pagina de inicio</p>
-                <form onSubmit={SubmitLogin}>
+            <div class="d-flex justify-content-center">
+                <div class="d-grid gap-2 col-6">
+                    <Link to="/Reclamos/Listado?edificio_id=1"><button class="btn btn-primary">Reclamos Listado</button></Link>
+                    <Link to="/Reclamos/Nuevo?edificio_id=1"><button class="btn btn-primary" >Reclamos Nuevo</button></Link>
+                    <a href="/admin-edificios" class="btn btn-primary" role="button" data-bs-toggle="button">Administrar Edificios</a>
+                    <a href="/admin-permisos" class="btn btn-primary" role="button" data-bs-toggle="button">Administrar Permisos</a>
+                </div>
+            </div>
+            {/* TODO: sacar el login truchanga cuando esté el posta */}
+            <form onSubmit={SubmitLogin}>
                 <label>Login truchanga</label><br/>
                 <input type="text" id="user"/><br/>
                 <input type="text" id="pass"/><br/>
                 <input type="submit" value="Submit"/>
             </form>
-            <div class="d-flex justify-content-center">
-                <div class="d-grid gap-2 col-6">
-                    <a href="/reclamos" class="btn btn-primary" role="button" data-bs-toggle="button">Ver Reclamos</a>
-                    <a href="/reclamosNew" class="btn btn-primary" role="button" data-bs-toggle="button">Hacer Reclamos</a>
-                    <a href="/admin-edificios" class="btn btn-primary" role="button" data-bs-toggle="button">Administrar Edificios</a>
-                    <a href="/admin-permisos" class="btn btn-primary" role="button" data-bs-toggle="button">Administrar Permisos</a>
-                </div>
-            </div>
-
-            {/* TODO: hardcodeo el query param edificio_id */}
-            <Link to="/Reclamos/Nuevo?edificio_id=1"><button>Reclamos Nuevo</button></Link>
-            <Link to="/Reclamos/Listado?edificio_id=1"><button>Reclamos Listado</button></Link>
         </div>
     );
 }
