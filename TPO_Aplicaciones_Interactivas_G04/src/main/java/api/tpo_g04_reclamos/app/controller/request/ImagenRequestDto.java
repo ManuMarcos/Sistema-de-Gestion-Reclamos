@@ -3,11 +3,11 @@ package api.tpo_g04_reclamos.app.controller.request;
 import api.tpo_g04_reclamos.app.model.entity.Imagen;
 
 public class ImagenRequestDto {
-    private String id;
+    private Long id;
     private String nombre;
     private String tipo;
     private byte[] data;
-    public String getId() {
+    public Long getId() {
 		return id;
 	}
     public String getNombre() {

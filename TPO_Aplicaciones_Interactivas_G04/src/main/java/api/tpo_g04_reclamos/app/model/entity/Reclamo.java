@@ -27,7 +27,7 @@ public class Reclamo {
 
     private EstadoReclamo estado;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 

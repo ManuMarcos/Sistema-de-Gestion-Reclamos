@@ -19,14 +19,14 @@ public class ImagenDaoImpl implements IImagenDao {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Imagen> findById(String id) {
+	public Optional<Imagen> findById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		return Optional.ofNullable(currentSession.get(Imagen.class, id));
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Imagen> findAllByIds(List<String> ids) {
+	public List<Imagen> findAllByIds(List<Long> ids) {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		Query<Imagen> getQuery = currentSession.createQuery("FROM imagenes WHERE id IN :ids", Imagen.class);
@@ -45,7 +45,7 @@ public class ImagenDaoImpl implements IImagenDao {
 
 	@Override
 	@Transactional()
-	public void deleteById(String id) {
+	public void deleteById(Long id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		Imagen imagen = currentSession.get(Imagen.class, id);
 		if(imagen != null)

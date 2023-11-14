@@ -2,6 +2,7 @@ package api.tpo_g04_reclamos.app.controller;
 
 import api.tpo_g04_reclamos.app.controller.dto.LoginResponse;
 import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
+import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.service.IUsuarioService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -34,7 +36,8 @@ public class AuthController {
 	public ResponseEntity<LoginResponse> login(@RequestBody UsuarioDto credentials){
 		
 		//Se validan las credenciales
-		if(usuarioService.findUser(credentials.getNombre(), credentials.getPassword()).isPresent()) {
+		Optional<Usuario> u = usuarioService.findUser(credentials.getNombre(), credentials.getPassword());
+		if(u.isPresent()) {
 			String token = 
 					Jwts.builder()
 					.setSubject(credentials.getNombre())
@@ -43,10 +46,10 @@ public class AuthController {
 					.signWith(secretKey, SignatureAlgorithm.HS256)
 					.compact();
 					
-			return new ResponseEntity<>(new LoginResponse(token), OK);
+			return new ResponseEntity<>(new LoginResponse(token, u.get().getId()), OK);
 		}
 		else {
-			return new ResponseEntity<>(new LoginResponse("Credenciales invalidas"), UNAUTHORIZED);
+			return new ResponseEntity<>(new LoginResponse("Credenciales invalidas", -1L), UNAUTHORIZED);
 		}
 	}
 	

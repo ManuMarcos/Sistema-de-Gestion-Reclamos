@@ -30,6 +30,7 @@ public class SecurityConfig{
 				(authz) -> authz	
 					.anyRequest().authenticated())
 				.addFilterBefore(jwtAuth(), UsernamePasswordAuthenticationFilter.class);
+		http.cors();
 		return http.build();
 	}
 	

@@ -1,15 +1,13 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "imagenes")
 public class Imagen {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
     private String nombre;
     private String tipo;
@@ -34,7 +32,7 @@ public class Imagen {
 		this.data = data;
 	}
 
-	public Imagen(String id, String nombre, String tipo, byte[] data) {
+	public Imagen(Long id, String nombre, String tipo, byte[] data) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -43,12 +41,12 @@ public class Imagen {
 	}
 
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

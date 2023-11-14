@@ -1,9 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from "../Home/home";
 import AboutUs from "../AboutUs/aboutus";
 import Error404 from "../Error/error404";
 import NavBar from "../Navigation/navbar";
+import NuevoReclamo from "../Reclamos/NuevoReclamo/nuevoReclamo";
+import ListadoReclamos from "../Reclamos/ListadoReclamos/listadoReclamos";
+import DetalleReclamo from "../Reclamos/DetalleReclamo/detalleReclamo"
 import Login from "../LogIn/login";
 import SignUp from "../SignUp/signup";
 import AdminPermisos from "../adminPermisos/adminPermisos"
@@ -25,6 +28,9 @@ function Navigation() {
 
                     {/*Ruta de manejo de error 404 */}
                     <Route path="*" element={<Error404 />} />
+                    <Route path="/Reclamos/Nuevo" element={<NuevoReclamo />} />
+                    <Route path="/Reclamos/Listado" element={<ListadoReclamos />} />
+                    <Route path="/Reclamos/Detalle" element={<DetalleReclamo />} />
                 </Routes>
             </div>
         </Router>

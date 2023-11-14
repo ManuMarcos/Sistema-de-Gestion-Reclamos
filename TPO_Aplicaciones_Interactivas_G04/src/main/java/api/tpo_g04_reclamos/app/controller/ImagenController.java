@@ -19,15 +19,15 @@ public class ImagenController {
 	private IImagenService imagenService;
 	
 	@GetMapping("/{imagenId}")
-	public ResponseEntity<ImagenDto> findById(@PathVariable String imagenId){
+	public ResponseEntity<ImagenDto> findById(@PathVariable Long imagenId){
 		Imagen imagen = imagenService.findById(imagenId).orElseThrow(() -> new ItemNotFoundException("La imagen no existe"));
 
 		return new ResponseEntity<>(new ImagenDto(imagen), OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file){
+	public ResponseEntity<Long> upload(@RequestParam("file") MultipartFile file){
 		Imagen img = imagenService.save(file);
-		return new ResponseEntity<>("File uploaded: " + img.getId(), OK);
+		return new ResponseEntity<>(img.getId(), OK);
 	}
 }
