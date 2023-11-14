@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 async function get_edificio(id_edificio) {
   // TODO: el controller no tiene un filtro por id por el momento... lo filtro por front...
@@ -139,7 +139,13 @@ const ListadoReclamos = () => {
                   <td>{reclamo["descripcion"]}</td>
                   <td>{reclamo["motivo"]}</td>
                   <td>{reclamo["estado"]}</td>
-                  <td><button>TODO LINK</button></td>
+                  <td>
+                    <Link to="/Reclamos/Detalle" state={{ rec: reclamo, edi: datosEdificio }}>
+                      <button type="button" className="btn btn-primary">
+                        Ver detalles
+                      </button>
+                    </Link>
+                  </td>
                 </tr>
               );
             })
