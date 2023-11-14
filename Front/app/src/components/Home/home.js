@@ -39,12 +39,12 @@ const Home = () => {
         <div >
             <h1>Inicio</h1>
             <p>Bienvenido a la pagina de inicio</p>
-            <div class="d-flex justify-content-center">
-                <div class="d-grid gap-2 col-6">
-                    <Link to="/Reclamos/Listado?edificio_id=1"><button class="btn btn-primary">Reclamos Listado</button></Link>
-                    <Link to="/Reclamos/Nuevo?edificio_id=1"><button class="btn btn-primary" >Reclamos Nuevo</button></Link>
-                    <a href="/admin-edificios" class="btn btn-primary" role="button" data-bs-toggle="button">Administrar Edificios</a>
-                    <a href="/admin-permisos" class="btn btn-primary" role="button" data-bs-toggle="button">Administrar Permisos</a>
+            <div className="d-flex justify-content-center">
+                <div className="d-grid gap-2 col-6">
+                    <Link to="/Reclamos/Listado?edificio_id=1"><button className="btn btn-primary">Reclamos Listado</button></Link>
+                    <Link to="/Reclamos/Nuevo?edificio_id=1"><button className="btn btn-primary" >Reclamos Nuevo</button></Link>
+                    <a href="/admin-edificios" className="btn btn-primary" role="button" data-bs-toggle="button">Administrar Edificios</a>
+                    <a href="/admin-permisos" className="btn btn-primary" role="button" data-bs-toggle="button">Administrar Permisos</a>
                 </div>
             </div>
             {/* TODO: sacar el login truchanga cuando esté el posta */}
