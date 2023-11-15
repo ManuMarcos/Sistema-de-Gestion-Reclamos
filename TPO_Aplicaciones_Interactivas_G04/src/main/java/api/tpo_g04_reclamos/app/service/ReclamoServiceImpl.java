@@ -9,6 +9,7 @@ import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +51,7 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 	@Override
 	public Reclamo save(ReclamoRequestDto reclamoRequestDto) {
-		Optional<Unidad> unidadOptional = unidadService.findById(reclamoRequestDto.getUnidadId());
+		Optional<Unidad> unidadOptional = reclamoRequestDto.getUnidadId() != null ? unidadService.findById(reclamoRequestDto.getUnidadId()) : Optional.empty();
 		AreaComun areaComun = areaComunService.findById(reclamoRequestDto.getAreaComunId()).orElse(null);
 
 		Usuario usuario = usuarioService.findById(reclamoRequestDto.getUsuarioId()).orElseThrow(() -> new ItemNotFoundException("El Usuario no existe"));

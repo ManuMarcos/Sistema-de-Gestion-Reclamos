@@ -18,7 +18,7 @@ public class Reclamo {
 
     private int numero;
 
-    @OneToMany(mappedBy = "reclamo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reclamo", cascade = CascadeType.REMOVE)
     private List<Imagen> imagenes = new ArrayList<>();
 
     private String descripcion;
