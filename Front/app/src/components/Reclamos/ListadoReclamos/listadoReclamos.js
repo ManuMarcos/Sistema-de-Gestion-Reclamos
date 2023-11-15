@@ -21,80 +21,23 @@ async function get_edificio(id_edificio) {
 
 async function get_reclamos(id_edificio) {
   // TODO: el controller no tiene un filtro por id de edificio...
-  const response = await fetch("http://localhost:8080/reclamos", {
-    method: "GET", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, *cors, same-origin
-    headers: {
-      "Content-type": "application/json",
-      "Access-Control-Allow-Origin": "htpp://localhost:3000/",
-      "Access-Control-Allow-Methods": "POST, GET, PUT",
-      "Access-Control-Allow-Headers": "Content-Type",
-      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-      "cache-control": "no-cache",
-    },
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
+  const response = await fetch(
+    "http://localhost:8080/reclamos?edificioId=" + id_edificio,
+    {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      headers: {
+        "Content-type": "application/json",
+        "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        "cache-control": "no-cache",
+      },
+    }
+  );
+  return response.json();
 }
-
-let EdificioFruta = {
-  id: 1,
-  direccion: "Calle Fruta 700",
-  areasComunes: [
-    {
-      id: 1,
-      edificioId: 1,
-      nombre: "Pasillito",
-    },
-    {
-      id: 2,
-      edificioId: 1,
-      nombre: "Pasillito",
-    },
-  ],
-  unidades: [
-    {
-      id: 1,
-      piso: 1,
-      numero: 0,
-      edificioId: 1,
-      propietarioId: null,
-      estado: "ALQUILADA",
-    },
-    {
-      id: 2,
-      piso: 1,
-      numero: 0,
-      edificioId: 1,
-      propietarioId: null,
-      estado: "ALQUILADA",
-    },
-  ],
-};
-
-let ReclamosFruta = [
-  {
-    id: 1,
-    numero: 1,
-    imagenesIds: null,
-    descripcion: "basura",
-    motivo: "motibasura",
-    estado: "NUEVO",
-    usuarioId: 2,
-    unidadId: null,
-    areaComunId: null,
-  },
-  {
-    id: 2,
-    numero: 2,
-    imagenesIds: null,
-    descripcion: "basura",
-    motivo: "motibasura",
-    estado: "NUEVO",
-    usuarioId: 2,
-    unidadId: null,
-    areaComunId: null,
-  },
-];
 
 const ListadoReclamos = () => {
   const [datosEdificio, setDatosEdificio] = useState([]);
@@ -110,19 +53,17 @@ const ListadoReclamos = () => {
         });
         setDatosEdificio(edificio);
         console.log("GET OK");
-        /* TODO: no tenemos filtro por edificio de los reclamos... */
         get_reclamos(id_elegido)
-        .then((data) => {
-          console.log("GET II OK");
-          setDatosListadoReclamos(data);
-        })
-        .catch((err)=> {console.log(err);})
+          .then((data) => {
+            console.log("GET II OK");
+            setDatosListadoReclamos(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
-        /* TODO: sacarlo despues. es por paja de levantar spring boot y armar el caso... */
-        setDatosEdificio(EdificioFruta);
-        setDatosListadoReclamos(ReclamosFruta);
       });
   }, [searchParams]);
 
@@ -163,7 +104,10 @@ const ListadoReclamos = () => {
                   <td>{reclamo["motivo"]}</td>
                   <td>{reclamo["estado"]}</td>
                   <td>
-                    <Link to="/Reclamos/Detalle" state={{ rec: reclamo, edi: datosEdificio }}>
+                    <Link
+                      to="/Reclamos/Detalle"
+                      state={{ rec: reclamo, edi: datosEdificio }}
+                    >
                       <button type="button" className="btn btn-primary">
                         Ver detalles
                       </button>
