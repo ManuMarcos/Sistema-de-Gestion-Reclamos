@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+    const [idEdificio, setIdEdificio] = useState(sessionStorage.getItem("edificioId"));
 
     async function login_sacar_luego(user, pass) {
         // Default options are marked with *
@@ -28,11 +29,23 @@ const Home = () => {
         console.log(e);
         login_sacar_luego(e.target[0].value,  e.target[1].value)
         .then((data) => {
-            console.log("token: " + data["accessToken"] )
             sessionStorage.setItem("accessToken", data["accessToken"]);
             sessionStorage.setItem("userId", data["userId"]);
+            sessionStorage.setItem("userType", data["tipo"]);
+            sessionStorage.setItem("edificioId", data["edificioId"]);
+            setIdEdificio(sessionStorage.getItem("edificioId"))
         })
         .catch((err) => console.log(err))
+    }
+
+    function SubmitLogout(e)
+    {
+        e.preventDefault()
+        sessionStorage.removeItem("accessToken");
+        sessionStorage.removeItem("userId");
+        sessionStorage.removeItem("userType");
+        sessionStorage.removeItem("edificioId");
+        setIdEdificio(null);
     }
 
     return (
@@ -41,18 +54,21 @@ const Home = () => {
             <p>Bienvenido a la pagina de inicio</p>
             <div className="d-flex justify-content-center">
                 <div className="d-grid gap-2 col-6">
-                    <Link to="/Reclamos/Listado?edificio_id=1"><button className="btn btn-primary">Reclamos Listado</button></Link>
-                    <Link to="/Reclamos/Nuevo?edificio_id=1"><button className="btn btn-primary" >Reclamos Nuevo</button></Link>
+                    <Link to={`/Reclamos/Listado?edificio_id=${idEdificio}`}><button className="btn btn-primary">Reclamos Listado</button></Link>
+                    <Link to={`/Reclamos/Nuevo?edificio_id=${idEdificio}`}><button className="btn btn-primary" >Reclamos Nuevo</button></Link>
                     <a href="/admin-edificios" className="btn btn-primary" role="button" data-bs-toggle="button">Administrar Edificios</a>
                     <a href="/admin-permisos" className="btn btn-primary" role="button" data-bs-toggle="button">Administrar Permisos</a>
                 </div>
             </div>
             {/* TODO: sacar el login truchanga cuando esté el posta */}
             <form onSubmit={SubmitLogin}>
-                <label>Login truchanga</label><br/>
+                <label>Login truchanga (obtener token y +)</label><br/>
                 <input type="text" id="user"/><br/>
                 <input type="text" id="pass"/><br/>
-                <input type="submit" value="Submit"/>
+                <input type="submit" value="Login"/>
+            </form>
+            <form onSubmit={SubmitLogout}>
+                <input type="submit" value="Logout"/>
             </form>
         </div>
     );
