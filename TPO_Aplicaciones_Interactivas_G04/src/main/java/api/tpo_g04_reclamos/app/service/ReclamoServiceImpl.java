@@ -52,7 +52,12 @@ public class ReclamoServiceImpl implements IReclamoService {
 	@Override
 	public Reclamo save(ReclamoRequestDto reclamoRequestDto) {
 		Optional<Unidad> unidadOptional = reclamoRequestDto.getUnidadId() != null ? unidadService.findById(reclamoRequestDto.getUnidadId()) : Optional.empty();
-		AreaComun areaComun = areaComunService.findById(reclamoRequestDto.getAreaComunId()).orElse(null);
+		Optional<AreaComun> areaComun = reclamoRequestDto.getAreaComunId() != null ? areaComunService.findById(reclamoRequestDto.getAreaComunId()) : Optional.empty();
+		
+		if(!(unidadOptional.isEmpty() ^ areaComun.isEmpty()))
+		{
+			throw new ReclamoNoSePuedeCrearException("El reclamo no se puede crear. Falta Unidad o AreaComun, o se dieron ambas");
+		}
 
 		Usuario usuario = usuarioService.findById(reclamoRequestDto.getUsuarioId()).orElseThrow(() -> new ItemNotFoundException("El Usuario no existe"));
 
@@ -63,11 +68,11 @@ public class ReclamoServiceImpl implements IReclamoService {
 			}
 		}
 
-		Long edificioId = unidadOptional.isPresent() ? unidadOptional.get().getEdificio().getId() : areaComun.getEdificio().getId();
+		Long edificioId = unidadOptional.isPresent() ? unidadOptional.get().getEdificio().getId() : areaComun.get().getEdificio().getId();
 
 		List<Imagen> imagenes = imagenService.findAllByIds(reclamoRequestDto.getImagenesIds());
 
-		return reclamoDao.save(new Reclamo(reclamoRequestDto.getNumero(), imagenes, reclamoRequestDto.getDescripcion(), reclamoRequestDto.getMotivo(), reclamoRequestDto.getEstado(), usuario, unidadOptional.orElse(null), areaComun, edificioId));
+		return reclamoDao.save(new Reclamo(reclamoRequestDto.getNumero(), imagenes, reclamoRequestDto.getDescripcion(), reclamoRequestDto.getMotivo(), reclamoRequestDto.getEstado(), usuario, unidadOptional.orElse(null), areaComun.orElse(null), edificioId));
 	}
 
 	private boolean reclamoSePuedeCrear(Unidad unidad, Usuario usuario) {
