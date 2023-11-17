@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 async function get_edificio(id_edificio) {
-  // TODO: el controller no tiene un filtro por id por el momento... lo filtro por front...
-  // Default options are marked with *
-  const response = await fetch("http://localhost:8080/edificios", {
+  const response = await fetch("http://localhost:8080/edificios/" + id_edificio, {
     method: "GET", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     headers: {
@@ -20,7 +18,6 @@ async function get_edificio(id_edificio) {
 }
 
 async function get_reclamos(id_edificio) {
-  // TODO: el controller no tiene un filtro por id de edificio...
   const response = await fetch(
     "http://localhost:8080/reclamos?edificioId=" + id_edificio,
     {
@@ -48,10 +45,7 @@ const ListadoReclamos = () => {
     let id_elegido = parseInt(searchParams.get("edificio_id"));
     get_edificio(id_elegido)
       .then((data) => {
-        let edificio = data.find(function (ed) {
-          return ed.id === id_elegido;
-        });
-        setDatosEdificio(edificio);
+        setDatosEdificio(data);
         console.log("GET OK");
         get_reclamos(id_elegido)
           .then((data) => {
@@ -98,7 +92,7 @@ const ListadoReclamos = () => {
           {datosListadoReclamos ? (
             datosListadoReclamos.map((reclamo) => {
               return (
-                <tr id={reclamo["numero"]}>
+                <tr key={reclamo["numero"]}>
                   <th scope="row">{reclamo["numero"]}</th>
                   <td>{reclamo["descripcion"]}</td>
                   <td>{reclamo["motivo"]}</td>

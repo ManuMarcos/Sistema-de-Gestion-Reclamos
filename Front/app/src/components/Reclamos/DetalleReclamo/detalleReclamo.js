@@ -2,18 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import {Buffer} from 'buffer';
 
-// TODO: cuando se arregle (o entienda como funciona) el POST con lista de imagenes, sacarlo
-const ImagenFruta = {
-    "id": 1,
-    "nombre": "test.jpg",
-    "tipo": "image/jpeg",
-    "data": "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAADMElEQVR4nOzVwQnAIBQFQYXff81RUkQCOyDj1YOPnbXWPmeTRef+/3O/OyBjzh3CD95BfqICMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMO0TAAD//2Anhf4QtqobAAAAAElFTkSuQmCC",
-    "reclamo": null
-}
-
 async function get_imagen(id_imagen) {
-  // TODO: el controller no tiene un filtro por id por el momento... lo filtro por front...
-  // Default options are marked with *
   const response = await fetch("http://localhost:8080/imagen/" + id_imagen, {
     method: "GET", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
@@ -47,13 +36,15 @@ const DetalleReclamo = () => {
           setImages((images) => [...images, f])
         }).catch((err) => {console.log(err)})
       }
-    } else {
-      // TODO: quitar luego, imagen fruta para probar
-      const buff = Buffer.from(ImagenFruta["data"], 'base64');
-      let f = new File([buff], ImagenFruta["nombre"], {type:ImagenFruta["tipo"]});
-      setImages((images) => [...images, f])
     }
   }, [rec]);
+
+  function loadFile(e) {
+    e.preventDefault();
+    if (e.target.files.length > 0) {
+      setImages((images) => [...images, e.target.files[0]]);
+    }
+  }
 
   return (
     <div className="container">
@@ -111,22 +102,24 @@ const DetalleReclamo = () => {
             className="form-control"
             type="file"
             accept="image/*"
-            //onChange={loadFile}
+            onChange={loadFile}
           />
         </div>
         <hr />
 
           {/* TODO: hacer la parte de edicion, y subir nuevas imagenes */}
 
-        {/*<div className="form-group">
-          <button type="submit" className="btn btn-primary">
-            Submit
+        {<div className="form-group">
+          <button type="submit" className="btn btn-primary" onClick={() => console.log("TODO")}>
+            Actualizar
           </button>
         </div>
-        */}
+        }
       </div>
       {/* imagenes */}
       <div>
+        <hr/>
+        <h2>Imágenes</h2>
         {images.map((image) => {
           return (
             <img
@@ -138,6 +131,8 @@ const DetalleReclamo = () => {
             />
           );
         })}
+                <hr/>
+
       </div>
     </div>
   );
