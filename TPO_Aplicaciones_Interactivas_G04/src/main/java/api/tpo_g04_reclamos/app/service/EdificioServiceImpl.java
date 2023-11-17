@@ -12,9 +12,11 @@ import api.tpo_g04_reclamos.app.model.dao.IUnidadDao;
 import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
+import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.geom.Area;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +35,27 @@ public class EdificioServiceImpl implements IEdificioService{
 	@Override
 	public List<Edificio> findAll() {
 		return edificioDao.findAll();
+	}
+
+	@Override
+	public List<Edificio> findByUsuarioId(Long usuarioId) {
+		List<Edificio> edificios = edificioDao.findAll();
+
+		return edificios.stream().filter(edificio -> {
+			List<Unidad> unidades = edificio.getUnidades();
+
+			List<Long> propietarioIds = unidades.stream().map(Unidad::getPropietario).toList().stream().map(Usuario::getId).toList();
+			if(propietarioIds.contains(usuarioId)) {
+				return true;
+			}
+
+			List<Long> inquilinosIds = unidades.stream().flatMap(unidad -> unidad.getInquilinos().stream()).toList().stream().map(Usuario::getId).toList();
+			if(inquilinosIds.contains(usuarioId)) {
+				return true;
+			}
+
+			return false;
+		}).toList();
 	}
 
 	@Override

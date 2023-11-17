@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface IEdificioService {
 
 	List<Edificio> findAll();
+
+	List<Edificio> findByUsuarioId(Long usuarioId);
 	
 	Optional<Edificio> findById(Long id);
 	
