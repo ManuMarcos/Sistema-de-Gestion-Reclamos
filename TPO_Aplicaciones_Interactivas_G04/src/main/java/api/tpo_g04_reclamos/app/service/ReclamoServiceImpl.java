@@ -91,7 +91,8 @@ public class ReclamoServiceImpl implements IReclamoService {
 		Reclamo reclamo = this.findById(id).get();
 		reclamo.setDescripcion(reclamoRequestDto.getDescripcion());
 		reclamo.setEstado(reclamoRequestDto.getEstado());
-
+		reclamo.setImagenes(imagenService.findAllByIds(reclamoRequestDto.getImagenesIds()));
+		reclamo.setMotivo(reclamoRequestDto.getMotivo());
 		return reclamoDao.update(reclamo);
 	}
 
