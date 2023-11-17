@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from 'react-router-dom'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 async function post_image(file)
 {
@@ -68,6 +70,14 @@ const NuevoReclamo = () => {
   const [images, setImages] = useState([]);
   const [datosEdificio, setDatosEdificio] = useState([]);
   const [searchParams] = useSearchParams()
+  
+  // modal
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState("");
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const mostrarModal = (mensaje) => {handleShow(); setText(mensaje);} 
 
   useEffect(() => {
     let id_elegido = parseInt(searchParams.get("edificio_id"))
@@ -82,48 +92,60 @@ const NuevoReclamo = () => {
   function SubmitEvent(e) {
     e.preventDefault();
 
-    let files_ids = []
+    const img_promises = [];
     for(let i=0; i<images.length; ++i)
     {
-      post_image(images[i])
-      .then((data) => {
-        files_ids.push(data)
+      img_promises.push(post_image(images[i]))
+    }
+    //console.log("promises length" + img_promises.length)
+    let files_ids = []
+    Promise.all(img_promises).then((results) => {
+        //console.log("resuls" + results)
+        files_ids = results.map((x) => parseInt(x))
+
+        //console.log(files_ids)
+
+        //console.log(e.target.elements)
+        let select_id = parseInt(e.target.elements[2].value)
+        //console.log(select_id)
+        if(isNaN(select_id))
+        {
+          //console.log("select_id invalido")
+          mostrarModal("Ocurrió un error inesperado.")
+          return;
+        }
+        let descripcion = e.target.elements[3].value;
+    
+        let req_data = {};
+        req_data["numero"] = 0;
+        req_data["imagenesIds"] = files_ids;
+        req_data["descripcion"] = descripcion;
+        req_data["motivo"] = "reclamo nuevo";
+        req_data["estado"] = 0;
+        req_data["usuarioId"] = sessionStorage.getItem("userId");
+    
+        if (chosenRadioOption === RadioOption.AreaComun) {
+          req_data["unidadId"] = null;
+          req_data["areaComunId"] = select_id
+        } else {
+          req_data["unidadId"] = select_id
+          req_data["areaComunId"] = -1;
+        }
+        //console.log(req_data);
+        //console.log(JSON.stringify(req_data))
+    
+        post_reclamo_nuevo(req_data)
+          .then((data) => {
+            //console.log(data);
+            mostrarModal("Id del reclamo: " + data["id"])
+          })
+          .catch((err) => {
+            //console.log(err)
+            mostrarModal("Ocurrió un error en crear el reclamo.")
+          })
+
       })
-      .catch((err) => console.log(err))
-    }
-
-    console.log(files_ids)
-
-    console.log(e.target.elements)
-    let select_id = parseInt(e.target.elements[2].value)
-    console.log(select_id)
-    if(isNaN(select_id))
-    {
-      console.log("select_id invalido")
-      return;
-    }
-    let descripcion = e.target.elements[3].value;
-
-    let req_data = {};
-    req_data["numero"] = 0;
-    req_data["imagenesIds"] = files_ids
-    req_data["descripcion"] = descripcion;
-    req_data["motivo"] = "motivo_fruta";
-    req_data["estado"] = 0;
-    req_data["usuarioId"] = sessionStorage.getItem("userId");
-
-    if (chosenRadioOption === RadioOption.AreaComun) {
-      req_data["unidadId"] = -1; //TODO
-      req_data["areaComunId"] = select_id //TODO
-    } else {
-      req_data["unidadId"] = select_id //TODO
-      req_data["areaComunId"] = -1; //TODO
-    }
-    console.log(req_data);
-
-    post_reclamo_nuevo(req_data)
-      .then((data) => {console.log(data)})
-      .catch((err) => console.log(err))
+      .catch((err) => mostrarModal("Ocurrió un error inesperado.") )
   }
 
   function loadFile(e) {
@@ -191,7 +213,7 @@ const NuevoReclamo = () => {
                   {datosEdificio["areasComunes"].map((ac) => {
                     return (
                       <option key={ac["id"]} value={ac["id"]}>
-                        Id: {ac["id"]} - Nombre: {ac["nombre"]}
+                        #{ac["id"]} - {ac["nombre"]}
                       </option>
                     );
                   })}
@@ -208,7 +230,7 @@ const NuevoReclamo = () => {
                 {datosEdificio["unidades"].map((uni) => {
                   return (
                     <option key={uni["id"]} value={uni["id"]}>
-                      Data: {JSON.stringify(uni)}
+                      #{uni["id"]} - Piso: {uni["piso"]} - Numero: {uni["numero"]}
                     </option>
                   );
                 })}
@@ -256,6 +278,26 @@ const NuevoReclamo = () => {
           );
         })}
       </div>
+      <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Nuevo reclamo</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {text}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
     </div>
   );
 };
