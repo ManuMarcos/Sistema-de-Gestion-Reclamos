@@ -62,14 +62,9 @@ const Home = () => {
           <Link to={`/Reclamos/Nuevo?edificio_id=${idEdificio}`}>
             <button className="btn btn-primary">Reclamos Nuevo</button>
           </Link>
-          <a
-            href="/admin-edificios"
-            className="btn btn-primary"
-            role="button"
-            data-bs-toggle="button"
-          >
-            Administrar Edificios
-          </a>
+          <Link to="/Edificios/Listado">
+            <button className="btn btn-primary">Administrar Edificios</button>
+          </Link>
           <a
             href="/admin-permisos"
             className="btn btn-primary"
@@ -95,7 +90,6 @@ const Home = () => {
       </form>
             
 
-            <Link to="/Edificios/Listado"><button>Edificios Listado</button></Link>
 
     </div>
   );
