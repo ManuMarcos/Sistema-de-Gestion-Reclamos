@@ -275,7 +275,7 @@ const NuevoReclamo = () => {
         <h2>Imágenes</h2>
         {images.map((image, index) => {
           return (
-            <span key={image.name} style={{ position: "relative" }}>
+            <span key={index} style={{ position: "relative" }}>
               <img
                 src={URL.createObjectURL(image)}
                 alt=""

@@ -60,6 +60,7 @@ async function put_reclamo_update(reqId, req_data) {
 }
 
 const DetalleReclamo = () => {
+  const isAdmin = sessionStorage.getItem("userType") === "PERSONAL_INTERNO";
   const location = useLocation();
   const { rec, edi } = location.state;
   if (rec["imagenesIds"] === null) rec["imagenesIds"] = [];
@@ -170,19 +171,38 @@ const DetalleReclamo = () => {
         <div>
           <label>Descripción del inconveniente:</label>
           <br />
-          <label>{rec["descripcion"]}</label>
+          { isAdmin ?
+          (<input defaultValue={updateReq["descripcion"]} onChange={(e) => updateReq["descripcion"] = e.target.value}></input>)
+          :
+          (<label>{rec["descripcion"]}</label>)
+          }
         </div>
         <hr />
         <div>
           <label>Estado del inconveniente:</label>
           <br />
-          <label>{rec["estado"]}</label>
+          { isAdmin ?
+          (<select  name="ac" size="6" defaultValue={updateReq["estado"]} onChange={(e) => updateReq["estado"] = e.target.value}>
+            <option value="NUEVO">NUEVO</option>
+            <option value="ABIERTO">ABIERTO</option>
+            <option value="EN_PROCESO">EN_PROCESO</option>
+            <option value="DESESTIMADO">DESESTIMADO</option>
+            <option value="ANULADO">ANULADO</option>
+            <option value="TERMINADO">TERMINADO</option>
+          </select>)
+          :
+          (<label>{rec["estado"]}</label>)
+          }
         </div>
         <hr />
         <div>
           <label>Motivo del inconveniente:</label>
           <br />
-          <label>{rec["motivo"]}</label>
+          { isAdmin ?
+          (<input defaultValue={updateReq["motivo"]} onChange={(e) => updateReq["motivo"] = e.target.value}></input>)
+          :
+          (<label>{rec["motivo"]}</label>)
+          }
         </div>
         <hr />
         <div className="form-group">
@@ -214,7 +234,7 @@ const DetalleReclamo = () => {
         <h2>Imágenes</h2>
         {images.map((image, index) => {
           return (
-            <span key={image.name} style={{ position: "relative" }}>
+            <span key={index} style={{ position: "relative" }}>
               <img
                 src={URL.createObjectURL(image)}
                 alt=""
