@@ -13,7 +13,6 @@ export const ListadoEdificios = () => {
   const [edificio, setEdificio] = useState(null);
   const [url, setUrl] = useState(baseUrl + 'edificios');
   const [isPending, setIsPending] = useState(true);
-  const [error, setError] = useState(null);
   const [refresh, setRefresh] = useState(0);
 
 
@@ -28,9 +27,8 @@ export const ListadoEdificios = () => {
       const json = await response.json();
       setIsPending(false);
       setEdificio(json);
-      setError(null);
     }catch(error){
-      setError(`${error} Could not Fetch edificio `);
+      console.log(error);
       setIsPending(false);
     }};
 
@@ -74,7 +72,6 @@ export const ListadoEdificios = () => {
         <h3>Sin datos...</h3>
       }
       {isPending && <div>Loading....</div>}
-      {error && <div>{error}</div>}
     </div>  
     );
 };
