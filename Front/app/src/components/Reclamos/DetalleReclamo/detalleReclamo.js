@@ -108,30 +108,34 @@ const DetalleReclamo = () => {
     }
   }
 
+  function removeImage(index){
+    let ig = [...images]
+    ig.splice(index, 1);
+    setImages(ig);
+  }
+
   function updateReclamo() {
     const img_promises = [];
-    for (let i = rec["imagenesIds"].length ; i < images.length; ++i) {
+    for (let i = rec["imagenesIds"].length; i < images.length; ++i) {
       img_promises.push(post_image(images[i]));
     }
     Promise.all(img_promises)
-    .then((results) => {
-      let files_ids = rec["imagenesIds"];
-      files_ids = files_ids.concat(results.map((x) => parseInt(x)));
-      updateReq["imagenesIds"] = files_ids;
-      console.log(updateReq)
-      put_reclamo_update(reqId, updateReq)
-      .then((data) => {
-        mostrarModal("Reclamo actualizado!");
+      .then((results) => {
+        let files_ids = rec["imagenesIds"];
+        files_ids = files_ids.concat(results.map((x) => parseInt(x)));
+        updateReq["imagenesIds"] = files_ids;
+        console.log(updateReq);
+        put_reclamo_update(reqId, updateReq)
+          .then((data) => {
+            mostrarModal("Reclamo actualizado!");
+          })
+          .catch((err) => {
+            mostrarModal("Error al actualizar el reclamo.");
+          });
       })
       .catch((err) => {
-        mostrarModal("Error al actualizar el reclamo.");
+        mostrarModal("Error al cargar imagenes del reclamo.");
       });
-    }).catch((err) => {
-      mostrarModal("Error al cargar imagenes del reclamo.");
-    })
-
-
-
   }
 
   return (
@@ -210,14 +214,26 @@ const DetalleReclamo = () => {
         <h2>Imágenes</h2>
         {images.map((image, index) => {
           return (
-            <span key={image.name}>
+            <span key={image.name} style={{ position: "relative" }}>
               <img
                 src={URL.createObjectURL(image)}
                 alt=""
                 width="128px"
                 height="128px"
+                style={{ position: "relative" }}
               />
-              {/*index >= rec["imagenesIds"].length ? (<span>new</span>) : (<span>old</span>)*/}
+              {index >= rec["imagenesIds"].length ? (
+                <button
+                  type="button"
+                  name="button"
+                  style={{ position: "absolute", right: "0px" }}
+                  onClick={() => {removeImage(index)}}
+                >
+                  X
+                </button>
+              ) : (
+                <></>
+              )}
             </span>
           );
         })}

@@ -154,6 +154,12 @@ const NuevoReclamo = () => {
     }
   }
 
+  function removeImage(index){
+    let ig = [...images]
+    ig.splice(index, 1);
+    setImages(ig);
+  }
+
   return (
     <div className="container">
       <h1>Nuevo Reclamo</h1>
@@ -267,15 +273,25 @@ const NuevoReclamo = () => {
       <div>
         <hr />
         <h2>Imágenes</h2>
-        {images.map((image) => {
+        {images.map((image, index) => {
           return (
-            <img
-              key={image.name}
-              src={URL.createObjectURL(image)}
-              alt=""
-              width="128px"
-              height="128px"
-            />
+            <span key={image.name} style={{ position: "relative" }}>
+              <img
+                src={URL.createObjectURL(image)}
+                alt=""
+                width="128px"
+                height="128px"
+                style={{ position: "relative" }}
+              />
+              <button
+                type="button"
+                name="button"
+                style={{ position: "absolute", right: "0px" }}
+                onClick={() => {removeImage(index)}}
+              >
+                X
+              </button>
+            </span>
           );
         })}
         <hr />
