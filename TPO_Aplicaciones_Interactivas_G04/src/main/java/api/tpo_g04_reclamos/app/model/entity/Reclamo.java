@@ -18,7 +18,7 @@ public class Reclamo {
 
     private int numero;
 
-    @OneToMany(mappedBy = "reclamo", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Imagen> imagenes = new ArrayList<>();
 
     private String descripcion;
@@ -39,11 +39,13 @@ public class Reclamo {
     @JoinColumn(name = "area_comun_id")
     private AreaComun areaComun;
 
+    private Long edificioId;
+
     public Reclamo() {
         super();
     }
 
-    public Reclamo(int numero, List<Imagen> imagenes, String descripcion, String motivo, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
+    public Reclamo(int numero, List<Imagen> imagenes, String descripcion, String motivo, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun, Long edificioId) {
         this.numero = numero;
         this.imagenes = imagenes;
         this.descripcion = descripcion;
@@ -52,6 +54,7 @@ public class Reclamo {
         this.usuario = usuario;
         this.unidad = unidad;
         this.areaComun = areaComun;
+        this.edificioId = edificioId;
     }
 
     public Reclamo(Long id, int numero, List<Imagen> imagenes, String descripcion, String motivo, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
@@ -130,8 +133,16 @@ public class Reclamo {
         return areaComun;
     }
 
+    public Long getEdificioId() {
+        return this.edificioId;
+    }
+
     public void setAreaComun(AreaComun areaComun) {
         this.areaComun = areaComun;
+    }
+
+    public void setEdificioId(Long edificioId) {
+        this.edificioId = edificioId;
     }
 
     @Override

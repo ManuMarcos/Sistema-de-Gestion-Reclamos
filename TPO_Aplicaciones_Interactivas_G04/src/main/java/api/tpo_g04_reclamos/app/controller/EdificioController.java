@@ -8,6 +8,7 @@ import api.tpo_g04_reclamos.app.controller.request.UnidadRequestDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,12 @@ public class EdificioController {
 	
 	
 	@GetMapping
-	public List<EdificioDto> findAll(){
-		return EdificioDto.fromList(edificioService.findAll());
+	public ResponseEntity<List<EdificioDto>> findAll(@RequestParam(value = "usuarioId", required = false) String usuarioId){
+		if(Strings.isNotBlank(usuarioId)) {
+			return ok(EdificioDto.fromList(edificioService.findByUsuarioId(Long.valueOf(usuarioId))));
+		}
+
+		return ok(EdificioDto.fromList(edificioService.findAll()));
 	}
 
 	@GetMapping("/{edificioId}")

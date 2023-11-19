@@ -10,6 +10,8 @@ public interface IReclamoDao {
 
     List<Reclamo> findAll();
 
+    List<Reclamo> findAllByEdificioId(Long edificioId);
+
     Optional<Reclamo> findById(Long id);
 
     List<Reclamo> findByEstado(EstadoReclamo estado);

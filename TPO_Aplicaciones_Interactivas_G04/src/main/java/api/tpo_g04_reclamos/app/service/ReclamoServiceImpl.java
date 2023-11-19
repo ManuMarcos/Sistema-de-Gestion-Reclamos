@@ -9,6 +9,7 @@ import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +51,13 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 	@Override
 	public Reclamo save(ReclamoRequestDto reclamoRequestDto) {
-		Optional<Unidad> unidadOptional = unidadService.findById(reclamoRequestDto.getUnidadId());
-		AreaComun areaComun = areaComunService.findById(reclamoRequestDto.getAreaComunId()).orElse(null);
+		Optional<Unidad> unidadOptional = reclamoRequestDto.getUnidadId() != null ? unidadService.findById(reclamoRequestDto.getUnidadId()) : Optional.empty();
+		Optional<AreaComun> areaComun = reclamoRequestDto.getAreaComunId() != null ? areaComunService.findById(reclamoRequestDto.getAreaComunId()) : Optional.empty();
+		
+		if(!(unidadOptional.isEmpty() ^ areaComun.isEmpty()))
+		{
+			throw new ReclamoNoSePuedeCrearException("El reclamo no se puede crear. Falta Unidad o AreaComun, o se dieron ambas");
+		}
 
 		Usuario usuario = usuarioService.findById(reclamoRequestDto.getUsuarioId()).orElseThrow(() -> new ItemNotFoundException("El Usuario no existe"));
 
@@ -62,9 +68,11 @@ public class ReclamoServiceImpl implements IReclamoService {
 			}
 		}
 
+		Long edificioId = unidadOptional.isPresent() ? unidadOptional.get().getEdificio().getId() : areaComun.get().getEdificio().getId();
+
 		List<Imagen> imagenes = imagenService.findAllByIds(reclamoRequestDto.getImagenesIds());
 
-		return reclamoDao.save(new Reclamo(reclamoRequestDto.getNumero(), imagenes, reclamoRequestDto.getDescripcion(), reclamoRequestDto.getMotivo(), reclamoRequestDto.getEstado(), usuario, unidadOptional.orElse(null), areaComun));
+		return reclamoDao.save(new Reclamo(reclamoRequestDto.getNumero(), imagenes, reclamoRequestDto.getDescripcion(), reclamoRequestDto.getMotivo(), reclamoRequestDto.getEstado(), usuario, unidadOptional.orElse(null), areaComun.orElse(null), edificioId));
 	}
 
 	private boolean reclamoSePuedeCrear(Unidad unidad, Usuario usuario) {
@@ -83,7 +91,8 @@ public class ReclamoServiceImpl implements IReclamoService {
 		Reclamo reclamo = this.findById(id).get();
 		reclamo.setDescripcion(reclamoRequestDto.getDescripcion());
 		reclamo.setEstado(reclamoRequestDto.getEstado());
-
+		reclamo.setImagenes(imagenService.findAllByIds(reclamoRequestDto.getImagenesIds()));
+		reclamo.setMotivo(reclamoRequestDto.getMotivo());
 		return reclamoDao.update(reclamo);
 	}
 
@@ -92,6 +101,11 @@ public class ReclamoServiceImpl implements IReclamoService {
 		this.reclamoExiste(id);
 
 		reclamoDao.deleteById(id);
+	}
+
+	@Override
+	public List<Reclamo> findAllByEdificioId(Long edificioId) {
+		return reclamoDao.findAllByEdificioId(edificioId);
 	}
 
 	private boolean reclamoExiste(Long id) {

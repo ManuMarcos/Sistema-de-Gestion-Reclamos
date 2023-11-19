@@ -3,6 +3,7 @@ package api.tpo_g04_reclamos.app.controller;
 import api.tpo_g04_reclamos.app.controller.dto.LoginResponse;
 import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
+import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 import api.tpo_g04_reclamos.app.service.IUsuarioService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -46,10 +47,11 @@ public class AuthController {
 					.signWith(secretKey, SignatureAlgorithm.HS256)
 					.compact();
 					
-			return new ResponseEntity<>(new LoginResponse(token, u.get().getId()), OK);
+			Long idEdificioHardCodeado = 1L; // TODO: ver como obtener este dato...
+			return new ResponseEntity<>(new LoginResponse(token, u.get().getId(), u.get().getTipoUsuario(), idEdificioHardCodeado), OK);
 		}
 		else {
-			return new ResponseEntity<>(new LoginResponse("Credenciales invalidas", -1L), UNAUTHORIZED);
+			return new ResponseEntity<>(new LoginResponse("Credenciales invalidas", -1L, TipoUsuario.PROPIETARIO, -1L), UNAUTHORIZED);
 		}
 	}
 	
