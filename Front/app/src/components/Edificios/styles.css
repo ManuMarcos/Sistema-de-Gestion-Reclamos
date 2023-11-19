@@ -1,0 +1,31 @@
+.nav-bar{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+}
+
+#btn-nuevoEdificio{
+    margin: 0.4rem;
+}
+
+#unidades{
+    background-color: red;
+}
+
+#areas-comunes{
+    background-color: yellow;
+}
+
+.edificio-detalle-container{
+    margin-top: 1rem;
+}
+
+.link-cell{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 1rem;
+}
+
+#flex-row{
+    display: flex;
+}

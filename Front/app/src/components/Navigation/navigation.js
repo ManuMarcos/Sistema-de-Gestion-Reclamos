@@ -6,6 +6,8 @@ import Error404 from "../Error/error404";
 import NavBar from "./navbar";
 import NuevoReclamo from "../Reclamos/NuevoReclamo/nuevoReclamo";
 import ListadoReclamos from "../Reclamos/ListadoReclamos/listadoReclamos";
+import { ListadoEdificios } from "../Edificios/listadoEdificios";
+import { EdificioDetalle } from "../Edificios/edificioDetalle";
 
 function Navigation() {
     return (
@@ -20,6 +22,10 @@ function Navigation() {
                     <Route path="*" element={<Error404 />} />
                     <Route path="/Reclamos/Nuevo" element={<NuevoReclamo />} />
                     <Route path="/Reclamos/Listado" element={<ListadoReclamos />} />
+
+
+                    <Route path="/Edificios/Listado" element={<ListadoEdificios />} />
+                    <Route path="/Edificios/Detalle/:edificioId" element={<EdificioDetalle />} />
                 </Routes>
             </div>
         </Router>
