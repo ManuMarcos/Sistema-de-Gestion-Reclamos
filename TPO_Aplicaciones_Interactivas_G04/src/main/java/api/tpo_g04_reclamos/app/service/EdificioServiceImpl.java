@@ -108,8 +108,22 @@ public class EdificioServiceImpl implements IEdificioService{
 		return edificioDao.save(edificioAAgregarInquilino);
 	}
 
+	@Override
+	public List<Usuario> getInquilinosUnidad(Long edificioId, Long unidadId) {
+		Edificio edificio = edificioDao.findById(edificioId).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio %d no existe", edificioId)));
+
+		if(!edificio.getUnidades().stream().map(Unidad::getId).toList().contains(unidadId)) {
+			throw new BadRequestException(String.format("La unidad %d no pertence al edificio %d", unidadId, edificioId));
+		}
+
+		Unidad unidad = unidadDao.findById(unidadId).orElseThrow(() -> new ItemNotFoundException(String.format("La unidad %d no existe", unidadId)));
+
+		return unidad.getInquilinos();
+	}
+
 	public void addUnidad(Edificio edificio, UnidadRequestDto unidadDto) {
-		Unidad nuevaUnidad = new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), edificio, unidadDto.getEstado());
+		Usuario propietario = usuarioService.findById(unidadDto.getPropietarioId()).orElseThrow(() -> new ItemNotFoundException(String.format("El usuario %d no existe", unidadDto.getPropietarioId())));
+		Unidad nuevaUnidad = new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), edificio, propietario, unidadDto.getEstado());
 
 		edificio.agregarUnidad(nuevaUnidad);
 		edificioDao.save(edificio);

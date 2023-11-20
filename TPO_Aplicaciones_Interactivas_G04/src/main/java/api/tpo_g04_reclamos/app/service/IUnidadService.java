@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.service;
 
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
+import api.tpo_g04_reclamos.app.controller.request.UnidadUpdateRequestDto;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface IUnidadService {
 
 	Unidad save(UnidadDto unidadDto);
 
-	Unidad update(Long id, UnidadDto unidadDto);
+	Unidad update(Long id, UnidadUpdateRequestDto updateRequest);
 	
 	void deleteById(Long id);
 	

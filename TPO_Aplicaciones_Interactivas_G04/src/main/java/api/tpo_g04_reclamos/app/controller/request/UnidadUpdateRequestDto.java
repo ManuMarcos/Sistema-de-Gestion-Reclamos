@@ -4,7 +4,7 @@ import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
 
-public class UnidadRequestDto {
+public class UnidadUpdateRequestDto {
 
     private int piso;
     private int numero;
@@ -13,13 +13,13 @@ public class UnidadRequestDto {
 
     private Long propietarioId;
 
-    public UnidadRequestDto(Unidad unidad) {
+    public UnidadUpdateRequestDto(Unidad unidad) {
     	this.piso = unidad.getPiso();
     	this.numero = unidad.getNumero();
     	this.estado = unidad.getEstado();
     }
 
-    public UnidadRequestDto(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
+    public UnidadUpdateRequestDto(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
         this.piso = piso;
         this.numero = numero;
         this.estado = estado;

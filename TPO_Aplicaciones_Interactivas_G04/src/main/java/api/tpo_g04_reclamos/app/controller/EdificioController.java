@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.controller;
 
 import api.tpo_g04_reclamos.app.controller.dto.EdificioDto;
+import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
 import api.tpo_g04_reclamos.app.controller.request.AreaComunRequestDto;
 import api.tpo_g04_reclamos.app.controller.request.EdificioRequestDto;
 import api.tpo_g04_reclamos.app.controller.request.EdificioUpdateDto;
@@ -67,6 +68,13 @@ public class EdificioController {
 		Edificio edificio = edificioService.agregarInquilino(edificioId, unidadId, inquilinoId);
 
 		return ok(new EdificioDto(edificio));
+	}
+
+	@PostMapping("/{edificioId}/inquilinos/{unidadId}")
+	public ResponseEntity<List<UsuarioDto>> getInquilinosUnidad(@PathVariable("edificioId") Long edificioId, @PathVariable("unidadId") Long unidadId) {
+		List<Usuario> inquilinos = edificioService.getInquilinosUnidad(edificioId, unidadId);
+
+		return ok(UsuarioDto.fromList(inquilinos));
 	}
 
 	@PostMapping("/{edificioId}/area-comun")

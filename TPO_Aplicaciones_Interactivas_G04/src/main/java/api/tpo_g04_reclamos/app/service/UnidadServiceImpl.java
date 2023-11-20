@@ -1,10 +1,12 @@
 package api.tpo_g04_reclamos.app.service;
 
 import api.tpo_g04_reclamos.app.controller.dto.UnidadDto;
+import api.tpo_g04_reclamos.app.controller.request.UnidadUpdateRequestDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.dao.IUnidadDao;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
+import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class UnidadServiceImpl implements IUnidadService {
 
 	@Autowired
 	private IEdificioService edificioService;
+
+	@Autowired
+	private IUsuarioService usuarioService;
 	
 	@Override
 	public List<Unidad> findAll() {
@@ -42,16 +47,21 @@ public class UnidadServiceImpl implements IUnidadService {
 	}
 
 	@Override
-	public Unidad update(Long id, UnidadDto unidadDto) {
+	public Unidad update(Long id, UnidadUpdateRequestDto updateRequest) {
 		this.unidadExiste(id);
 
 		Unidad unidadToUpdate = unidadDao.findById(id).get();
-		Edificio edificio = edificioService.findById(unidadDto.getEdificioId()).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
 
-		unidadToUpdate.setEdificio(edificio);
-		unidadToUpdate.setEstado(unidadDto.getEstado());
-		unidadToUpdate.setPiso(unidadDto.getPiso());
-		unidadToUpdate.setNumero(unidadDto.getNumero());
+		unidadToUpdate.setEdificio(unidadToUpdate.getEdificio());
+		unidadToUpdate.setEstado(updateRequest.getEstado());
+		unidadToUpdate.setPiso(updateRequest.getPiso());
+		unidadToUpdate.setNumero(updateRequest.getNumero());
+
+		if(updateRequest.getPropietarioId() != null) {
+			Usuario nuevoPropietario = usuarioService.findById(updateRequest.getPropietarioId()).orElseThrow(() -> new ItemNotFoundException(String.format("El usuario %d no existe", updateRequest.getPropietarioId())));
+			unidadToUpdate.setPropietario(nuevoPropietario);
+		}
+
 		return unidadDao.save(unidadToUpdate);
 
 	}
