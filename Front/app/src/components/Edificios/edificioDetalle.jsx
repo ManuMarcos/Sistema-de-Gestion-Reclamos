@@ -19,8 +19,6 @@ export const EdificioDetalle = () => {
   const { edificioId } = useParams();
   //const [nombrePropietario, setNombrePropietario] = useState();
 
-  
-
   const getDetalle = async () => {
     const urlEdificio = baseUrl + "edificios/" + edificioId;
     setIsPending(true);
@@ -89,11 +87,28 @@ export const EdificioDetalle = () => {
     }).then(() => {
       getDetalle();
     });
-  }
+  };
+
+  const deleteAreaComun = async (areaComunId) => {
+    const urlDeleteAreaComun = baseUrl + "areas-comunes/" + areaComunId;
+    fetch(urlDeleteAreaComun, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+        Authorization: "Bearer " + token,
+        "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      getDetalle();
+    });
+  };
 
   useEffect(() => {
     getDetalle();
-  },[]);
+  }, []);
 
   return (
     <Container className="edificio-detalle-container">
@@ -136,7 +151,13 @@ export const EdificioDetalle = () => {
                       <td>{unidad.estado}</td>
                       <td width={50}>
                         <div className="link-cell">
-                          <Button variant="danger" size="sm" onClick={() => {deleteUnidad(unidad.id)}}>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => {
+                              deleteUnidad(unidad.id);
+                            }}
+                          >
                             Eliminar
                           </Button>
                           <Link to={"/Edificios/Unidades/" + unidad.id}>
@@ -179,7 +200,13 @@ export const EdificioDetalle = () => {
                       <td>{areaComun.nombre}</td>
                       <td width={50}>
                         <div className="link-cell">
-                          <Button variant="danger" size="sm">
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => {
+                              deleteAreaComun(areaComun.id);
+                            }}
+                          >
                             Eliminar
                           </Button>
                           <Link to={"/Edificios/Detalle/" + areaComun.id}>
