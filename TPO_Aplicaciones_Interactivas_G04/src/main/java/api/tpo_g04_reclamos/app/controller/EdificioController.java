@@ -70,7 +70,7 @@ public class EdificioController {
 		return ok(new EdificioDto(edificio));
 	}
 
-	@PostMapping("/{edificioId}/inquilinos/{unidadId}")
+	@GetMapping("/{edificioId}/inquilinos/{unidadId}")
 	public ResponseEntity<List<UsuarioDto>> getInquilinosUnidad(@PathVariable("edificioId") Long edificioId, @PathVariable("unidadId") Long unidadId) {
 		List<Usuario> inquilinos = edificioService.getInquilinosUnidad(edificioId, unidadId);
 
