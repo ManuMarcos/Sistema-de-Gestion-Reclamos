@@ -13,6 +13,8 @@ public interface IUnidadService {
 	
 	Optional<Unidad> findById(Long id);
 
+	Unidad get(Long id);
+
 	List<Unidad> findAllByIds(List<Long> ids);
 
 	Unidad save(UnidadDto unidadDto);

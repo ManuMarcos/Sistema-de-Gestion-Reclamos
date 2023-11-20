@@ -24,6 +24,11 @@ public class ImagenServiceImpl implements IImagenService {
 	}
 
 	@Override
+	public Imagen get(Long id) {
+		return findById(id).orElseThrow(() -> new ItemNotFoundException(String.format("La imagen %d no existe", id)));
+	}
+
+	@Override
 	public void deleteById(Long id) {
 		this.imagenExiste(id);
 
@@ -51,10 +56,8 @@ public class ImagenServiceImpl implements IImagenService {
 	}
 
 	private boolean imagenExiste(Long id) {
-		Optional<Imagen> imagen = this.findById(id);
-
-		if(imagen.isEmpty()) {
-			throw new ItemNotFoundException("La imagen no existe");
+		if(this.findById(id).isEmpty()) {
+			throw new ItemNotFoundException(String.format("La imagen %d no existe", id));
 		}
 
 		return true;

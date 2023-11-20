@@ -30,6 +30,11 @@ public class AreaComunServiceImpl implements IAreaComunService {
 	}
 
 	@Override
+	public AreaComun get(Long id) {
+		return findById(id).orElseThrow(() -> new ItemNotFoundException(String.format("El area comun con id: %d no existe", id)));
+	}
+
+	@Override
 	public List<AreaComun> findAllByIds(List<Long> ids) {
 		return areaComunDao.findAllByIds(ids);
 	}
@@ -42,9 +47,7 @@ public class AreaComunServiceImpl implements IAreaComunService {
 
 	@Override
 	public AreaComun update(Long id, AreaComun areaComun) {
-		this.areaComunExiste(id);
-
-		AreaComun areaComunToUpdate = areaComunDao.findById(id).get();
+		AreaComun areaComunToUpdate = get(id);
 
 		areaComunToUpdate.setNombre(areaComun.getNombre());
 		return areaComunDao.save(areaComunToUpdate);
@@ -59,10 +62,8 @@ public class AreaComunServiceImpl implements IAreaComunService {
 	}
 
 	private boolean areaComunExiste(Long id) {
-		Optional<AreaComun> areaComun = this.findById(id);
-
-		if(areaComun.isEmpty()) {
-			throw new ItemNotFoundException("El area comun no existe");
+		if(this.findById(id).isEmpty()) {
+			throw new ItemNotFoundException(String.format("El area comun %d no existe", id));
 		}
 
 		return true;

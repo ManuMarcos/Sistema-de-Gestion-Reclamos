@@ -9,7 +9,6 @@ import api.tpo_g04_reclamos.app.model.enums.EstadoReclamo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +42,11 @@ public class ReclamoServiceImpl implements IReclamoService {
 	public Optional<Reclamo> findById(Long id) {
 		return reclamoDao.findById(id);
 	}
+
+	@Override
+	public Reclamo get(Long id) {
+		return findById(id).orElseThrow(() -> new ItemNotFoundException(String.format("El reclamo %d no existe", id)));
+	}
 	
 	@Override
 	public List<Reclamo> findByEstado(EstadoReclamo estado) {
@@ -59,7 +63,7 @@ public class ReclamoServiceImpl implements IReclamoService {
 			throw new ReclamoNoSePuedeCrearException("El reclamo no se puede crear. Falta Unidad o AreaComun, o se dieron ambas");
 		}
 
-		Usuario usuario = usuarioService.findById(reclamoRequestDto.getUsuarioId()).orElseThrow(() -> new ItemNotFoundException("El Usuario no existe"));
+		Usuario usuario = usuarioService.get(reclamoRequestDto.getUsuarioId());
 
 		// veo si es una unidad para ver si es posible generar el reclamo con el usuario
 		if(unidadOptional.isPresent()) {
@@ -86,9 +90,7 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 	@Override
 	public Reclamo update(Long id, ReclamoRequestDto reclamoRequestDto) {
-		this.reclamoExiste(id);
-
-		Reclamo reclamo = this.findById(id).get();
+		Reclamo reclamo = this.get(id);
 		reclamo.setDescripcion(reclamoRequestDto.getDescripcion());
 		reclamo.setEstado(reclamoRequestDto.getEstado());
 		reclamo.setImagenes(imagenService.findAllByIds(reclamoRequestDto.getImagenesIds()));
@@ -109,10 +111,8 @@ public class ReclamoServiceImpl implements IReclamoService {
 	}
 
 	private boolean reclamoExiste(Long id) {
-		Optional<Reclamo> reclamo = this.findById(id);
-
-		if(reclamo.isEmpty()) {
-			throw new ItemNotFoundException(String.format("El reclamo %s no existe", id.toString()));
+		if(this.findById(id).isEmpty()) {
+			throw new ItemNotFoundException(String.format("El reclamo %d no existe", id));
 		}
 
 		return true;

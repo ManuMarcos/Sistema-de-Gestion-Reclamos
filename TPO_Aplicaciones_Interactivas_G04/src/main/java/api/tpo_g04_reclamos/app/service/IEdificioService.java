@@ -17,6 +17,8 @@ public interface IEdificioService {
 	List<Edificio> findByUsuarioId(Long usuarioId);
 	
 	Optional<Edificio> findById(Long id);
+
+	Edificio get(Long id);
 	
 	Edificio save(EdificioRequestDto edificio);
 	

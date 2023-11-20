@@ -3,10 +3,7 @@ package api.tpo_g04_reclamos.app.controller;
 import api.tpo_g04_reclamos.app.controller.dto.ReclamoDto;
 import api.tpo_g04_reclamos.app.controller.dto.ReclamoSearchDto;
 import api.tpo_g04_reclamos.app.controller.request.ReclamoRequestDto;
-import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
-import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Reclamo;
-import api.tpo_g04_reclamos.app.service.IEdificioService;
 import api.tpo_g04_reclamos.app.service.IReclamoService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/reclamos")
@@ -28,22 +25,22 @@ public class ReclamoController {
 	@GetMapping
 	public ResponseEntity<List<ReclamoDto>> findAll(@RequestParam(value = "edificioId", required = false) String edificioId) {
 		if(Strings.isNotBlank(edificioId)) {
-			return new ResponseEntity<>(ReclamoDto.fromList(reclamoService.findAllByEdificioId(Long.valueOf(edificioId))), OK);
+			return ok(ReclamoDto.fromList(reclamoService.findAllByEdificioId(Long.valueOf(edificioId))));
 		}
 
-		return new ResponseEntity<>(ReclamoDto.fromList(reclamoService.findAll()), OK);
+		return ok(ReclamoDto.fromList(reclamoService.findAll()));
 	}
 
 	@GetMapping("/search")
 	public ResponseEntity<List<ReclamoDto>> findAllByEstado(@RequestBody ReclamoSearchDto reclamoSearchDto){
-		return new ResponseEntity<>(ReclamoDto.fromList(reclamoService.findByEstado(reclamoSearchDto.getEstado())), OK);
+		return ok(ReclamoDto.fromList(reclamoService.findByEstado(reclamoSearchDto.getEstado())));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ReclamoDto> findById(@PathVariable Long id){
-		Reclamo reclamo = reclamoService.findById(id).orElseThrow(() -> new ItemNotFoundException("El reclamo no existe"));
+		Reclamo reclamo = reclamoService.get(id);
 
-		return new ResponseEntity<>(new ReclamoDto(reclamo), OK);
+		return ok(new ReclamoDto(reclamo));
 	}
 	
 	@PostMapping
@@ -55,13 +52,13 @@ public class ReclamoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<ReclamoDto> updateReclamo(@PathVariable Long id, @RequestBody ReclamoRequestDto reclamo) {
 		Reclamo reclamoActualizado = reclamoService.update(id, reclamo);
-		return new ResponseEntity<>(new ReclamoDto(reclamoActualizado), OK);
+		return ok(new ReclamoDto(reclamoActualizado));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteReclamo(@PathVariable Long id){
 		reclamoService.deleteById(id);
 
-		return new ResponseEntity<>(String.format("deleted reclamo %s", id), OK);
+		return ok(String.format("deleted reclamo %d", id));
 	}
 }

@@ -29,7 +29,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	public Optional<Usuario> findById(Long id) {
 		return usuarioDao.findById(id);
 	}
-	
+
+	@Override
+	public Usuario get(Long id) {
+		return findById(id).orElseThrow(() -> new ItemNotFoundException(String.format("El usuario %d no existe", id)));
+	}
+
 	@Override
 	public Optional<Usuario> findUser(String username, String password) {
 		// TODO Auto-generated method stub
@@ -43,9 +48,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Override
 	public Usuario update(Long id, UsuarioDto usuarioDto) {
-		this.usuarioExiste(id);
-
-		Usuario usuario = this.findById(id).get();
+		Usuario usuario = this.get(id);
 		usuario.setNombre(usuarioDto.getNombre());
 		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 		usuario.setTipoUsuario(usuarioDto.getTipoUsuario());
@@ -61,10 +64,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	private boolean usuarioExiste(Long id) {
-		Optional<Usuario> usuario = this.findById(id);
-
-		if(usuario.isEmpty()) {
-			throw new ItemNotFoundException("El usuario no existe");
+		if(this.findById(id).isEmpty()) {
+			throw new ItemNotFoundException(String.format("El usuario %d no existe", id));
 		}
 
 		return true;

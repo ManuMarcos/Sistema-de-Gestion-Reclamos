@@ -36,13 +36,18 @@ public class UnidadServiceImpl implements IUnidadService {
 	}
 
 	@Override
+	public Unidad get(Long id) {
+		return findById(id).orElseThrow(() -> new ItemNotFoundException(String.format("La unidad %d no existe", id)));
+	}
+
+	@Override
 	public List<Unidad> findAllByIds(List<Long> ids) {
 		return unidadDao.findAllByIds(ids);
 	}
 
 	@Override
 	public Unidad save(UnidadDto unidadDto) {
-		Edificio edificio = edificioService.findById(unidadDto.getEdificioId()).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
+		Edificio edificio = edificioService.get(unidadDto.getEdificioId());
 		return unidadDao.save(new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), edificio, unidadDto.getEstado()));
 	}
 
@@ -58,7 +63,7 @@ public class UnidadServiceImpl implements IUnidadService {
 		unidadToUpdate.setNumero(updateRequest.getNumero());
 
 		if(updateRequest.getPropietarioId() != null) {
-			Usuario nuevoPropietario = usuarioService.findById(updateRequest.getPropietarioId()).orElseThrow(() -> new ItemNotFoundException(String.format("El usuario %d no existe", updateRequest.getPropietarioId())));
+			Usuario nuevoPropietario = usuarioService.get(updateRequest.getPropietarioId());
 			unidadToUpdate.setPropietario(nuevoPropietario);
 		}
 
@@ -74,10 +79,8 @@ public class UnidadServiceImpl implements IUnidadService {
 	}
 
 	private boolean unidadExiste(Long id) {
-		Optional<Unidad> unidad = this.findById(id);
-
-		if(unidad.isEmpty()) {
-			throw new ItemNotFoundException("La unidad no existe");
+		if(this.findById(id).isEmpty()) {
+			throw new ItemNotFoundException(String.format("La unidad %d no existe", id));
 		}
 
 		return true;

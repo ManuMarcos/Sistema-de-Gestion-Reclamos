@@ -11,6 +11,8 @@ public interface IAreaComunService {
 	
 	Optional<AreaComun> findById(Long id);
 
+	AreaComun get(Long id);
+
 	List<AreaComun> findAllByIds(List<Long> ids);
 	
 	AreaComun save(AreaComun areaComun);

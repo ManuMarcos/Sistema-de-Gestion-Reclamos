@@ -13,6 +13,8 @@ public interface IReclamoService {
 	List<Reclamo> findAllByEdificioId(Long edificioId);
 
 	Optional<Reclamo> findById(Long id);
+
+	Reclamo get(Long id);
 	
 	List<Reclamo> findByEstado(EstadoReclamo estado);
 

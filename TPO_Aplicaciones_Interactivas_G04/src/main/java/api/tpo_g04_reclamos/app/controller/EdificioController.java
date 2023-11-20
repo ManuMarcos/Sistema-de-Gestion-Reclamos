@@ -6,21 +6,17 @@ import api.tpo_g04_reclamos.app.controller.request.AreaComunRequestDto;
 import api.tpo_g04_reclamos.app.controller.request.EdificioRequestDto;
 import api.tpo_g04_reclamos.app.controller.request.EdificioUpdateDto;
 import api.tpo_g04_reclamos.app.controller.request.UnidadRequestDto;
-import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
-import api.tpo_g04_reclamos.app.service.IUsuarioService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -41,12 +37,8 @@ public class EdificioController {
 
 	@GetMapping("/{edificioId}")
 	public ResponseEntity<?> findById(@PathVariable Long edificioId){
-		Optional<Edificio> edificio = edificioService.findById(edificioId);
-		if(edificio.isEmpty()) {
-			String mensaje = "Edificio con id" +  edificioId + " no encontrado";
-			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(new EdificioDto(edificio.get()), HttpStatus.OK);
+		Edificio edificio = edificioService.get(edificioId);
+		return ok(new EdificioDto(edificio));
 	}
 	
 	@PostMapping
@@ -57,10 +49,10 @@ public class EdificioController {
 
 	@PostMapping("/{edificioId}/unidad")
 	public ResponseEntity<EdificioDto> addUnidad(@PathVariable Long edificioId, @RequestBody UnidadRequestDto unidad) {
-		Edificio edificioAAgregarUnidad = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
+		Edificio edificioAAgregarUnidad = edificioService.get(edificioId);
 		edificioService.addUnidad(edificioAAgregarUnidad, unidad);
 
-		return new ResponseEntity<>(new EdificioDto(edificioAAgregarUnidad), OK);
+		return ok(new EdificioDto(edificioAAgregarUnidad));
 	}
 
 	@PostMapping("/{edificioId}/unidad/{unidadId}/inquilino/{inquilinoId}")
@@ -79,10 +71,10 @@ public class EdificioController {
 
 	@PostMapping("/{edificioId}/area-comun")
 	public ResponseEntity<EdificioDto> addAreaComun(@PathVariable Long edificioId, @RequestBody AreaComunRequestDto areaComunDto) {
-		Edificio edificioAAgregarAreaComun = edificioService.findById(edificioId).orElseThrow(() -> new ItemNotFoundException("El edificio no existe"));
+		Edificio edificioAAgregarAreaComun = edificioService.get(edificioId);
 		edificioService.addAreaComun(edificioAAgregarAreaComun, areaComunDto);
 
-		return new ResponseEntity<>(new EdificioDto(edificioAAgregarAreaComun), OK);
+		return ok(new EdificioDto(edificioAAgregarAreaComun));
 	}
 	
 	@PutMapping("/{edificioId}")
@@ -93,14 +85,10 @@ public class EdificioController {
 	
 	@DeleteMapping("/{edificioId}")
 	public ResponseEntity<String> deleteEdificio(@PathVariable Long edificioId){
-		Optional<Edificio> edificioToDeleteOptional = edificioService.findById(edificioId);
-		if(edificioToDeleteOptional.isPresent()) {
-			edificioService.deleteById(edificioId);
-			String mensaje = "Edificio con id: " + edificioId + " eliminado correctamente!";
-			return ok(mensaje);
-		}
-		String mensaje = "El edificio con id: " + edificioId + " no existe";
-		return new ResponseEntity<>(mensaje, NOT_FOUND);
+		edificioService.deleteById(edificioId);
+
+		String mensaje = "Edificio con id: " + edificioId + " eliminado correctamente!";
+		return ok(mensaje);
 	}
 	
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface IImagenService {
 	Optional<Imagen> findById(Long id);
+	Imagen get(Long id);
 	List<Imagen> findAllByIds(List<Long> ids);
 	Imagen save(MultipartFile file);
 	void deleteById(Long id);

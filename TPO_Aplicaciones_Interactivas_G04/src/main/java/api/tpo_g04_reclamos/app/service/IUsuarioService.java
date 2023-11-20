@@ -10,6 +10,8 @@ public interface IUsuarioService {
 	List<Usuario> findAll();
 	
 	Optional<Usuario> findById(Long id);
+
+	Usuario get(Long id);
 	
 	Optional<Usuario> findUser(String username, String password);
 	

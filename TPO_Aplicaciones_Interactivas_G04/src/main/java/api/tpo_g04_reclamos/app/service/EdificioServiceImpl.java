@@ -16,7 +16,6 @@ import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.geom.Area;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -68,13 +67,18 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	@Override
+	public Edificio get(Long id) {
+		return findById(id).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio %d no existe", id)));
+	}
+
+	@Override
 	public Edificio save(EdificioRequestDto edificioDto) {
 		return edificioDao.save(new Edificio(edificioDto.getDireccion()));
 	}
 
 	@Override
 	public Edificio update(Long id, EdificioUpdateDto edificio) {
-		Edificio edificioToUpdate = this.findById(id).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio con id %s no existe", id.toString())));
+		Edificio edificioToUpdate = this.get(id);
 
 		List<AreaComun> areasComunes = areaComunDao.findAllByIds(edificio.getAreasComunesIds());
 		List<Unidad> unidades = unidadDao.findAllByIds(edificio.getUnidadesIds());
@@ -95,14 +99,14 @@ public class EdificioServiceImpl implements IEdificioService{
 
 	@Override
 	public Edificio agregarInquilino(Long edificioId, Long unidadId, Long inquilinoId) {
-		Edificio edificioAAgregarInquilino = findById(edificioId).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio %d no existe", edificioId)));
+		Edificio edificioAAgregarInquilino = this.get(edificioId);
 		Unidad unidadAAgregarInquilino = edificioAAgregarInquilino.getUnidades().stream().filter(unidad -> unidadId.equals(unidad.getId())).findFirst().orElseThrow(() -> new ItemNotFoundException(String.format("La unidad %d no existe en el edificio %d", unidadId, edificioId)));
 
 		if(unidadAAgregarInquilino.getInquilinos().stream().map(Usuario::getId).toList().contains(inquilinoId)) {
 			throw new BadRequestException(String.format("El inquilino %d ya existe para la unidad %d", inquilinoId, unidadId));
 		}
 
-		Usuario inquilinoNuevo = usuarioService.findById(inquilinoId).orElseThrow(() -> new ItemNotFoundException(String.format("El inquilino %d no existe", inquilinoId)));
+		Usuario inquilinoNuevo = usuarioService.get(inquilinoId);
 		unidadAAgregarInquilino.getInquilinos().add(inquilinoNuevo);
 
 		return edificioDao.save(edificioAAgregarInquilino);
@@ -110,7 +114,7 @@ public class EdificioServiceImpl implements IEdificioService{
 
 	@Override
 	public List<Usuario> getInquilinosUnidad(Long edificioId, Long unidadId) {
-		Edificio edificio = edificioDao.findById(edificioId).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio %d no existe", edificioId)));
+		Edificio edificio = get(edificioId);
 
 		if(!edificio.getUnidades().stream().map(Unidad::getId).toList().contains(unidadId)) {
 			throw new BadRequestException(String.format("La unidad %d no pertence al edificio %d", unidadId, edificioId));
@@ -122,7 +126,7 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	public void addUnidad(Edificio edificio, UnidadRequestDto unidadDto) {
-		Usuario propietario = usuarioService.findById(unidadDto.getPropietarioId()).orElseThrow(() -> new ItemNotFoundException(String.format("El usuario %d no existe", unidadDto.getPropietarioId())));
+		Usuario propietario = usuarioService.get(unidadDto.getPropietarioId());
 		Unidad nuevaUnidad = new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), edificio, propietario, unidadDto.getEstado());
 
 		edificio.agregarUnidad(nuevaUnidad);
@@ -137,10 +141,8 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	private boolean edificioExiste(Long id) {
-		Optional<Edificio> edificio = this.findById(id);
-
-		if(edificio.isEmpty()) {
-			throw new ItemNotFoundException("El edificio no existe");
+		if(this.findById(id).isEmpty()) {
+			throw new ItemNotFoundException(String.format("El edificio %d no existe", id));
 		}
 
 		return true;
