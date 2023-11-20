@@ -4,6 +4,7 @@ import api.tpo_g04_reclamos.app.controller.dto.LoginResponse;
 import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
+import api.tpo_g04_reclamos.app.service.IEdificioService;
 import api.tpo_g04_reclamos.app.service.IUsuarioService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,6 +32,9 @@ public class AuthController {
 	private IUsuarioService usuarioService;
 	
 	@Autowired
+	private IEdificioService edificioService;
+	
+	@Autowired
 	private SecretKey secretKey;
 	
 	@PostMapping("/login")
@@ -47,8 +51,19 @@ public class AuthController {
 					.signWith(secretKey, SignatureAlgorithm.HS256)
 					.compact();
 					
-			Long idEdificioHardCodeado = 1L; // TODO: ver como obtener este dato...
-			return new ResponseEntity<>(new LoginResponse(token, u.get().getId(), u.get().getTipoUsuario(), idEdificioHardCodeado), OK);
+			Long idEdificio = -1L;
+			var listEdificios = edificioService.findByUsuarioId(u.get().getId());
+			if(u.get().getTipoUsuario() != TipoUsuario.PERSONAL_INTERNO){
+				if(listEdificios.size() == 0) {
+					return new ResponseEntity<>(new LoginResponse("Usuario sin edificios asociados", -2L, u.get().getTipoUsuario(), -1L), UNAUTHORIZED);
+				}
+				if(listEdificios.size() > 1) {
+					// Inquilino solo debería estar en un edificio residiendo...
+					return new ResponseEntity<>(new LoginResponse("Usuario tiene varios edificios asociados. No soportado.", -3L, u.get().getTipoUsuario(), -1L), UNAUTHORIZED);
+				}
+				idEdificio = listEdificios.get(0).getId();
+			}
+			return new ResponseEntity<>(new LoginResponse(token, u.get().getId(), u.get().getTipoUsuario(), idEdificio), OK);
 		}
 		else {
 			return new ResponseEntity<>(new LoginResponse("Credenciales invalidas", -1L, TipoUsuario.PROPIETARIO, -1L), UNAUTHORIZED);
