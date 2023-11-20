@@ -53,7 +53,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	public Usuario update(Long id, UsuarioDto usuarioDto) {
 		Usuario usuario = this.get(id);
 		usuario.setNombre(usuarioDto.getNombre());
-		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		usuario.setPassword(passwordEncoder.encode(usuarioDto.getPassword()));
 		usuario.setTipoUsuario(usuarioDto.getTipoUsuario());
 
 		return usuarioDao.update(usuario);
