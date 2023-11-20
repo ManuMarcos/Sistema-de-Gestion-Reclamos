@@ -26,20 +26,20 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
         },
       });
       if (!response.ok) throw new Error(response.statusText);
-      const inquilinos = await response.json();
+      const respuesta = await response.json();
       setIsPending(false);
-      setInquilinos(inquilinos);
-      console.log(inquilinos);
+      const usuariosFiltrados = await respuesta.filter((user) => user.tipoUsuario == 'INQUILINO');
+      setInquilinos(usuariosFiltrados);
     } catch (error) {
       console.log(error);
       setIsPending(false);
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (inquilino) => {
     const urlPostInquilino =
       baseUrl +
-      `/edificios/${unidad.edificioId}/unidad/${unidad.id}/inquilino/${inquilino.id}`;
+      `edificios/${unidad.edificioId}/unidad/${unidad.id}/inquilino/${inquilino}`;
     setIsPending(true);
     //console.log("Enviando Post: " + JSON.stringify({...unidad,propietarioId: propietario}));
     fetch(urlPostInquilino, {
@@ -97,7 +97,7 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
 
   const convertirInquilinos = () => {
     if (inquilinos != null) {
-        console.log(inquilinos);
+        //setInquilinos(inquilinos.filter((inquilino) => inquilino.tipoUsuario = 'INQUILINO'));
       const options = inquilinos.map(function (d) {
         return {
           value: d.id,
@@ -144,7 +144,7 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
           )}
           {isPending && (
             <Button disabled variant="secondary">
-              Agregar inquilino...
+              Agregando inquilino...
             </Button>
           )}
           <Button variant="danger" onClick={handleClose}>

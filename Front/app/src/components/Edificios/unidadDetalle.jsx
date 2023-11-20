@@ -16,11 +16,12 @@ export const UnidadDetalle = () => {
   const { unidadId } = useParams();
   const [isPending, setIsPending] = useState(false);
   const [unidad, setUnidad] = useState(null);
-  const [selectedOption, setSelectedOption] = useState("none");
+  const [inquilinos, setInquilinos] = useState(null);
+  const [isUnidadCargada, setUnidadCargada] = useState(false);
   const [editado, setEditado] = useState(false);
-  const url = baseUrl + "unidad/" + unidadId;
 
   const getUnidad = async () => {
+    const url = baseUrl + "unidad/" + unidadId;
     setIsPending(true);
     try {
       const response = await fetch(url, {
@@ -32,24 +33,53 @@ export const UnidadDetalle = () => {
       const json = await response.json();
       setIsPending(false);
       setUnidad(json);
-      console.log(JSON.stringify(unidad));
+      setUnidadCargada(true);
+
     } catch (error) {
       console.log(error);
       setIsPending(false);
     }
   };
 
+  const getInquilinos = async () => {
+    if (unidad != null) {
+      const urlGetInquilinos = `${baseUrl}edificios/${unidad.edificioId}/inquilinos/${unidad.id}`;
+      setIsPending(true);
+      try {
+        const response = await fetch(urlGetInquilinos, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        if (!response.ok) throw new Error(response.statusText);
+        const inquilinos = await response.json();
+        setIsPending(false);
+        setInquilinos(inquilinos);
+      } catch (error) {
+        console.log(error);
+        setIsPending(false);
+      }
+    }
+  };
 
   useEffect(() => {
     getUnidad();
   }, []);
+
+  useEffect(() => {
+    getInquilinos();
+  },[isUnidadCargada]);
+
+
 
   return (
     <Container className="unidad-detalles">
       <Row>
         <Col>
           <InputGroup className="mb-3">
-            <InputGroup.Text data-bs-theme="dark" id="basic-addon1">Piso: </InputGroup.Text>
+            <InputGroup.Text data-bs-theme="dark" id="basic-addon1">
+              Piso:{" "}
+            </InputGroup.Text>
             <Form.Control
               aria-label="pisio"
               aria-describedby="basic-addon1"
@@ -57,7 +87,9 @@ export const UnidadDetalle = () => {
             />
           </InputGroup>
           <InputGroup className="mb-3">
-            <InputGroup.Text data-bs-theme="dark" id="basic-addon1">Número: </InputGroup.Text>
+            <InputGroup.Text data-bs-theme="dark" id="basic-addon1">
+              Número:{" "}
+            </InputGroup.Text>
             <Form.Control
               aria-label="Username"
               aria-describedby="basic-addon1"
@@ -65,15 +97,17 @@ export const UnidadDetalle = () => {
             />
           </InputGroup>
           <InputGroup className="mb-3">
-            <InputGroup.Text data-bs-theme="dark" id="basic-addon1">Estado: </InputGroup.Text>
+            <InputGroup.Text data-bs-theme="dark" id="basic-addon1">
+              Estado:{" "}
+            </InputGroup.Text>
             <Form.Select
               value={unidad != null && unidad.estado}
               onChange={(event) => {
                 setUnidad({
                   ...unidad,
                   estado: event.target.value,
-                })
-                }}
+                });
+              }}
               aria-label="Default select example"
             >
               <option value="ALQUILADA">Alquilada</option>
@@ -83,7 +117,9 @@ export const UnidadDetalle = () => {
         </Col>
         <Col>
           <InputGroup className="mb-3">
-            <InputGroup.Text data-bs-theme="dark" id="propietario">Propietario: </InputGroup.Text>
+            <InputGroup.Text data-bs-theme="dark" id="propietario">
+              Propietario:
+            </InputGroup.Text>
             <Form.Control
               aria-describedby="propietario"
               value={unidad != null && unidad.propietarioId}
@@ -95,23 +131,31 @@ export const UnidadDetalle = () => {
       <hr></hr>
       <Row>
         <div className="nav-bar">
-            <h4 className="titulos-tablas">Inquilinos</h4>
-            <AgregarInquilinoModal unidad={unidad} refreshData={getUnidad}/>
+          <h4 className="titulos-tablas">Inquilinos</h4>
+          <AgregarInquilinoModal unidad={unidad} refreshData={getInquilinos} />
         </div>
-        <Table striped bordered hover>
+        <Table variant="dark" striped bordered hover>
           <thead>
             <tr>
-              <th>#</th>
               <th>Nombre</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td width={100}>1</td>
-              <td>Mark</td>
-            </tr>
+          {inquilinos != null && 
+              inquilinos.map((inquilino) => {
+                return (
+                    <tr id={inquilino.id}>
+                      <td>{inquilino.nombre}</td>                    
+                    </tr>
+                );
+              })
+            }
           </tbody>
         </Table>
+        {inquilinos == null &&
+          <span>Sin datos...</span>
+        }
+        {isPending && <div>Loading....</div>}
       </Row>
     </Container>
   );
