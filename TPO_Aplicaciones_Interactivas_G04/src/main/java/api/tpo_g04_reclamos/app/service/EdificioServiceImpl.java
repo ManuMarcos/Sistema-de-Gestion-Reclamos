@@ -122,7 +122,8 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	public void addUnidad(Edificio edificio, UnidadRequestDto unidadDto) {
-		Unidad nuevaUnidad = new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), edificio, unidadDto.getEstado());
+		Usuario propietario = usuarioService.findById(unidadDto.getPropietarioId()).orElseThrow(() -> new ItemNotFoundException(String.format("El usuario %d no existe", unidadDto.getPropietarioId())));
+		Unidad nuevaUnidad = new Unidad(unidadDto.getPiso(), unidadDto.getNumero(), edificio, propietario, unidadDto.getEstado());
 
 		edificio.agregarUnidad(nuevaUnidad);
 		edificioDao.save(edificio);

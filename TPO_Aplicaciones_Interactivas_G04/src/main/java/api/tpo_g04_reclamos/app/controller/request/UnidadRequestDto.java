@@ -11,6 +11,8 @@ public class UnidadRequestDto {
 
     private EstadoUnidad estado;
 
+    private Long propietarioId;
+
     public UnidadRequestDto(Unidad unidad) {
     	this.piso = unidad.getPiso();
     	this.numero = unidad.getNumero();
@@ -33,6 +35,10 @@ public class UnidadRequestDto {
 
     public EstadoUnidad getEstado() {
         return estado;
+    }
+
+    public Long getPropietarioId() {
+        return propietarioId;
     }
 
 }
