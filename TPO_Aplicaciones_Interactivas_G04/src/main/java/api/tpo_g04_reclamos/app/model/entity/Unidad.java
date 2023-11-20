@@ -109,6 +109,10 @@ public class Unidad {
 		this.estado = estado;
 	}
 
+	public void setPropietario(Usuario propietario) {
+		this.propietario = propietario;
+	}
+
 	public Usuario getPropietario() {
 		return propietario;
 	}
