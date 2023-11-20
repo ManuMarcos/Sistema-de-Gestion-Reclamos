@@ -74,6 +74,23 @@ export const EdificioDetalle = () => {
   }
   */
 
+  const deleteUnidad = async (unidadId) => {
+    const urlDeleteUnidad = baseUrl + "unidad/" + unidadId;
+    fetch(urlDeleteUnidad, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+        Authorization: "Bearer " + token,
+        "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      getDetalle();
+    });
+  }
+
   useEffect(() => {
     getDetalle();
   },[]);
@@ -119,7 +136,7 @@ export const EdificioDetalle = () => {
                       <td>{unidad.estado}</td>
                       <td width={50}>
                         <div className="link-cell">
-                          <Button variant="danger" size="sm">
+                          <Button variant="danger" size="sm" onClick={() => {deleteUnidad(unidad.id)}}>
                             Eliminar
                           </Button>
                           <Link to={"/Edificios/Unidades/" + unidad.id}>
