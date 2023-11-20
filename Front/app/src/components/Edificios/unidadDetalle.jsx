@@ -10,6 +10,7 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
+import { AgregarInquilinoModal } from "./agregarInquilinoModal";
 
 export const UnidadDetalle = () => {
   const { unidadId } = useParams();
@@ -48,7 +49,7 @@ export const UnidadDetalle = () => {
       <Row>
         <Col>
           <InputGroup className="mb-3">
-            <InputGroup.Text id="basic-addon1">Piso: </InputGroup.Text>
+            <InputGroup.Text data-bs-theme="dark" id="basic-addon1">Piso: </InputGroup.Text>
             <Form.Control
               aria-label="pisio"
               aria-describedby="basic-addon1"
@@ -56,7 +57,7 @@ export const UnidadDetalle = () => {
             />
           </InputGroup>
           <InputGroup className="mb-3">
-            <InputGroup.Text id="basic-addon1">Número: </InputGroup.Text>
+            <InputGroup.Text data-bs-theme="dark" id="basic-addon1">Número: </InputGroup.Text>
             <Form.Control
               aria-label="Username"
               aria-describedby="basic-addon1"
@@ -64,7 +65,7 @@ export const UnidadDetalle = () => {
             />
           </InputGroup>
           <InputGroup className="mb-3">
-            <InputGroup.Text id="basic-addon1">Estado: </InputGroup.Text>
+            <InputGroup.Text data-bs-theme="dark" id="basic-addon1">Estado: </InputGroup.Text>
             <Form.Select
               value={unidad != null && unidad.estado}
               onChange={(event) => {
@@ -82,11 +83,10 @@ export const UnidadDetalle = () => {
         </Col>
         <Col>
           <InputGroup className="mb-3">
-            <InputGroup.Text id="basic-addon1">Propietario: </InputGroup.Text>
+            <InputGroup.Text data-bs-theme="dark" id="propietario">Propietario: </InputGroup.Text>
             <Form.Control
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-              value={unidad != null && unidad.propietario}
+              aria-describedby="propietario"
+              value={unidad != null && unidad.propietarioId}
             />
           </InputGroup>
         </Col>
@@ -94,7 +94,10 @@ export const UnidadDetalle = () => {
       {editado == true && <Button variant="success">Guardar</Button>}
       <hr></hr>
       <Row>
-        <h4>Inquilinos</h4>
+        <div className="nav-bar">
+            <h4 className="titulos-tablas">Inquilinos</h4>
+            <AgregarInquilinoModal unidad={unidad} refreshData={getUnidad}/>
+        </div>
         <Table striped bordered hover>
           <thead>
             <tr>

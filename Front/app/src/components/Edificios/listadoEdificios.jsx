@@ -13,8 +13,24 @@ export const ListadoEdificios = () => {
   const [edificio, setEdificio] = useState(null);
   const [url, setUrl] = useState(baseUrl + 'edificios');
   const [isPending, setIsPending] = useState(true);
-  const [refresh, setRefresh] = useState(0);
+  const [nombrePropietario, setNombrePropietario] = useState();
 
+  const getNombrePropietario = async () => {
+    setIsPending(true);
+    try{
+      const response = await fetch(url,{
+        headers: {
+            Authorization: "Bearer " + token}
+      });
+      if (!response.ok) throw new Error(response.statusText);
+      const propietario = await response.json();
+      setIsPending(false);
+      setNombrePropietario(propietario.nombre);
+    }catch(error){
+      console.log(error);
+      setIsPending(false);
+    }
+  }
 
   const getEdificios = async () =>{
     setIsPending(true);
@@ -32,9 +48,12 @@ export const ListadoEdificios = () => {
       setIsPending(false);
     }};
 
+  
+
 
   useEffect(() => {
     getEdificios();
+    getNombrePropietario();
   },[]);
 
 

@@ -17,31 +17,66 @@ export const EdificioDetalle = () => {
   const [isPending, setIsPending] = useState(false);
   const [detalle, setDetalle] = useState(null);
   const { edificioId } = useParams();
+  //const [nombrePropietario, setNombrePropietario] = useState();
 
-  const url = baseUrl + "edificios/" + edificioId;
+  
 
   const getDetalle = async () => {
+    const urlEdificio = baseUrl + "edificios/" + edificioId;
     setIsPending(true);
     try {
-      const response = await fetch(url, {
+      const response = await fetch(urlEdificio, {
         headers: {
           Authorization: "Bearer " + token,
         },
       });
       if (!response.ok) throw new Error(response.statusText);
-      const json = await response.json();
+      const edificio = await response.json();
+      setDetalle(edificio);
       setIsPending(false);
-      setDetalle(json);
-      console.log(JSON.stringify(json));
+      console.log(JSON.stringify(edificio));
     } catch (error) {
       console.log(error);
       setIsPending(false);
     }
   };
 
+  /*
+  const setPropietario = (edificio) => {
+    if(edificio != null){
+      edificio.unidades.forEach(unidad => {
+        getNombrePropietario(unidad.propietarioId);
+        Object.assign(unidad, {propietario: propietario})
+        console.log(unidad);
+        setDetalle(edificio);
+      })
+    }
+  }
+  */
+
+  /*
+  const getNombrePropietario = async (propietarioId) => {
+    const urlUsuario = baseUrl + "usuarios/" + propietarioId;
+    setIsPending(true);
+    try{
+      const response = await fetch(urlUsuario,{
+        headers: {
+            Authorization: "Bearer " + token}
+      });
+      if (!response.ok) throw new Error(response.statusText);
+      const propietario = await response.json();
+      setIsPending(false);
+      setNombrePropietario(propietario.nombre);
+    }catch(error){
+      console.log(error);
+      setIsPending(false);
+    }
+  }
+  */
+
   useEffect(() => {
     getDetalle();
-  }, []);
+  },[]);
 
   return (
     <Container className="edificio-detalle-container">
@@ -80,7 +115,7 @@ export const EdificioDetalle = () => {
                     <tr id={unidad.id}>
                       <td>{unidad.piso}</td>
                       <td>{unidad.numero}</td>
-                      <td>{unidad.propietario}</td>
+                      <td>{unidad.propietarioId}</td>
                       <td>{unidad.estado}</td>
                       <td width={50}>
                         <div className="link-cell">
