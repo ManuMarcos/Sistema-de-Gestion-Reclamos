@@ -14,12 +14,8 @@ import { AgregarUnidadModal } from "./agregarUnidadModal";
 import { AgregarAreaComunModal } from "./agregarAreaComunModal";
 
 export const EdificioDetalle = () => {
-  const [areaComun, setAreaComun] = useState(null);
-  const [unidad, setUnidad] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [detalle, setDetalle] = useState(null);
-  const [refresh, setRefresh] = useState(0);
-
   const { edificioId } = useParams();
 
   const url = baseUrl + "edificios/" + edificioId;
@@ -91,7 +87,7 @@ export const EdificioDetalle = () => {
                           <Button variant="danger" size="sm">
                             Eliminar
                           </Button>
-                          <Link to={"/Edificios/Detalle/" + unidad.id}>
+                          <Link to={"/Edificios/Unidades/" + unidad.id}>
                             <Button className="margin-rigth" size="sm">
                               Editar
                             </Button>
