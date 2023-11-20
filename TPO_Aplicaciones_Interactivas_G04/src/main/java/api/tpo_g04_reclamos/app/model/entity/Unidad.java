@@ -12,8 +12,8 @@ public class Unidad {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private int piso;
-	private int numero;
+	private Integer piso;
+	private Integer numero;
 	
 	@ManyToOne
 	@JoinColumn(name = "edificio_id")
