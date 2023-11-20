@@ -23,9 +23,16 @@
 .link-cell{
     display: flex;
     flex-direction: row-reverse;
+}
+
+.margin-rigth{
     margin-right: 1rem;
 }
 
 #flex-row{
     display: flex;
+}
+
+.unidad-detalles{
+    margin-top: 1rem;
 }

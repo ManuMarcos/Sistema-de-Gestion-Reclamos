@@ -15,6 +15,7 @@ import AdminPermisos from "../adminPermisos/adminPermisos"
 import EditarPermisos from "../adminPermisos/editarPermiso"
 
 import Landing from "../Landing/landing";
+import { UnidadDetalle } from "../Edificios/unidadDetalle";
 
 
 function Navigation() {
@@ -35,11 +36,14 @@ function Navigation() {
                     <Route path="*" element={<Error404 />} />
                     <Route path="/Reclamos/Nuevo" element={<NuevoReclamo />} />
                     <Route path="/Reclamos/Listado" element={<ListadoReclamos />} />
+                    <Route path="/Reclamos/Detalle" element={<DetalleReclamo />} />
 
+                    
 
                     <Route path="/Edificios/Listado" element={<ListadoEdificios />} />
                     <Route path="/Edificios/Detalle/:edificioId" element={<EdificioDetalle />} />
-                    <Route path="/Reclamos/Detalle" element={<DetalleReclamo />} />
+                    <Route path="/Edificios/Unidades/:unidadId" element={<UnidadDetalle />} />
+                    
                 </Routes>
             </div>
         </Router>

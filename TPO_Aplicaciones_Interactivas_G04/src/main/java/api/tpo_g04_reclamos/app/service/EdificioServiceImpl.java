@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.geom.Area;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -47,12 +48,12 @@ public class EdificioServiceImpl implements IEdificioService{
 		return edificios.stream().filter(edificio -> {
 			List<Unidad> unidades = edificio.getUnidades();
 
-			List<Long> propietarioIds = unidades.stream().map(Unidad::getPropietario).toList().stream().map(Usuario::getId).toList();
+			List<Long> propietarioIds = unidades.stream().map(Unidad::getPropietario).filter(Objects::nonNull).toList().stream().map(Usuario::getId).toList();
 			if(propietarioIds.contains(usuarioId)) {
 				return true;
 			}
 
-			List<Long> inquilinosIds = unidades.stream().flatMap(unidad -> unidad.getInquilinos().stream()).toList().stream().map(Usuario::getId).toList();
+			List<Long> inquilinosIds = unidades.stream().flatMap(unidad -> unidad.getInquilinos().stream()).filter(Objects::nonNull).toList().stream().map(Usuario::getId).toList();
 			if(inquilinosIds.contains(usuarioId)) {
 				return true;
 			}
