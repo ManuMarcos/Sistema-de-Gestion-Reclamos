@@ -1,9 +1,8 @@
 import React from "react";
-import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [idEdificio, setIdEdificio] = useState(sessionStorage.getItem("edificioId"));
+    const navigate = useNavigate();
 
     async function login_func(user, pass) {
         // Default options are marked with *
@@ -34,19 +33,10 @@ const Login = () => {
             sessionStorage.setItem("userId", data["userId"]);
             sessionStorage.setItem("userType", data["tipo"]);
             sessionStorage.setItem("edificioId", data["edificioId"]);
-            setIdEdificio(sessionStorage.getItem("edificioId"))
+            navigate("/", { replace: true });
+            navigate(0)
         })
         .catch((err) => console.log(err))
-    }
-    //hay que ver donde ponerlo
-    function SubmitLogout(e)
-    {
-        e.preventDefault()
-        sessionStorage.removeItem("accessToken");
-        sessionStorage.removeItem("userId");
-        sessionStorage.removeItem("userType");
-        sessionStorage.removeItem("edificioId");
-        setIdEdificio(null);
     }
 
     return (
