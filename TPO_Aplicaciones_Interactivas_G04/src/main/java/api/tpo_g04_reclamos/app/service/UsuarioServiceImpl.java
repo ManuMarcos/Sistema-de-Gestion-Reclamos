@@ -43,7 +43,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Override
 	public Usuario save(UsuarioDto usuario) {
-		return usuarioDao.save(new Usuario(usuario.getNombre(), passwordEncoder.encode(usuario.getPassword()), usuario.getTipoUsuario()));
+		if(this.findUser(usuario.getNombre(), usuario.getPassword()).isEmpty()) {
+			return usuarioDao.save(new Usuario(usuario.getNombre(), passwordEncoder.encode(usuario.getPassword()), usuario.getTipoUsuario()));
+		}
+		throw new ItemNotFoundException(String.format("El usuario ya existe"));
 	}
 
 	@Override
