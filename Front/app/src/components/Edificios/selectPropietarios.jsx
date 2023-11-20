@@ -19,9 +19,10 @@ export const SelectPropietarios = ({setPropietario}) => {
         },
       });
       if (!response.ok) throw new Error(response.statusText);
-      const json = await response.json();
+      const respuesta = await response.json();
       setIsPending(false);
-      setPropietarios(json);
+      const propietarios = await respuesta.filter((user) => user.tipoUsuario == 'PROPIETARIO');
+      setPropietarios(propietarios);
     } catch (error) {
       console.log(error);
       setIsPending(false);

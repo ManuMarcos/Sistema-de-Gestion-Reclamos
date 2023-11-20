@@ -97,7 +97,6 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
 
   const convertirInquilinos = () => {
     if (inquilinos != null) {
-        //setInquilinos(inquilinos.filter((inquilino) => inquilino.tipoUsuario = 'INQUILINO'));
       const options = inquilinos.map(function (d) {
         return {
           value: d.id,
