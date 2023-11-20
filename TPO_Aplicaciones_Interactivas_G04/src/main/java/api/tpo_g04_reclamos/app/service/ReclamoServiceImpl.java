@@ -67,7 +67,7 @@ public class ReclamoServiceImpl implements IReclamoService {
 
 		// veo si es una unidad para ver si es posible generar el reclamo con el usuario
 		if(unidadOptional.isPresent()) {
-			if(this.reclamoSePuedeCrear(unidadOptional.get(), usuario)) {
+			if(!this.reclamoSePuedeCrear(unidadOptional.get(), usuario)) {
 				throw new ReclamoNoSePuedeCrearException(String.format("El reclamo no se puede crear por el usuario %s", usuario.getId()));
 			}
 		}

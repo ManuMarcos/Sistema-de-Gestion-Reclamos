@@ -13,6 +13,8 @@ import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
+import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,6 +110,8 @@ public class EdificioServiceImpl implements IEdificioService{
 
 		Usuario inquilinoNuevo = usuarioService.get(inquilinoId);
 		unidadAAgregarInquilino.getInquilinos().add(inquilinoNuevo);
+		if(unidadAAgregarInquilino.getEstado() == EstadoUnidad.SIN_ALQUILAR)
+			unidadAAgregarInquilino.setEstado(EstadoUnidad.ALQUILADA);
 
 		return edificioDao.save(edificioAAgregarInquilino);
 	}

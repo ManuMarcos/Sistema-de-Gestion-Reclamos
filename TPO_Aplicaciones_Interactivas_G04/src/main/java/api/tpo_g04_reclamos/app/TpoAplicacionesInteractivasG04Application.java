@@ -27,8 +27,12 @@ public class TpoAplicacionesInteractivasG04Application implements CommandLineRun
 		UsuarioDto usuario = new UsuarioDto("admin", "admin", TipoUsuario.PERSONAL_INTERNO);
 		usuarioService.save(usuario);
 		
-		UsuarioDto usuario2 = new UsuarioDto("ivo", "ivo", TipoUsuario.PROPIETARIO);
+		UsuarioDto usuario2 = new UsuarioDto("prop", "prop", TipoUsuario.PROPIETARIO);
 		usuarioService.save(usuario2);
+
+		UsuarioDto usuario3 = new UsuarioDto("inqui", "inqui", TipoUsuario.INQUILINO);
+		usuarioService.save(usuario3);
+
 	}
 
 	@Bean
