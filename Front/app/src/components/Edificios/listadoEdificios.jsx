@@ -58,7 +58,7 @@ export const ListadoEdificios = () => {
               edificio.map((edificio) => {
                 return (
                     <tr id={edificio.id}>
-                      <th>{edificio.direccion}</th>
+                      <td>{edificio.direccion}</td>
                       <td>{edificio.unidades.length}</td>
                       <td>{edificio.areasComunes.length}</td>
                       <td><Link to={'/Edificios/Detalle/' + edificio.id}><Button>Editar</Button></Link></td>

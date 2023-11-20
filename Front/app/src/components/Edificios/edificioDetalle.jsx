@@ -82,7 +82,7 @@ export const EdificioDetalle = () => {
                       <td>{unidad.numero}</td>
                       <td>{unidad.propietario}</td>
                       <td>{unidad.estado}</td>
-                      <td>
+                      <td width={50}>
                         <div className="link-cell">
                           <Button variant="danger" size="sm">
                             Eliminar
@@ -125,7 +125,7 @@ export const EdificioDetalle = () => {
                   return (
                     <tr id={areaComun.id}>
                       <td>{areaComun.nombre}</td>
-                      <td>
+                      <td width={50}>
                         <div className="link-cell">
                           <Button variant="danger" size="sm">
                             Eliminar

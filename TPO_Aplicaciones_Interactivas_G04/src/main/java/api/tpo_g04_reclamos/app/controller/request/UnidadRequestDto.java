@@ -13,6 +13,7 @@ public class UnidadRequestDto {
 
     public UnidadRequestDto(Unidad unidad) {
     	this.piso = unidad.getPiso();
+    	this.numero = unidad.getNumero();
     	this.estado = unidad.getEstado();
     }
 

@@ -3,6 +3,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useFetch } from "../../hooks/useFetch";
 import { baseUrl, token } from "../../shared";
 import { useParams } from "react-router-dom";
+import { SelectPropietarios } from "./selectPropietarios";
 
 export const AgregarUnidadModal = ({ refreshData }) => {
   const [show, setShow] = useState(false);
@@ -12,12 +13,13 @@ export const AgregarUnidadModal = ({ refreshData }) => {
     buttonColor: "",
     isButtonDisable: false,
   });
-
+  const [propietario, setPropietario] = useState(null);
   const [unidad, setUnidad] = useState({
     piso: "",
-    numero: "",
-    propietario: "",
+    numero: ""
   });
+  
+
 
   const { buttonColor, isButtonDisable } = buttonState;
 
@@ -34,14 +36,16 @@ export const AgregarUnidadModal = ({ refreshData }) => {
     setUnidad({
       piso: "",
       numero: "",
-      propietario: "",
-      estado: ''
+      estado: ""
     });
+    setPropietario(null);
   };
+
+  
 
   //useEffect para cambiar el estado y color del boton de Crear (pasado por props)
   useEffect(() => {
-    if (unidad.piso == "" || unidad.numero == "" || unidad.estado == "") {
+    if (unidad.piso == "" || unidad.numero == "" || unidad.estado == "" || propietario == null) {
       setButtonState({
         buttonColor: "secondary",
         isButtonDisable: true,
@@ -52,12 +56,12 @@ export const AgregarUnidadModal = ({ refreshData }) => {
         isButtonDisable: false,
       });
     }
-  }, [unidad]);
+  }, [unidad, propietario]);
 
-  const handleSubmit = (unidad) => {
+  const handleSubmit = () => {
     setIsPending(true);
 
-    console.log(JSON.stringify(unidad));
+    console.log("Enviando Post: " + JSON.stringify({...unidad,propietarioId: propietario}));
     fetch(baseUrl + "edificios/" + edificioId + "/unidad", {
       method: "POST",
       mode: "cors",
@@ -68,13 +72,15 @@ export const AgregarUnidadModal = ({ refreshData }) => {
         "Access-Control-Allow-Headers": "Content-Type",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(unidad),
+      body: JSON.stringify({...unidad,propietarioId: propietario}),
     }).then(() => {
       setIsPending(false);
       handleClose();
       refreshData();
     });
   };
+
+  
 
   return (
     <div>
@@ -131,7 +137,9 @@ export const AgregarUnidadModal = ({ refreshData }) => {
                 <option value="ALQUILADA">Alquilada</option>
                 <option value="SIN_ALQUILAR">Sin alquilar</option>
               </Form.Select>
-            </Form.Group>
+              <Form.Label>Propietario</Form.Label>
+              <SelectPropietarios setPropietario={setPropietario}/>
+            </Form.Group>   
           </Form>
         </Modal.Body>
         <Modal.Footer>

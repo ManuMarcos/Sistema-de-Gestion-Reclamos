@@ -1,18 +1,23 @@
 import { useParams } from "react-router";
 import { baseUrl, token } from "../../shared";
 import { useEffect, useState } from "react";
-import { Col, Container, Form, InputGroup, Row, Table } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Row,
+  Table,
+} from "react-bootstrap";
 
 export const UnidadDetalle = () => {
   const { unidadId } = useParams();
   const [isPending, setIsPending] = useState(false);
   const [unidad, setUnidad] = useState(null);
-  const [selectedOption, setSelectedOption] = useState('none');
-  
+  const [selectedOption, setSelectedOption] = useState("none");
+  const [editado, setEditado] = useState(false);
   const url = baseUrl + "unidad/" + unidadId;
-
-
-
 
   const getUnidad = async () => {
     setIsPending(true);
@@ -32,6 +37,7 @@ export const UnidadDetalle = () => {
       setIsPending(false);
     }
   };
+
 
   useEffect(() => {
     getUnidad();
@@ -59,16 +65,19 @@ export const UnidadDetalle = () => {
           </InputGroup>
           <InputGroup className="mb-3">
             <InputGroup.Text id="basic-addon1">Estado: </InputGroup.Text>
-            <Form.Select value={unidad!= null && unidad.estado} onChange={(event) => 
+            <Form.Select
+              value={unidad != null && unidad.estado}
+              onChange={(event) => {
                 setUnidad({
-                    ...unidad,
-                    estado: event.target.value
-                })}
-                aria-label="Default select example">
-                <option value="ALQUILADA">Alquilada</option>
-                <option value="SIN_ALQUILAR">Sin alquilar</option>
+                  ...unidad,
+                  estado: event.target.value,
+                })
+                }}
+              aria-label="Default select example"
+            >
+              <option value="ALQUILADA">Alquilada</option>
+              <option value="SIN_ALQUILAR">Sin alquilar</option>
             </Form.Select>
-            
           </InputGroup>
         </Col>
         <Col>
@@ -77,11 +86,12 @@ export const UnidadDetalle = () => {
             <Form.Control
               aria-label="Username"
               aria-describedby="basic-addon1"
-              value={unidad!=null && unidad.propietario}
+              value={unidad != null && unidad.propietario}
             />
           </InputGroup>
         </Col>
       </Row>
+      {editado == true && <Button variant="success">Guardar</Button>}
       <hr></hr>
       <Row>
         <h4>Inquilinos</h4>
