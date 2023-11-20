@@ -43,16 +43,17 @@ const ListadoReclamos = () => {
   const [datosEdificio, setDatosEdificio] = useState([]);
   const [datosListadoReclamos, setDatosListadoReclamos] = useState([]);
   const [searchParams] = useSearchParams();
+  const [filtro, setFiltro] = useState("SIN_FILTRO");
 
   useEffect(() => {
     let id_elegido = parseInt(searchParams.get("edificio_id"));
     get_edificio(id_elegido)
       .then((data) => {
         setDatosEdificio(data);
-        console.log("GET OK");
+        //console.log("GET OK");
         get_reclamos(id_elegido)
           .then((data) => {
-            console.log("GET II OK");
+            //console.log("GET II OK");
             setDatosListadoReclamos(data);
           })
           .catch((err) => {
@@ -72,13 +73,31 @@ const ListadoReclamos = () => {
         <ul>
           <li>
             <label>
-              Direccion: 
+              Direccion:
               {datosEdificio
                 ? datosEdificio["direccion"]
                 : "No se encontraron edificios..."}
             </label>
           </li>
         </ul>
+      </div>
+      <hr />
+      <div className="form-group">
+        <label>Filtrar por estado:</label>
+        <select
+          className="form-select"
+          name="ac"
+          size="3"
+          onChange={(e) => setFiltro(e.target.value)}
+        >
+          <option value="SIN_FILTROS">SIN FILTROS</option>
+          <option value="NUEVO">NUEVO</option>
+          <option value="ABIERTO">ABIERTO</option>
+          <option value="EN_PROCESO">EN_PROCESO</option>
+          <option value="DESESTIMADO">DESESTIMADO</option>
+          <option value="ANULADO">ANULADO</option>
+          <option value="TERMINADO">TERMINADO</option>
+        </select>
       </div>
       <hr />
       <table className="table">
@@ -94,7 +113,7 @@ const ListadoReclamos = () => {
         <tbody>
           {datosListadoReclamos ? (
             datosListadoReclamos.map((reclamo) => {
-              return (
+              return filtro === "SIN_FILTROS" || filtro === reclamo["estado"] ? (
                 <tr key={reclamo["numero"]}>
                   <th scope="row">{reclamo["numero"]}</th>
                   <td>{reclamo["descripcion"]}</td>
@@ -111,6 +130,8 @@ const ListadoReclamos = () => {
                     </Link>
                   </td>
                 </tr>
+              ) : (
+                <></>
               );
             })
           ) : (
