@@ -32,6 +32,9 @@ public class EdificioServiceImpl implements IEdificioService{
 	@Autowired
 	private IAreaComunDao areaComunDao;
 
+	@Autowired
+	private IUsuarioService usuarioService;
+
 	@Override
 	public List<Edificio> findAll() {
 		return edificioDao.findAll();
@@ -87,6 +90,21 @@ public class EdificioServiceImpl implements IEdificioService{
 		this.edificioExiste(id);
 
 		edificioDao.deleteById(id);
+	}
+
+	@Override
+	public Edificio agregarInquilino(Long edificioId, Long unidadId, Long inquilinoId) {
+		Edificio edificioAAgregarInquilino = findById(edificioId).orElseThrow(() -> new ItemNotFoundException(String.format("El edificio %d no existe", edificioId)));
+		Unidad unidadAAgregarInquilino = edificioAAgregarInquilino.getUnidades().stream().filter(unidad -> unidadId.equals(unidad.getId())).findFirst().orElseThrow(() -> new ItemNotFoundException(String.format("La unidad %d no existe en el edificio %d", unidadId, edificioId)));
+
+		if(unidadAAgregarInquilino.getInquilinos().stream().map(Usuario::getId).toList().contains(inquilinoId)) {
+			throw new BadRequestException(String.format("El inquilino %d ya existe para la unidad %d", inquilinoId, unidadId));
+		}
+
+		Usuario inquilinoNuevo = usuarioService.findById(inquilinoId).orElseThrow(() -> new ItemNotFoundException(String.format("El inquilino %d no existe", inquilinoId)));
+		unidadAAgregarInquilino.getInquilinos().add(inquilinoNuevo);
+
+		return edificioDao.save(edificioAAgregarInquilino);
 	}
 
 	public void addUnidad(Edificio edificio, UnidadRequestDto unidadDto) {
