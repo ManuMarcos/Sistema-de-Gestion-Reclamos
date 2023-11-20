@@ -29,6 +29,18 @@ const Login = () => {
         console.log(e);
         login_func(e.target[0].value,  e.target[1].value)
         .then((data) => {
+            if(data["userId"] === -1){
+                alert("Credenciales inválidas")
+                return
+            } 
+            if(data["userId"] === -2){
+                alert("Usuario no habilitado. Contacte al administrador.")
+                return
+            }             
+            if(data["userId"] === -3){
+                alert("Usuario con anomalías. Contancte al administrador")
+                return
+            }
             sessionStorage.setItem("accessToken", data["accessToken"]);
             sessionStorage.setItem("userId", data["userId"]);
             sessionStorage.setItem("userType", data["tipo"]);
@@ -36,7 +48,7 @@ const Login = () => {
             navigate("/", { replace: true });
             navigate(0)
         })
-        .catch((err) => console.log(err))
+        .catch((err) => alert("Ocurrió un error:" + err))
     }
 
     return (

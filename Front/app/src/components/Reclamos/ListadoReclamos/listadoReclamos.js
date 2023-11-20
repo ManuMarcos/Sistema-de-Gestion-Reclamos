@@ -72,7 +72,7 @@ const ListadoReclamos = () => {
         <ul>
           <li>
             <label>
-              Direccion:
+              Direccion: 
               {datosEdificio
                 ? datosEdificio["direccion"]
                 : "No se encontraron edificios..."}
