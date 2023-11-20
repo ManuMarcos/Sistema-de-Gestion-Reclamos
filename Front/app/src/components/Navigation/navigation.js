@@ -12,6 +12,8 @@ import DetalleReclamo from "../Reclamos/DetalleReclamo/detalleReclamo"
 import Login from "../LogIn/login";
 import SignUp from "../SignUp/signup";
 import AdminPermisos from "../adminPermisos/adminPermisos"
+import EditarPermisos from "../adminPermisos/editarPermiso"
+
 import Landing from "../Landing/landing";
 import { UnidadDetalle } from "../Edificios/unidadDetalle";
 
@@ -26,6 +28,7 @@ function Navigation() {
                     <Route path="/acerca-de" element={<AboutUs />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/admin-permisos" element={<AdminPermisos />} />
+                    <Route path="/editar-permisos" element={<EditarPermisos />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/landing" element={<Landing />} />
 
