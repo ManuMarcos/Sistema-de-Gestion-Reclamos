@@ -50,12 +50,6 @@ const NavBar = () => {
                 <Link to={`/`}>
                   <div className="nav-link">Home</div>
                 </Link>
-                <Link to={`/Reclamos/Listado?edificio_id=${idEdificio}`}>
-                  <div className="nav-link">Ver Reclamos</div>
-                </Link>
-                <Link to={`/Reclamos/Nuevo?edificio_id=${idEdificio}`}>
-                  <div className="nav-link">Nuevo Reclamo</div>
-                </Link>
                 {isAdmin ? (
                   <>
                     <Link to="/Edificios/Listado">
@@ -66,7 +60,15 @@ const NavBar = () => {
                     </Link>
                   </>
                 ) : (
-                  <></>
+                  <>
+                    {/* El admin deberia llegar a ver los reclamos desde el menu edificio, con algun boton para ir a reclamos... */}
+                    <Link to={`/Reclamos/Listado?edificio_id=${idEdificio}`}>
+                      <div className="nav-link">Ver Reclamos</div>
+                    </Link>
+                    <Link to={`/Reclamos/Nuevo?edificio_id=${idEdificio}`}>
+                      <div className="nav-link">Nuevo Reclamo</div>
+                    </Link>
+                  </>
                 )}
                 <Link>
                   <div className="nav-link" onClick={SubmitLogout}>
