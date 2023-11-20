@@ -7,7 +7,9 @@ import api.tpo_g04_reclamos.app.controller.request.EdificioUpdateDto;
 import api.tpo_g04_reclamos.app.controller.request.UnidadRequestDto;
 import api.tpo_g04_reclamos.app.exception.exceptions.ItemNotFoundException;
 import api.tpo_g04_reclamos.app.model.entity.Edificio;
+import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.service.IEdificioService;
+import api.tpo_g04_reclamos.app.service.IUsuarioService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +28,6 @@ public class EdificioController {
 	
 	@Autowired
 	private IEdificioService edificioService;
-	
 	
 	@GetMapping
 	public ResponseEntity<List<EdificioDto>> findAll(@RequestParam(value = "usuarioId", required = false) String usuarioId){
@@ -59,6 +60,13 @@ public class EdificioController {
 		edificioService.addUnidad(edificioAAgregarUnidad, unidad);
 
 		return new ResponseEntity<>(new EdificioDto(edificioAAgregarUnidad), OK);
+	}
+
+	@PostMapping("/{edificioId}/unidad/{unidadId}/inquilino/{inquilinoId}")
+	public ResponseEntity<EdificioDto> addInquilinoAUnidad(@PathVariable("edificioId") Long edificioId, @PathVariable("unidadId") Long unidadId, @PathVariable("inquilinoId") Long inquilinoId) {
+		Edificio edificio = edificioService.agregarInquilino(edificioId, unidadId, inquilinoId);
+
+		return ok(new EdificioDto(edificio));
 	}
 
 	@PostMapping("/{edificioId}/area-comun")

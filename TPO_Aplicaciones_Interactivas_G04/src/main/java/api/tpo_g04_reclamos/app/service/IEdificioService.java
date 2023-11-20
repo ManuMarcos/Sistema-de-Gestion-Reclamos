@@ -27,4 +27,6 @@ public interface IEdificioService {
 
 	void addAreaComun(Edificio edificio, AreaComunRequestDto areaComunDto);
 
+	Edificio agregarInquilino(Long edificioId, Long unidadId, Long inquilinoId);
+
 }
