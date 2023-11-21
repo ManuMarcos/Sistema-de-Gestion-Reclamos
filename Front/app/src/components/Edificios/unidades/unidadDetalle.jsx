@@ -83,14 +83,39 @@ export const UnidadDetalle = () => {
     }
   };
 
+  const quitarInquilino = async () => {
+    /*if (unidad != null) {
+      const urlGetUsuarioById = `${baseUrl}usuarios/${unidad.propietarioId}`;
+      setIsPending(true);
+      try {
+        const response = await fetch(urlGetUsuarioById, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        if (!response.ok) throw new Error(response.statusText);
+        const propietario = await response.json();
+        setIsPending(false);
+        setUnidad({...unidad, propietario: propietario.nombre});
+      } catch (error) {
+        console.log(error);
+        setIsPending(false);
+      }
+    }*/
+    console.log('FEATURE PENDIENTE');
+  };
+
+
   useEffect(() => {
     getUnidad();
-  }, []);
+    console.log('useEffect1')
+  }, [inquilinos]);
 
   useEffect(() => {
     getInquilinos();
     getDatosPropietario();
-  },[isUnidadCargada]);
+    console.log('useEffect2')
+  },[isUnidadCargada]); 
 
 
 
@@ -122,19 +147,9 @@ export const UnidadDetalle = () => {
             <InputGroup.Text data-bs-theme="dark" id="basic-addon1">
               Estado:{" "}
             </InputGroup.Text>
-            <Form.Select
+            <Form.Control
               value={unidad != null && unidad.estado}
-              onChange={(event) => {
-                setUnidad({
-                  ...unidad,
-                  estado: event.target.value,
-                });
-              }}
-              aria-label="Default select example"
-            >
-              <option value="ALQUILADA">Alquilada</option>
-              <option value="SIN_ALQUILAR">Sin alquilar</option>
-            </Form.Select>
+            />
           </InputGroup>
         </Col>
         <Col>
@@ -160,6 +175,7 @@ export const UnidadDetalle = () => {
           <thead>
             <tr>
               <th>Nombre</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -167,7 +183,18 @@ export const UnidadDetalle = () => {
               inquilinos.map((inquilino) => {
                 return (
                     <tr id={inquilino.id}>
-                      <td>{inquilino.nombre}</td>                    
+                      <td>{inquilino.nombre}</td>     
+                      <td width={80}>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => {
+                          quitarInquilino(inquilino.id);
+                        }}
+                      >
+                        Eliminar
+                      </Button>
+                      </td>               
                     </tr>
                 );
               })
