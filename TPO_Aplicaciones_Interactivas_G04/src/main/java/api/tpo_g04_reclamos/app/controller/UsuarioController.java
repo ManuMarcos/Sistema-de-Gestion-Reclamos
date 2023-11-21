@@ -1,8 +1,10 @@
 package api.tpo_g04_reclamos.app.controller;
 
 import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
+import api.tpo_g04_reclamos.app.exception.exceptions.BadRequestException;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.service.IUsuarioService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,6 +37,7 @@ public class UsuarioController {
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<UsuarioDto> addUsuario(@RequestBody UsuarioDto usuario) {
+		this.validarCreacionUsuario(usuario);
 		Usuario usuarioCreado = usuarioService.save(usuario);
 		return new ResponseEntity<>(new UsuarioDto(usuarioCreado), CREATED);
 	}
@@ -53,4 +56,11 @@ public class UsuarioController {
 
 		return ok(String.format("deleted usuario %d", usuarioId));
 	}
+
+	private void validarCreacionUsuario(UsuarioDto usuarioDto) {
+		if(usuarioDto.getRoleType() == null || Strings.isBlank(usuarioDto.getNombre()) || Strings.isBlank(usuarioDto.getPassword()) || usuarioDto.getTipoUsuario() == null) {
+			throw new BadRequestException("Campos para crear usuario incompletos");
+		}
+	}
+
 }
