@@ -14,6 +14,10 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
     buttonColor: "",
     isButtonDisable: false,
   });
+  const [error, setError] = useState({
+    hayError: false,
+    mensaje: ""
+  });
   const { buttonColor, isButtonDisable } = buttonState;
 
   const getInquilinos = async () => {
@@ -28,7 +32,9 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
       if (!response.ok) throw new Error(response.statusText);
       const respuesta = await response.json();
       setIsPending(false);
-      const usuariosFiltrados = await respuesta.filter((user) => user.tipoUsuario == 'INQUILINO');
+      const usuariosFiltrados = await respuesta.filter(
+        (user) => user.tipoUsuario == "INQUILINO"
+      );
       setInquilinos(usuariosFiltrados);
     } catch (error) {
       console.log(error);
@@ -52,16 +58,31 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
         "Access-Control-Allow-Headers": "Content-Type",
         "Content-Type": "application/json",
       },
-    }).then(() => {
-      setIsPending(false);
-      handleClose();
-      refreshData();
+    }).then((response) => {
+      if (!response.ok) {
+        handleError(response.status);
+        setIsPending(false);
+        limpiarInputs();
+      } else {
+        setIsPending(false);
+        handleClose();
+        refreshData();
+      }
     });
   };
+
+  const handleError = (mensajeError) => {
+    setError({
+      hayError:true,
+      mensaje:mensajeError
+    })
+  }
+
 
   const handleClose = () => {
     setShow(false);
     limpiarInputs();
+    setError({hayError:false, mensaje: ""});
   };
 
   const handleShow = () => {
@@ -130,6 +151,14 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
               noOptionsMessage={() => "No hay inquilinos"}
             ></Select>
           </Form>
+          {error.hayError && (
+            <>
+            <hr></hr>
+            <div class="alert alert-danger" role="alert">
+              Ocurrio un error {error.mensaje}
+            </div>
+            </>
+          )}
         </Modal.Body>
         <Modal.Footer>
           {!isPending && (

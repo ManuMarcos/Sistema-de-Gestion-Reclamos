@@ -16,16 +16,19 @@ export const AgregarUnidadModal = ({ refreshData }) => {
   const [propietario, setPropietario] = useState(null);
   const [unidad, setUnidad] = useState({
     piso: "",
-    numero: ""
+    numero: "",
   });
-  
-
+  const [error, setError] = useState({
+    hayError: false,
+    mensaje: "",
+  });
 
   const { buttonColor, isButtonDisable } = buttonState;
 
   const handleClose = () => {
     setShow(false);
     limpiarInputs();
+    setError({hayError:false, mensaje: ""});
   };
 
   const handleShow = () => {
@@ -36,12 +39,17 @@ export const AgregarUnidadModal = ({ refreshData }) => {
     setUnidad({
       piso: "",
       numero: "",
-      estado: ""
+      estado: "",
     });
     setPropietario(null);
   };
 
-  
+  const handleError = (statusText) => {
+    setError({
+      hayError: true,
+      mensaje: statusText
+    })
+  };
 
   //useEffect para cambiar el estado y color del boton de Crear (pasado por props)
   useEffect(() => {
@@ -61,7 +69,10 @@ export const AgregarUnidadModal = ({ refreshData }) => {
   const handleSubmit = () => {
     setIsPending(true);
 
-    console.log("Enviando Post: " + JSON.stringify({...unidad,propietarioId: propietario}));
+    console.log(
+      "Enviando Post: " +
+        JSON.stringify({ ...unidad, propietarioId: propietario })
+    );
     fetch(baseUrl + "edificios/" + edificioId + "/unidad", {
       method: "POST",
       mode: "cors",
@@ -72,15 +83,20 @@ export const AgregarUnidadModal = ({ refreshData }) => {
         "Access-Control-Allow-Headers": "Content-Type",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({...unidad,propietarioId: propietario}),
-    }).then(() => {
-      setIsPending(false);
-      handleClose();
-      refreshData();
-    });
+      body: JSON.stringify({ ...unidad, propietarioId: propietario }),
+    }).then((response) => {
+        if(!response.ok){
+          handleError(response.status);
+          setIsPending(false);
+          limpiarInputs();
+        }
+        else{
+        setIsPending(false);
+        handleClose();
+        refreshData();
+        }
+      })
   };
-
-  
 
   return (
     <div>
@@ -91,7 +107,7 @@ export const AgregarUnidadModal = ({ refreshData }) => {
         <Modal.Header closeButton>
           <Modal.Title>Nueva unidad</Modal.Title>
         </Modal.Header>
-        <Modal.Body >
+        <Modal.Body>
           <Form
             id="agregarUnidadForm"
             onSubmit={(e) => {
@@ -138,11 +154,19 @@ export const AgregarUnidadModal = ({ refreshData }) => {
                 <option value="ALQUILADA">Alquilada</option>
                 <option value="SIN_ALQUILAR">Sin alquilar</option>
               </Form.Select>
-              */} 
+              */}
               <Form.Label>Propietario</Form.Label>
-              <SelectPropietarios setPropietario={setPropietario}/>
-            </Form.Group>   
+              <SelectPropietarios setPropietario={setPropietario} />
+            </Form.Group>
           </Form>
+          {error.hayError && (
+            <>
+            <hr></hr>
+            <div class="alert alert-danger" role="alert">
+              Ocurrio un error {error.mensaje}
+            </div>
+            </>
+          )}
         </Modal.Body>
         <Modal.Footer>
           {!isPending && (
