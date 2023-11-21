@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+import static api.tpo_g04_reclamos.app.model.enums.EstadoUnidad.SIN_ALQUILAR;
+
 @Entity(name = "unidades")
 public class Unidad {
 
@@ -28,8 +30,8 @@ public class Unidad {
 				joinColumns = @JoinColumn(name = "inquilino_id"),
 				inverseJoinColumns = @JoinColumn(name = "unidad_id"))
 	private List<Usuario> inquilinos;
-	
-	private EstadoUnidad estado;
+
+	private EstadoUnidad estado = SIN_ALQUILAR;
 
 	public Unidad() {
 		super();
@@ -131,7 +133,7 @@ public class Unidad {
 	}
 
 	@Override
-	public Integer hashCode() {
+	public int hashCode() {
 		return Objects.hash(id, piso, numero, edificio, propietario, inquilinos, estado);
 	}
 }

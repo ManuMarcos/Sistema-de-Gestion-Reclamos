@@ -77,7 +77,7 @@ public class AreaComun{
 	}
 
 	@Override
-	public Integer hashCode() {
+	public int hashCode() {
 		return Objects.hash(id, edificio, nombre);
 	}
 }

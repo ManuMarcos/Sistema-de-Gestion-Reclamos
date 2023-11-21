@@ -115,7 +115,7 @@ public class Usuario implements UserDetails{
 	}
 
 	@Override
-	public Integer hashCode() {
+	public int hashCode() {
 		return Objects.hash(id, nombre, password, tipoUsuario);
 	}
 

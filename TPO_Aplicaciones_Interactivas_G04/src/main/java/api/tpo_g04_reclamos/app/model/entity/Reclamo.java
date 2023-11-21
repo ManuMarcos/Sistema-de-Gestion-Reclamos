@@ -154,7 +154,7 @@ public class Reclamo {
     }
 
     @Override
-    public Integer hashCode() {
+    public int hashCode() {
         return Objects.hash(id, numero, descripcion, estado, usuario, unidad, areaComun);
     }
 }

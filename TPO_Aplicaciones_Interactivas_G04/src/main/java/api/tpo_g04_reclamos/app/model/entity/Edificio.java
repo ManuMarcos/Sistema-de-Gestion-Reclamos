@@ -93,7 +93,7 @@ public class Edificio {
 	}
 
 	@Override
-	public Integer hashCode() {
+	public int hashCode() {
 		return Objects.hash(id, direccion, areasComunes, unidades);
 	}
 
