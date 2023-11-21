@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import AgregarUsuarioModal from "../SignUp/AgregarUsuarioModal"
 
 async function get_usuarios(id_usuario) {
   const response = await fetch(
@@ -34,13 +35,10 @@ const AdminPermisos = () => {
           .then((data) => {
             console.log("GET II OK");
             setAdminPermisos(data);
-          })
-          .catch((err) => {
-            alert("No se pudo obtener reclamos del edificio");
           });
       })
       .catch((err) => {
-        alert("No se pudo obtener datos del edificio");
+        alert("");
       });
   }, [searchParams]);
 
@@ -88,6 +86,7 @@ const AdminPermisos = () => {
           )}
         </tbody>
       </table>
+      <AgregarUsuarioModal refreshData={get_usuarios}></AgregarUsuarioModal>
     </div>
   );
 };
