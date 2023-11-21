@@ -1,5 +1,6 @@
 package api.tpo_g04_reclamos.app.model.entity;
 
+import api.tpo_g04_reclamos.app.model.enums.RoleType;
 import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +22,9 @@ public class Usuario implements UserDetails{
 	
 	@Enumerated(EnumType.STRING)
 	private TipoUsuario tipoUsuario;
+
+	@Enumerated(EnumType.STRING)
+	private RoleType roleType;
 	
 	@Column(name = "fecha_creacion")
 	@Temporal(TemporalType.DATE)
@@ -39,6 +43,15 @@ public class Usuario implements UserDetails{
 		this.password = password;
 		this.tipoUsuario = tipoUsuario;
 		this.fechaCreacion = new Date();
+	}
+
+	public Usuario(String nombre, String password, RoleType roleType, TipoUsuario tipoUsuario) {
+		super();
+		this.nombre = nombre;
+		this.password = password;
+		this.tipoUsuario = tipoUsuario;
+		this.fechaCreacion = new Date();
+		this.roleType = roleType;
 	}
 
 	public Usuario(Long id, String nombre, String password, TipoUsuario tipoUsuario) {
@@ -83,6 +96,10 @@ public class Usuario implements UserDetails{
 	
 	public TipoUsuario getTipoUsuario() {
 		return tipoUsuario;
+	}
+
+	public RoleType getRoleType() {
+		return roleType;
 	}
 
 	public void setTipoUsuario(TipoUsuario tipoUsuario) {

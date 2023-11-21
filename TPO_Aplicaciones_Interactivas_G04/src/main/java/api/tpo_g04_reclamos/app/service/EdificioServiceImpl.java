@@ -14,7 +14,6 @@ import api.tpo_g04_reclamos.app.model.entity.Edificio;
 import api.tpo_g04_reclamos.app.model.entity.Unidad;
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
