@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/auth")
@@ -64,7 +65,7 @@ public class AuthController {
 				}
 				idEdificio = listEdificios.get(0).getId();
 			}
-			return new ResponseEntity<>(new LoginResponse(token, u.get().getId(), u.get().getTipoUsuario(), idEdificio), OK);
+			return ok(new LoginResponse(token, u.get().getId(), u.get().getTipoUsuario(), idEdificio, u.get().getRoleType()));
 		}
 		else {
 			return new ResponseEntity<>(new LoginResponse("Credenciales invalidas", -1L, TipoUsuario.PROPIETARIO, -1L), UNAUTHORIZED);
