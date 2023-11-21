@@ -5,6 +5,7 @@ import api.tpo_g04_reclamos.app.model.entity.Usuario;
 import api.tpo_g04_reclamos.app.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,18 +33,21 @@ public class UsuarioController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<UsuarioDto> addUsuario(@RequestBody UsuarioDto usuario) {
 		Usuario usuarioCreado = usuarioService.save(usuario);
 		return new ResponseEntity<>(new UsuarioDto(usuarioCreado), CREATED);
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<UsuarioDto> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDto usuario) {
 		Usuario usuarioActualizado = usuarioService.update(id, usuario);
 		return ok(new UsuarioDto(usuarioActualizado));
 	}
 	
 	@DeleteMapping("/{usuarioId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteUsuario(@PathVariable Long usuarioId){
 		usuarioService.deleteById(usuarioId);
 

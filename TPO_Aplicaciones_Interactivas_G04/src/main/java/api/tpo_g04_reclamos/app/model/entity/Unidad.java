@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+import static api.tpo_g04_reclamos.app.model.enums.EstadoUnidad.SIN_ALQUILAR;
+
 @Entity(name = "unidades")
 public class Unidad {
 
@@ -19,20 +21,21 @@ public class Unidad {
 	@JoinColumn(name = "edificio_id")
 	private Edificio edificio;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "propietario_id")
 	private Usuario propietario;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "usuario_unidades",
 				joinColumns = @JoinColumn(name = "inquilino_id"),
 				inverseJoinColumns = @JoinColumn(name = "unidad_id"))
 	private List<Usuario> inquilinos;
-	
+
 	private EstadoUnidad estado;
 
 	public Unidad() {
 		super();
+		this.estado = SIN_ALQUILAR;
 	}
 
 	public Unidad(Integer piso, Integer numero, Edificio edificio, EstadoUnidad estado) {
@@ -40,14 +43,22 @@ public class Unidad {
 		this.piso = piso;
 		this.numero = numero;
 		this.edificio = edificio;
-		this.estado = estado;
+		if(estado == null) {
+			this.estado = SIN_ALQUILAR;
+		} else {
+			this.estado = estado;
+		}
 	}
 
 	public Unidad(Integer piso, Integer numero, EstadoUnidad estado) {
 		super();
 		this.piso = piso;
 		this.numero = numero;
-		this.estado = estado;
+		if(estado == null) {
+			this.estado = SIN_ALQUILAR;
+		} else {
+			this.estado = estado;
+		}
 	}
 
 	public Unidad(Integer piso, Integer numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
@@ -56,7 +67,11 @@ public class Unidad {
 		this.numero = numero;
 		this.edificio = edificio;
 		this.propietario = propietario;
-		this.estado = estado;
+		if(estado == null) {
+			this.estado = SIN_ALQUILAR;
+		} else {
+			this.estado = estado;
+		}
 	}
 
 	public Unidad(Long id, Integer piso, Integer numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
@@ -66,7 +81,11 @@ public class Unidad {
 		this.numero = numero;
 		this.edificio = edificio;
 		this.propietario = propietario;
-		this.estado = estado;
+		if(estado == null) {
+			this.estado = SIN_ALQUILAR;
+		} else {
+			this.estado = estado;
+		}
 	}
 
 	public Long getId() {

@@ -12,6 +12,7 @@ import api.tpo_g04_reclamos.app.service.IEdificioService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,12 +43,14 @@ public class EdificioController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<EdificioDto> addEdificio(@RequestBody EdificioRequestDto edificio) {
 		Edificio edificioCreado = edificioService.save(edificio);
 		return new ResponseEntity<>(new EdificioDto(edificioCreado), CREATED);
 	}
 
 	@PostMapping("/{edificioId}/unidad")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<EdificioDto> addUnidad(@PathVariable Long edificioId, @RequestBody UnidadRequestDto unidad) {
 		Edificio edificioAAgregarUnidad = edificioService.get(edificioId);
 		edificioService.addUnidad(edificioAAgregarUnidad, unidad);
@@ -56,6 +59,7 @@ public class EdificioController {
 	}
 
 	@PostMapping("/{edificioId}/unidad/{unidadId}/inquilino/{inquilinoId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<EdificioDto> addInquilinoAUnidad(@PathVariable("edificioId") Long edificioId, @PathVariable("unidadId") Long unidadId, @PathVariable("inquilinoId") Long inquilinoId) {
 		Edificio edificio = edificioService.agregarInquilino(edificioId, unidadId, inquilinoId);
 
@@ -63,6 +67,7 @@ public class EdificioController {
 	}
 
 	@GetMapping("/{edificioId}/inquilinos/{unidadId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<UsuarioDto>> getInquilinosUnidad(@PathVariable("edificioId") Long edificioId, @PathVariable("unidadId") Long unidadId) {
 		List<Usuario> inquilinos = edificioService.getInquilinosUnidad(edificioId, unidadId);
 
@@ -70,6 +75,7 @@ public class EdificioController {
 	}
 
 	@PostMapping("/{edificioId}/area-comun")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<EdificioDto> addAreaComun(@PathVariable Long edificioId, @RequestBody AreaComunRequestDto areaComunDto) {
 		Edificio edificioAAgregarAreaComun = edificioService.get(edificioId);
 		edificioService.addAreaComun(edificioAAgregarAreaComun, areaComunDto);
@@ -78,12 +84,14 @@ public class EdificioController {
 	}
 	
 	@PutMapping("/{edificioId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<EdificioDto> updateEdificio(@PathVariable Long edificioId, @RequestBody EdificioUpdateDto edificio){
 		Edificio edificioUpdated = edificioService.update(edificioId, edificio);
 		return ok(new EdificioDto(edificioUpdated));
 	}
 	
 	@DeleteMapping("/{edificioId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteEdificio(@PathVariable Long edificioId){
 		edificioService.deleteById(edificioId);
 

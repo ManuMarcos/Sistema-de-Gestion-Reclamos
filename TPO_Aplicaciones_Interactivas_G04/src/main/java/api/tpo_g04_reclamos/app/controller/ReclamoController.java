@@ -8,6 +8,7 @@ import api.tpo_g04_reclamos.app.service.IReclamoService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,18 +45,21 @@ public class ReclamoController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ReclamoDto> createReclamo(@RequestBody ReclamoRequestDto reclamo) {
 		Reclamo reclamoCreado = reclamoService.save(reclamo);
 		return new ResponseEntity<>(new ReclamoDto(reclamoCreado), CREATED);
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ReclamoDto> updateReclamo(@PathVariable Long id, @RequestBody ReclamoRequestDto reclamo) {
 		Reclamo reclamoActualizado = reclamoService.update(id, reclamo);
 		return ok(new ReclamoDto(reclamoActualizado));
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteReclamo(@PathVariable Long id){
 		reclamoService.deleteById(id);
 
