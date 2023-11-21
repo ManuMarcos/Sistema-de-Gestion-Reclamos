@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface IUsuarioService {
 	List<Usuario> findAll();
 	
+	List<Usuario> findPropietariosSinUnidad();
+	
 	Optional<Usuario> findById(Long id);
 
 	Usuario get(Long id);

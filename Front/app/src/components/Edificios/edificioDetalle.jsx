@@ -180,10 +180,14 @@ export const EdificioDetalle = () => {
   }, []);
 
   return (
-    <Container className="edificio-detalle-container">
+    <>
+    
+    <Container className="edificio-detalle-container">      
       <Col>
         <Row id="flex-row">
+          
           {detalle != null && (
+            
             <InputGroup className="mb-3">
               <InputGroup.Text data-bs-theme="dark">Dirección:</InputGroup.Text>
               <Form.Control
@@ -318,5 +322,6 @@ export const EdificioDetalle = () => {
         </Row>
       </Col>
     </Container>
+    </>
   );
 };

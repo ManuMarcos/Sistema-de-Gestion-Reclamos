@@ -77,6 +77,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		return true;
 	}
 
+	@Override
+	public List<Usuario> findPropietariosSinUnidad() {
+		// TODO Auto-generated method stub
+		return usuarioDao.findPropietariosSinUnidad();
+	}
+
 	
 
 }

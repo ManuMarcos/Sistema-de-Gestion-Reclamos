@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface IUsuarioDao {
 	List<Usuario> findAll();
+	
+	List<Usuario> findPropietariosSinUnidad();
 
 	Optional<Usuario> findById(Long id);
 

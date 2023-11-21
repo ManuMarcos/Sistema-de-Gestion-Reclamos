@@ -27,6 +27,12 @@ public class UsuarioController {
 		return ok(UsuarioDto.fromList(usuarioService.findAll()));
 	}
 	
+	
+	@GetMapping("/propietariosSinUnidad")
+	public ResponseEntity<List<UsuarioDto>> findPropietariosSinUnidad(){
+		return ok(UsuarioDto.fromList(usuarioService.findPropietariosSinUnidad()));
+	}
+	
 	@GetMapping("/{usuarioId}")
 	public ResponseEntity<UsuarioDto> findById(@PathVariable Long usuarioId){
 		Usuario usuario = usuarioService.get(usuarioId);

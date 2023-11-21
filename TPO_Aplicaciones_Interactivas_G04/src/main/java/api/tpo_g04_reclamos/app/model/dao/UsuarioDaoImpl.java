@@ -85,5 +85,15 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		return passwordEncoder.matches(password, passwordDB);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Usuario> findPropietariosSinUnidad() {
+		Session currentSession = entityManager.unwrap(Session.class);
+		String query = "FROM usuarios u WHERE u.id NOT IN (SELECT us.propietario.id FROM unidades us WHERE us.propietario IS NOT NULL) AND u.tipoUsuario = 'PROPIETARIO'";
+		Query<Usuario> getQuery = currentSession.createQuery(query, Usuario.class);
+		return getQuery.getResultList();
+	}
+
+
 	
 }
