@@ -6,6 +6,7 @@ import api.tpo_g04_reclamos.app.model.entity.AreaComun;
 import api.tpo_g04_reclamos.app.service.IAreaComunService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class AreaComunController {
 	}
 
 	@PutMapping("/{areaComunId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> updateAreaComun(@PathVariable Long areaComunId, @RequestBody AreaComun areaComun) {
 		AreaComun areaComunUpdated = areaComunService.update(areaComunId, areaComun);
 
@@ -40,6 +42,7 @@ public class AreaComunController {
 	}
 
 	@DeleteMapping("/{areaComunId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteById(@PathVariable Long areaComunId){
 		areaComunService.deleteById(areaComunId);
 		
