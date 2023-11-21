@@ -19,11 +19,11 @@ public class Unidad {
 	@JoinColumn(name = "edificio_id")
 	private Edificio edificio;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "propietario_id")
 	private Usuario propietario;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "usuario_unidades",
 				joinColumns = @JoinColumn(name = "inquilino_id"),
 				inverseJoinColumns = @JoinColumn(name = "unidad_id"))
