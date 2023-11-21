@@ -34,7 +34,6 @@ export const UnidadDetalle = () => {
       setIsPending(false);
       setUnidad(json);
       setUnidadCargada(true);
-
     } catch (error) {
       console.log(error);
       setIsPending(false);
@@ -75,7 +74,7 @@ export const UnidadDetalle = () => {
         if (!response.ok) throw new Error(response.statusText);
         const propietario = await response.json();
         setIsPending(false);
-        setUnidad({...unidad, propietario: propietario.nombre});
+        setUnidad({ ...unidad, propietario: propietario.nombre });
       } catch (error) {
         console.log(error);
         setIsPending(false);
@@ -83,41 +82,33 @@ export const UnidadDetalle = () => {
     }
   };
 
-  const quitarInquilino = async () => {
-    /*if (unidad != null) {
-      const urlGetUsuarioById = `${baseUrl}usuarios/${unidad.propietarioId}`;
-      setIsPending(true);
-      try {
-        const response = await fetch(urlGetUsuarioById, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        if (!response.ok) throw new Error(response.statusText);
-        const propietario = await response.json();
-        setIsPending(false);
-        setUnidad({...unidad, propietario: propietario.nombre});
-      } catch (error) {
-        console.log(error);
-        setIsPending(false);
-      }
-    }*/
-    console.log('FEATURE PENDIENTE');
+  const quitarInquilino = async (inquilinoId) => {
+    const quitarInquilinoUnidad = `${baseUrl}edificios/${unidad.edificioId}/unidad/${unidad.id}/inquilino/${inquilinoId}`;
+    fetch(quitarInquilinoUnidad, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+        Authorization: "Bearer " + token,
+        "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      getInquilinos();
+    });
   };
-
 
   useEffect(() => {
     getUnidad();
-    console.log('useEffect1')
+    console.log("useEffect1");
   }, [inquilinos]);
 
   useEffect(() => {
     getInquilinos();
     getDatosPropietario();
-    console.log('useEffect2')
-  },[isUnidadCargada]); 
-
-
+    console.log("useEffect2");
+  }, [isUnidadCargada]);
 
   return (
     <Container className="unidad-detalles">
@@ -147,9 +138,7 @@ export const UnidadDetalle = () => {
             <InputGroup.Text data-bs-theme="dark" id="basic-addon1">
               Estado:{" "}
             </InputGroup.Text>
-            <Form.Control
-              value={unidad != null && unidad.estado}
-            />
+            <Form.Control value={unidad != null && unidad.estado} />
           </InputGroup>
         </Col>
         <Col>
@@ -179,12 +168,12 @@ export const UnidadDetalle = () => {
             </tr>
           </thead>
           <tbody>
-          {inquilinos != null && 
+            {inquilinos != null &&
               inquilinos.map((inquilino) => {
                 return (
-                    <tr id={inquilino.id}>
-                      <td>{inquilino.nombre}</td>     
-                      <td width={80}>
+                  <tr id={inquilino.id}>
+                    <td>{inquilino.nombre}</td>
+                    <td width={80}>
                       <Button
                         variant="danger"
                         size="sm"
@@ -194,16 +183,13 @@ export const UnidadDetalle = () => {
                       >
                         Eliminar
                       </Button>
-                      </td>               
-                    </tr>
+                    </td>
+                  </tr>
                 );
-              })
-            }
+              })}
           </tbody>
         </Table>
-        {inquilinos == null &&
-          <span>Sin datos...</span>
-        }
+        {inquilinos == null && <span>Sin datos...</span>}
         {isPending && <div>Loading....</div>}
       </Row>
     </Container>
