@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Table from 'react-bootstrap/Table';
+import Table from "react-bootstrap/Table";
 import "./styles.css";
 import { AgregarEdificioModal } from "./agregarEdificioModal";
 import { useFetch } from "../../hooks/useFetch";
@@ -7,61 +7,56 @@ import { Button } from "react-bootstrap";
 import { baseUrl, token } from "../../shared";
 import { Link } from "react-router-dom";
 
-
 export const ListadoEdificios = () => {
-  
   const [edificio, setEdificio] = useState(null);
-  const [url, setUrl] = useState(baseUrl + 'edificios');
+  const [url, setUrl] = useState(baseUrl + "edificios");
   const [isPending, setIsPending] = useState(true);
-  const [nombrePropietario, setNombrePropietario] = useState();
 
-  const getNombrePropietario = async () => {
-    setIsPending(true);
-    try{
-      const response = await fetch(url,{
-        headers: {
-            Authorization: "Bearer " + token}
-      });
-      if (!response.ok) throw new Error(response.statusText);
-      const propietario = await response.json();
-      setIsPending(false);
-      setNombrePropietario(propietario.nombre);
-    }catch(error){
-      console.log(error);
-      setIsPending(false);
-    }
-  }
-
-  const getEdificios = async () =>{
+  const getEdificios = async () => {
     setIsPending(true);
     try {
-      const response = await fetch(url,{
-          headers: {
-              Authorization: "Bearer " + token}
+      const response = await fetch(url, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       });
       if (!response.ok) throw new Error(response.statusText);
       const json = await response.json();
       setIsPending(false);
       setEdificio(json);
-    }catch(error){
+    } catch (error) {
       console.log(error);
       setIsPending(false);
-    }};
+    }
+  };
 
-  
-
+  const deleteEdificio = async (edificioId) => {
+    const urlDeleteEdificio = baseUrl + "edificios/" + edificioId;
+    fetch(urlDeleteEdificio, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+        Authorization: "Bearer " + token,
+        "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      getEdificios();
+    });
+  };
 
   useEffect(() => {
     getEdificios();
-    getNombrePropietario();
-  },[]);
-
+    //getNombrePropietario();
+  }, []);
 
   return (
     <div>
       <div className="nav-bar">
         <h2>Edificios</h2>
-        <AgregarEdificioModal refreshData={getEdificios}></AgregarEdificioModal>  
+        <AgregarEdificioModal refreshData={getEdificios}></AgregarEdificioModal>
       </div>
       <Table bordered hover striped variant="dark">
         <thead>
@@ -73,24 +68,36 @@ export const ListadoEdificios = () => {
           </tr>
         </thead>
         <tbody>
-          {edificio != null && 
-              edificio.map((edificio) => {
-                return (
-                    <tr id={edificio.id}>
-                      <td>{edificio.direccion}</td>
-                      <td>{edificio.unidades.length}</td>
-                      <td>{edificio.areasComunes.length}</td>
-                      <td><Link to={'/Edificios/Detalle/' + edificio.id}><Button>Editar</Button></Link></td>
-                    </tr>
-                );
-              })
-            }
+          {edificio != null &&
+            edificio.map((edificio) => {
+              return (
+                <tr id={edificio.id}>
+                  <td>{edificio.direccion}</td>
+                  <td>{edificio.unidades.length}</td>
+                  <td>{edificio.areasComunes.length}</td>
+                  <td width={200}>
+                    <div className="link-cell">
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => {
+                          deleteEdificio(edificio.id);
+                        }}
+                      >
+                        Eliminar
+                      </Button>
+                      <Link to={"/Edificios/Detalle/" + edificio.id}>
+                        <Button size="sm" className="margin-rigth">Editar</Button>
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </Table>
-      {edificio == null &&
-        <h3>Sin datos...</h3>
-      }
+      {edificio == null && <h3>Sin datos...</h3>}
       {isPending && <div>Loading....</div>}
-    </div>  
-    );
+    </div>
+  );
 };

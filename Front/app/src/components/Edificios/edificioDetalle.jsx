@@ -20,15 +20,12 @@ export const EdificioDetalle = () => {
   const [isPending, setIsPending] = useState(false);
   const [detalle, setDetalle] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [direccion, setDireccion] = useState();
 
   //useParams
   const { edificioId } = useParams();
 
-  const editarAreaComun = ({
-    areaComun,
-    setIsPending,
-    handleClose,
-  }) => {
+  const editarAreaComun = ({ areaComun, setIsPending, handleClose }) => {
     const urlPutAreaComun = `${baseUrl}areas-comunes/${areaComun.id}`;
     setIsPending(true);
     //console.log(JSON.stringify(areaComun));
@@ -84,6 +81,7 @@ export const EdificioDetalle = () => {
       if (!response.ok) throw new Error(response.statusText);
       const edificio = await response.json();
       setDetalle(edificio);
+      setDireccion(edificio.direccion);
       setIsPending(false);
       console.log(JSON.stringify(edificio));
     } catch (error) {
@@ -124,6 +122,24 @@ export const EdificioDetalle = () => {
     }
   }
   */
+
+  const updateEdificio = async (direccion) => {
+    const urlPutEdificio = baseUrl + "edificios/" + edificioId;
+    fetch(urlPutEdificio, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+        Authorization: "Bearer " + token,
+        "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(direccion),
+    }).then(() => {
+      getDetalle();
+    });
+  };
 
   const deleteUnidad = async (unidadId) => {
     const urlDeleteUnidad = baseUrl + "unidad/" + unidadId;
@@ -167,14 +183,31 @@ export const EdificioDetalle = () => {
     <Container className="edificio-detalle-container">
       <Col>
         <Row id="flex-row">
-          <label>Dirección:</label>{" "}
           {detalle != null && (
-            <Form.Control
-              disabled
-              type="text"
-              placeholder="Normal text"
-              value={detalle.direccion}
-            />
+            <InputGroup className="mb-3">
+              <InputGroup.Text data-bs-theme="dark">Dirección:</InputGroup.Text>
+              <Form.Control
+                type="text"
+                placeholder="Normal text"
+                value={direccion}
+                onChange={(event) => {
+                  setDireccion(event.target.value);
+                  setIsEditing(true);
+                }}
+              />
+              {isEditing && (
+                <>
+                  <Button size="sm" variant="success" onClick={ () => {
+                    updateEdificio(direccion);
+                    setIsEditing(false);
+                  }}>Guardar</Button>
+                  <Button size="sm" variant="danger" onClick={() =>  {
+                    setDireccion(detalle.direccion);
+                    setIsEditing(false);
+                  }}>Cancelar</Button>
+                </>
+              )}
+            </InputGroup>
           )}
         </Row>
         <hr></hr>
