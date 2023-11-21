@@ -113,10 +113,10 @@ const ListadoReclamos = () => {
         </thead>
         <tbody>
           {datosListadoReclamos ? (
-            datosListadoReclamos.map((reclamo) => {
+            datosListadoReclamos.map((reclamo, index) => {
               return filtro === "SIN_FILTROS" || filtro === reclamo["estado"] ? (
-                <tr key={reclamo["numero"]}>
-                  <th scope="row">{reclamo["numero"]}</th>
+                <tr key={reclamo["id"]}>
+                  <th scope="row">{reclamo["id"]}</th>
                   <td>{reclamo["descripcion"]}</td>
                   <td>{reclamo["motivo"]}</td>
                   <td>{reclamo["estado"]}</td>
@@ -132,7 +132,7 @@ const ListadoReclamos = () => {
                   </td>
                 </tr>
               ) : (
-                <></>
+                <tr key={index}></tr>
               );
             })
           ) : (
