@@ -27,16 +27,6 @@ public class TpoAplicacionesInteractivasG04Application implements CommandLineRun
 		// TODO Auto-generated method stub
 		UsuarioDto usuario = new UsuarioDto("admin", "admin", RoleType.ADMIN, TipoUsuario.PERSONAL_INTERNO);
 		usuarioService.save(usuario);
-
-		UsuarioDto usuario2 = new UsuarioDto("no_admin", "no_admin", RoleType.NO_ADMIN, TipoUsuario.PERSONAL_INTERNO);
-		usuarioService.save(usuario2);
-		
-		UsuarioDto usuario3 = new UsuarioDto("prop", "prop", RoleType.NO_ADMIN, TipoUsuario.PROPIETARIO);
-		usuarioService.save(usuario3);
-
-		UsuarioDto usuario4 = new UsuarioDto("inqui", "inqui", TipoUsuario.INQUILINO);
-		usuarioService.save(usuario4);
-
 	}
 
 	@Bean
