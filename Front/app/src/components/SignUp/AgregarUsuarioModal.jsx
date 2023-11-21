@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { baseUrl, token } from "../../shared";
+import { useNavigate } from "react-router-dom";
 
 export const AgregarUsuarioModal = ({ refreshData }) => {
+  const navigate = useNavigate();
+
   const [show, setShow] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [buttonState, setButtonState] = useState({
@@ -21,6 +24,7 @@ export const AgregarUsuarioModal = ({ refreshData }) => {
   const handleClose = () => {
     setShow(false);
     limpiarInputs();
+    navigate(0);
   };
 
   const handleShow = () => {
