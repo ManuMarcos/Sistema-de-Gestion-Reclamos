@@ -50,7 +50,7 @@ export const SelectPropietarios = ({setPropietario}) => {
   };
 
   return (
-    <Select
+    <Select noOptionsMessage={() => "No hay propietarios"}
       options={options}
       onChange={(option) =>
         setPropietario(option.value)

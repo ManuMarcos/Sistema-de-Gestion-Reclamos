@@ -1,5 +1,4 @@
 import { useParams } from "react-router";
-import { baseUrl, token } from "../../shared";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -10,7 +9,8 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
-import { AgregarInquilinoModal } from "./agregarInquilinoModal";
+import { AgregarInquilinoModal } from "../agregarInquilinoModal";
+import { baseUrl, token } from "../../../shared";
 
 export const UnidadDetalle = () => {
   const { unidadId } = useParams();

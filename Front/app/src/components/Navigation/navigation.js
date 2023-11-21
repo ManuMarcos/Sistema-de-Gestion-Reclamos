@@ -15,7 +15,7 @@ import AdminPermisos from "../adminPermisos/adminPermisos"
 import EditarPermisos from "../adminPermisos/editarPermiso"
 
 import Landing from "../Landing/landing";
-import { UnidadDetalle } from "../Edificios/unidadDetalle";
+import { UnidadDetalle } from "../Edificios/unidades/unidadDetalle";
 
 
 function Navigation() {

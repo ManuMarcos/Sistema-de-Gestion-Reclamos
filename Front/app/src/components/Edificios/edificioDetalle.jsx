@@ -5,19 +5,72 @@ import {
   Col,
   Container,
   Form,
+  InputGroup,
   Row,
   Stack,
   Table,
 } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import { AgregarUnidadModal } from "./agregarUnidadModal";
-import { AgregarAreaComunModal } from "./agregarAreaComunModal";
+import { AgregarUnidadModal } from "./unidades/agregarUnidadModal";
+import { AgregarAreaComunModal } from "./areasComunes/agregarAreaComunModal";
+import { EditarAreaComunModal } from "./areasComunes/editarAreaComunModal";
 
 export const EdificioDetalle = () => {
+  //useStates
   const [isPending, setIsPending] = useState(false);
   const [detalle, setDetalle] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  //useParams
   const { edificioId } = useParams();
-  //const [nombrePropietario, setNombrePropietario] = useState();
+
+  const editarAreaComun = ({
+    areaComun,
+    setIsPending,
+    handleClose,
+  }) => {
+    const urlPutAreaComun = `${baseUrl}areas-comunes/${areaComun.id}`;
+    setIsPending(true);
+    //console.log(JSON.stringify(areaComun));
+    fetch(urlPutAreaComun, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+        Authorization: "Bearer " + token,
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(areaComun),
+    }).then(() => {
+      setIsPending(false);
+      handleClose();
+      getDetalle();
+    });
+  };
+
+  const agregarAreaComun = ({ areaComun, setIsPending, handleClose }) => {
+    const urlAddAreaComun = `${baseUrl}edificios/${edificioId}/area-comun`;
+    setIsPending(true);
+    console.log(JSON.stringify(areaComun));
+    fetch(urlAddAreaComun, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+        Authorization: "Bearer " + token,
+        "Access-Control-Allow-Methods": "POST, GET, PUT",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(areaComun),
+    }).then(() => {
+      setIsPending(false);
+      handleClose();
+      getDetalle();
+    });
+  };
 
   const getDetalle = async () => {
     const urlEdificio = baseUrl + "edificios/" + edificioId;
@@ -179,11 +232,16 @@ export const EdificioDetalle = () => {
         </Row>
         <hr></hr>
         <Row>
-          <div className="nav-bar">
-            <h4 className="titulos-tablas">Areas Comunes</h4>
-            <AgregarAreaComunModal
-              refreshData={getDetalle}
-            ></AgregarAreaComunModal>
+          <div>
+            <Stack direction="horizontal" gap={3}>
+              <h4 className="titulos-tablas">Areas Comunes</h4>
+              <div className="ms-auto">
+                <AgregarAreaComunModal
+                  refreshData={getDetalle}
+                  handleSubmit={agregarAreaComun}
+                />
+              </div>
+            </Stack>
           </div>
           <Table striped bordered hover variant="dark">
             <thead>
@@ -209,11 +267,10 @@ export const EdificioDetalle = () => {
                           >
                             Eliminar
                           </Button>
-                          <Link to={"/Edificios/Detalle/" + areaComun.id}>
-                            <Button className="margin-rigth" size="sm">
-                              Editar
-                            </Button>
-                          </Link>
+                          <EditarAreaComunModal
+                            handleSubmit={editarAreaComun}
+                            areaComunId={areaComun.id}
+                          />
                         </div>
                       </td>
                     </tr>

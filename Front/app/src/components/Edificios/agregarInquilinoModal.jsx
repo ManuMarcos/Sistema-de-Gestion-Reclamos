@@ -109,8 +109,8 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
 
   return (
     <div>
-      <Button variant="primary" id="btn-nuevoEdificio" onClick={handleShow}>
-        Agregar Inquilino
+      <Button variant="success" id="btn-nuevoEdificio" onClick={handleShow}>
+        Agregar
       </Button>
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
@@ -127,6 +127,7 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
             <Select
               options={options}
               onChange={(option) => setInquilino(option.value)}
+              noOptionsMessage={() => "No hay inquilinos"}
             ></Select>
           </Form>
         </Modal.Body>

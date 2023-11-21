@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import { useFetch } from "../../../hooks/useFetch";
+import { baseUrl, token } from "../../../shared";
 import { useParams } from "react-router-dom";
-import { baseUrl, token } from "../../shared";
-import { Button, Form, Modal } from "react-bootstrap";
+import { SelectPropietarios } from "../selectPropietarios";
 
-
-
-export const AgregarAreaComunModal = ({refreshData}) => {
+export const AgregarUnidadModal = ({ refreshData }) => {
   const [show, setShow] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const { edificioId } = useParams();
@@ -13,9 +13,13 @@ export const AgregarAreaComunModal = ({refreshData}) => {
     buttonColor: "",
     isButtonDisable: false,
   });
-  const [areaComun, setAreaComun] = useState({
-    nombre: ''
+  const [propietario, setPropietario] = useState(null);
+  const [unidad, setUnidad] = useState({
+    piso: "",
+    numero: ""
   });
+  
+
 
   const { buttonColor, isButtonDisable } = buttonState;
 
@@ -29,14 +33,19 @@ export const AgregarAreaComunModal = ({refreshData}) => {
   };
 
   const limpiarInputs = () => {
-    setAreaComun({
-        nombre: ''
+    setUnidad({
+      piso: "",
+      numero: "",
+      estado: ""
     });
-  }
+    setPropietario(null);
+  };
+
+  
 
   //useEffect para cambiar el estado y color del boton de Crear (pasado por props)
   useEffect(() => {
-    if (areaComun.nombre == "") {
+    if (unidad.piso == "" || unidad.numero == "" || unidad.estado == "" || propietario == null) {
       setButtonState({
         buttonColor: "secondary",
         isButtonDisable: true,
@@ -47,13 +56,13 @@ export const AgregarAreaComunModal = ({refreshData}) => {
         isButtonDisable: false,
       });
     }
-  }, [areaComun]);
+  }, [unidad, propietario]);
 
-  const handleSubmit = (areaComun) => {
+  const handleSubmit = () => {
     setIsPending(true);
 
-    console.log(JSON.stringify(areaComun));
-    fetch(baseUrl + "edificios/" + edificioId + "/area-comun", {
+    console.log("Enviando Post: " + JSON.stringify({...unidad,propietarioId: propietario}));
+    fetch(baseUrl + "edificios/" + edificioId + "/unidad", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -63,7 +72,7 @@ export const AgregarAreaComunModal = ({refreshData}) => {
         "Access-Control-Allow-Headers": "Content-Type",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(areaComun),
+      body: JSON.stringify({...unidad,propietarioId: propietario}),
     }).then(() => {
       setIsPending(false);
       handleClose();
@@ -71,45 +80,73 @@ export const AgregarAreaComunModal = ({refreshData}) => {
     });
   };
 
+  
+
   return (
     <div>
       <Button variant="success" id="btn-nuevoEdificio" onClick={handleShow}>
-        Agregar 
+        Agregar
       </Button>
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Nueva Area Comun</Modal.Title>
+          <Modal.Title>Nueva unidad</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
-            id="agregarAreaComunForm"
+            id="agregarUnidadForm"
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit(areaComun);
+              handleSubmit(unidad);
             }}
           >
             <Form.Group controlId="formBasicEmail">
-              <Form.Label>Nombre</Form.Label>
+              <Form.Label>Piso</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Ingrese el nombre"
-                name="nombre"
-                value={areaComun.nombre}
+                type="number"
+                placeholder="Ingrese el piso"
+                name="piso"
+                value={unidad.piso}
                 onChange={(event) =>
-                  setAreaComun({
-                    ...areaComun,
-                    nombre: event.target.value,
+                  setUnidad({
+                    ...unidad,
+                    piso: event.target.value,
                   })
                 }
               />
-            </Form.Group>
+              <Form.Label>Número</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Ingrese el número"
+                name="numero"
+                value={unidad.numero}
+                onChange={(event) =>
+                  setUnidad({
+                    ...unidad,
+                    numero: event.target.value,
+                  })
+                }
+              />
+              <Form.Label>Estado</Form.Label>
+              <Form.Select onChange={(event) => 
+                setUnidad({
+                    ...unidad,
+                    estado: event.target.value
+                })
+                } aria-label="Default select example">
+                <option value=''>Seleccione el estado</option>
+                <option value="ALQUILADA">Alquilada</option>
+                <option value="SIN_ALQUILAR">Sin alquilar</option>
+              </Form.Select>
+              <Form.Label>Propietario</Form.Label>
+              <SelectPropietarios setPropietario={setPropietario}/>
+            </Form.Group>   
           </Form>
         </Modal.Body>
         <Modal.Footer>
           {!isPending && (
             <Button
               variant={buttonColor}
-              form="agregarAreaComunForm"
+              form="agregarUnidadForm"
               disabled={isButtonDisable}
               type="submit" /*onClick={hookParaEjecutarPost}*/
             >
@@ -118,7 +155,7 @@ export const AgregarAreaComunModal = ({refreshData}) => {
           )}
           {isPending && (
             <Button disabled variant="secondary">
-              Creando araa comun...
+              Creando unidad...
             </Button>
           )}
           <Button variant="danger" onClick={handleClose}>
