@@ -11,6 +11,8 @@ import {
 } from "react-bootstrap";
 import { AgregarInquilinoModal } from "../agregarInquilinoModal";
 import { baseUrl, token } from "../../../shared";
+import Select from "react-select";
+import { SelectPropietarios } from "../selectPropietarios";
 
 export const UnidadDetalle = () => {
   const { unidadId } = useParams();
@@ -19,6 +21,8 @@ export const UnidadDetalle = () => {
   const [inquilinos, setInquilinos] = useState(null);
   const [isUnidadCargada, setUnidadCargada] = useState(false);
   const [editado, setEditado] = useState(false);
+  const [propietarios, setPropietarios] = useState(null);
+  const [propietario , setPropietario] = useState(null);
 
   const getUnidad = async () => {
     const url = baseUrl + "unidad/" + unidadId;
@@ -38,6 +42,25 @@ export const UnidadDetalle = () => {
       console.log(error);
       setIsPending(false);
     }
+  };
+
+  const updateUnidad = async () => {
+    const urlPutUnidad = baseUrl + "unidad/" + unidadId;
+    fetch(urlPutUnidad, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Origin": "htpp://localhost:3000/",
+        Authorization: "Bearer " + token,
+        "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(unidad),
+    }).then(() => {
+      getInquilinos();
+      setEditado(false);
+    });
   };
 
   const getInquilinos = async () => {
@@ -75,10 +98,30 @@ export const UnidadDetalle = () => {
         const propietario = await response.json();
         setIsPending(false);
         setUnidad({ ...unidad, propietario: propietario.nombre });
+        setPropietario(propietario.nombre)
       } catch (error) {
         console.log(error);
         setIsPending(false);
       }
+    }
+  };
+
+  const getPropietarios = async () => {
+    const urlPropietariosSinUnidad = `${baseUrl}usuarios/propietariosSinUnidad`;
+    setIsPending(true);
+    try {
+      const response = await fetch(urlPropietariosSinUnidad, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (!response.ok) throw new Error(response.statusText);
+      const propietariosSinUnidad = await response.json();
+      setIsPending(false);
+      setPropietarios(propietariosSinUnidad);
+    } catch (error) {
+      console.log(error);
+      setIsPending(false);
     }
   };
 
@@ -107,6 +150,7 @@ export const UnidadDetalle = () => {
   useEffect(() => {
     getInquilinos();
     getDatosPropietario();
+    getPropietarios();
     console.log("useEffect2");
   }, [isUnidadCargada]);
 
@@ -146,14 +190,27 @@ export const UnidadDetalle = () => {
             <InputGroup.Text data-bs-theme="dark" id="propietario">
               Propietario:
             </InputGroup.Text>
-            <Form.Control
-              aria-describedby="propietario"
-              value={unidad != null && unidad.propietario}
-            />
+            {unidad != null &&
+            <Form.Select onChange={(event) => {
+              setEditado(true);
+              setUnidad({...unidad, propietarioId : event.target.value});
+            }}>
+              <option value={unidad.propietarioId} selected>{propietario}</option>
+            {propietarios != null &&
+              propietarios.map((propietario) => {
+                return (
+                    <option value={propietario.id}>{propietario.nombre}</option>
+                );
+              })}
+              </Form.Select>
+            }
           </InputGroup>
         </Col>
       </Row>
-      {editado == true && <Button variant="success">Guardar</Button>}
+      {editado == true && <Button variant="success" onClick={() => {
+        setUnidad(delete unidad.propietario);
+        updateUnidad();
+      }}>Guardar</Button>}
       <hr></hr>
       <Row>
         <div className="nav-bar">

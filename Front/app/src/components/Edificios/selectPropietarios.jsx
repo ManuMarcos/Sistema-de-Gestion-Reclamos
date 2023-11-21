@@ -7,6 +7,7 @@ export const SelectPropietarios = ({ setPropietario }) => {
   const [options, setOptions] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [propietarios, setPropietarios] = useState(null);
+  const [defaultValue, setDefaultValue] = useState(null);
 
   const getPropietarios = async () => {
     const urlPropietariosSinUnidad = `${baseUrl}usuarios/propietariosSinUnidad`;
@@ -46,6 +47,7 @@ export const SelectPropietarios = ({ setPropietario }) => {
       setOptions(options);
     }
   };
+
 
   return (
     <Select

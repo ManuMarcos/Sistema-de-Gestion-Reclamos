@@ -38,8 +38,7 @@ export const AgregarUnidadModal = ({ refreshData }) => {
   const limpiarInputs = () => {
     setUnidad({
       piso: "",
-      numero: "",
-      estado: "",
+      numero: ""
     });
     setPropietario(null);
   };
