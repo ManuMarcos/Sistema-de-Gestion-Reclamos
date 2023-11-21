@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import AgregarUsuarioModal from "../SignUp/AgregarUsuarioModal"
+import EditarPermisoModal from "../adminPermisos/EditarPermisosModal";
 
 async function get_usuarios(id_usuario) {
   const response = await fetch(
