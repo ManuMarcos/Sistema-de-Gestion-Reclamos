@@ -11,7 +11,7 @@ export const AgregarUsuarioModal = ({ refreshData }) => {
   });
   const [usuario, setUsuario] = useState({
     nombre: "",
-    contrasena: "",
+    password: "",
     tipoUsuario: "",
   });
 
@@ -29,13 +29,13 @@ export const AgregarUsuarioModal = ({ refreshData }) => {
   const limpiarInputs = () => {
     setUsuario({
       nombre: "",
-      contrasena: "",
+      password: "",
       tipoUsuario: "",
     });
   };
 
   useEffect(() => {
-    if (usuario.nombre === "" || usuario.contrasena === "" || usuario.tipoUsuario === "") {
+    if (usuario.nombre === "" || usuario.password === "" || usuario.tipoUsuario === "") {
       setButtonState({
         buttonColor: "secondary",
         isButtonDisable: true,
@@ -120,12 +120,12 @@ export const AgregarUsuarioModal = ({ refreshData }) => {
               <Form.Control
                 type="password"
                 placeholder="Ingrese la contraseña"
-                name="contrasena"
-                value={usuario.contrasena}
+                name="password"
+                value={usuario.password}
                 onChange={(event) =>
                   setUsuario({
                     ...usuario,
-                    contrasena: event.target.value,
+                    password: event.target.value,
                   })
                 }
               />

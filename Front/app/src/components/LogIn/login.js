@@ -52,15 +52,15 @@ const Login = () => {
     }
 
     return (
-        <div class="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
             <div className="d-grid gap-2 col-6 ">
                 <form onSubmit={SubmitLogin}>
                     <div className="mb-3">
-                        <label for="exampleInputEmail1" className="form-label">Usuario</label>
+                        <label htmlFor="exampleInputEmail1" className="form-label">Usuario</label>
                         <input type="text" className="form-control" id="user" aria-describedby="emailHelp" />
                     </div>
                     <div className="mb-3">
-                        <label for="exampleInputPassword1" className="form-label">Contraseña</label>
+                        <label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
                         <input type="text" className="form-control" id="pass" />
                     </div>
                     <div>

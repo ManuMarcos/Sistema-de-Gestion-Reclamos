@@ -21,6 +21,8 @@ public class UnidadDto {
     	this.edificioId = unidad.getEdificio().getId();
         this.propietarioId = unidad.getPropietario() != null ? unidad.getPropietario().getId() : null;
     	this.estado = unidad.getEstado();
+        this.piso = unidad.getPiso();
+        this.numero = unidad.getNumero();
     }
     
     public UnidadDto(Integer piso, Integer numero, Edificio edificio, EstadoUnidad estado) {
