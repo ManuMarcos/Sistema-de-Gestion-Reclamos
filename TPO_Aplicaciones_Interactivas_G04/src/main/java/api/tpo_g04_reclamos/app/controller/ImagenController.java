@@ -26,7 +26,6 @@ public class ImagenController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Long> upload(@RequestParam("file") MultipartFile file){
 		Imagen img = imagenService.save(file);
 		return ok(img.getId());

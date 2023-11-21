@@ -45,14 +45,12 @@ public class ReclamoController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ReclamoDto> createReclamo(@RequestBody ReclamoRequestDto reclamo) {
 		Reclamo reclamoCreado = reclamoService.save(reclamo);
 		return new ResponseEntity<>(new ReclamoDto(reclamoCreado), CREATED);
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ReclamoDto> updateReclamo(@PathVariable Long id, @RequestBody ReclamoRequestDto reclamo) {
 		Reclamo reclamoActualizado = reclamoService.update(id, reclamo);
 		return ok(new ReclamoDto(reclamoActualizado));
