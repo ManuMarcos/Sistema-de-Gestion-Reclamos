@@ -131,7 +131,7 @@ public class Unidad {
 	}
 
 	@Override
-	public Integer hashCode() {
+	public int hashCode() {
 		return Objects.hash(id, piso, numero, edificio, propietario, inquilinos, estado);
 	}
 }

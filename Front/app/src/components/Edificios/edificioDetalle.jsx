@@ -221,7 +221,7 @@ export const EdificioDetalle = () => {
               <tr>
                 <th>Piso</th>
                 <th>Número</th>
-                <th>Propietario</th>
+                {/*<th>Propietario</th>*/}
                 <th>Estado</th>
                 <th></th>
               </tr>
@@ -233,7 +233,7 @@ export const EdificioDetalle = () => {
                     <tr id={unidad.id}>
                       <td>{unidad.piso}</td>
                       <td>{unidad.numero}</td>
-                      <td>{unidad.propietarioId}</td>
+                      {/*<td>{unidad.propietarioId}</td>*/}
                       <td>{unidad.estado}</td>
                       <td width={50}>
                         <div className="link-cell">
