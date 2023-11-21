@@ -31,10 +31,11 @@ public class Unidad {
 				inverseJoinColumns = @JoinColumn(name = "unidad_id"))
 	private List<Usuario> inquilinos;
 
-	private EstadoUnidad estado = SIN_ALQUILAR;
+	private EstadoUnidad estado;
 
 	public Unidad() {
 		super();
+		this.estado = SIN_ALQUILAR;
 	}
 
 	public Unidad(Integer piso, Integer numero, Edificio edificio, EstadoUnidad estado) {
@@ -42,14 +43,22 @@ public class Unidad {
 		this.piso = piso;
 		this.numero = numero;
 		this.edificio = edificio;
-		this.estado = estado;
+		if(estado == null) {
+			this.estado = SIN_ALQUILAR;
+		} else {
+			this.estado = estado;
+		}
 	}
 
 	public Unidad(Integer piso, Integer numero, EstadoUnidad estado) {
 		super();
 		this.piso = piso;
 		this.numero = numero;
-		this.estado = estado;
+		if(estado == null) {
+			this.estado = SIN_ALQUILAR;
+		} else {
+			this.estado = estado;
+		}
 	}
 
 	public Unidad(Integer piso, Integer numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
@@ -58,7 +67,11 @@ public class Unidad {
 		this.numero = numero;
 		this.edificio = edificio;
 		this.propietario = propietario;
-		this.estado = estado;
+		if(estado == null) {
+			this.estado = SIN_ALQUILAR;
+		} else {
+			this.estado = estado;
+		}
 	}
 
 	public Unidad(Long id, Integer piso, Integer numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
@@ -68,7 +81,11 @@ public class Unidad {
 		this.numero = numero;
 		this.edificio = edificio;
 		this.propietario = propietario;
-		this.estado = estado;
+		if(estado == null) {
+			this.estado = SIN_ALQUILAR;
+		} else {
+			this.estado = estado;
+		}
 	}
 
 	public Long getId() {
