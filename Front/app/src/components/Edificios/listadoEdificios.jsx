@@ -49,7 +49,6 @@ export const ListadoEdificios = () => {
 
   useEffect(() => {
     getEdificios();
-    //getNombrePropietario();
   }, []);
 
   return (

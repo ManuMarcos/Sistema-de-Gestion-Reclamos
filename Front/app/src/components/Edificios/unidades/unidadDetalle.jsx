@@ -62,12 +62,34 @@ export const UnidadDetalle = () => {
     }
   };
 
+  const getDatosPropietario = async () => {
+    if (unidad != null) {
+      const urlGetUsuarioById = `${baseUrl}usuarios/${unidad.propietarioId}`;
+      setIsPending(true);
+      try {
+        const response = await fetch(urlGetUsuarioById, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        if (!response.ok) throw new Error(response.statusText);
+        const propietario = await response.json();
+        setIsPending(false);
+        setUnidad({...unidad, propietario: propietario.nombre});
+      } catch (error) {
+        console.log(error);
+        setIsPending(false);
+      }
+    }
+  };
+
   useEffect(() => {
     getUnidad();
   }, []);
 
   useEffect(() => {
     getInquilinos();
+    getDatosPropietario();
   },[isUnidadCargada]);
 
 
@@ -122,7 +144,7 @@ export const UnidadDetalle = () => {
             </InputGroup.Text>
             <Form.Control
               aria-describedby="propietario"
-              value={unidad != null && unidad.propietarioId}
+              value={unidad != null && unidad.propietario}
             />
           </InputGroup>
         </Col>
