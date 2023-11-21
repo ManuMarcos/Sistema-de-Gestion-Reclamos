@@ -116,6 +116,23 @@ public class EdificioServiceImpl implements IEdificioService{
 	}
 
 	@Override
+	public Edificio deleteInquilinoUnidad(Long edificioId, Long unidadId, Long inquilinoId) {
+		Edificio edificioAQuitarInquilino = this.get(edificioId);
+		Unidad unidadAQuitarInquilino = edificioAQuitarInquilino.getUnidades().stream().filter(unidad -> unidadId.equals(unidad.getId())).findFirst().orElseThrow(() -> new ItemNotFoundException(String.format("La unidad %d no existe en el edificio %d", unidadId, edificioId)));
+
+		if(!unidadAQuitarInquilino.getInquilinos().stream().map(Usuario::getId).toList().contains(inquilinoId)) {
+			throw new BadRequestException(String.format("El inquilino %d no existe para la unidad %d", inquilinoId, unidadId));
+		}
+
+		Usuario inquilinoAQuitar = usuarioService.get(inquilinoId);
+		unidadAQuitarInquilino.getInquilinos().remove(inquilinoAQuitar);
+		if(unidadAQuitarInquilino.getInquilinos().isEmpty())
+			unidadAQuitarInquilino.setEstado(EstadoUnidad.SIN_ALQUILAR);
+
+		return edificioDao.save(edificioAQuitarInquilino);
+	}
+
+	@Override
 	public List<Usuario> getInquilinosUnidad(Long edificioId, Long unidadId) {
 		Edificio edificio = get(edificioId);
 

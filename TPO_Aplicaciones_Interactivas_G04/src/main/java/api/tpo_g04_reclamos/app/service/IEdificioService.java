@@ -32,6 +32,8 @@ public interface IEdificioService {
 
 	Edificio agregarInquilino(Long edificioId, Long unidadId, Long inquilinoId);
 
+	Edificio deleteInquilinoUnidad(Long edificioId, Long unidadId, Long inquilinoId);
+
 	List<Usuario> getInquilinosUnidad(Long edificioId, Long unidadId);
 
 }

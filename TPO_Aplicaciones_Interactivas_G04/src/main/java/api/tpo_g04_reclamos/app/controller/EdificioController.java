@@ -66,6 +66,14 @@ public class EdificioController {
 		return ok(new EdificioDto(edificio));
 	}
 
+	@DeleteMapping("/{edificioId}/unidad/{unidadId}/inquilino/{inquilinoId}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<EdificioDto> deleteInquilinoAUnidad(@PathVariable("edificioId") Long edificioId, @PathVariable("unidadId") Long unidadId, @PathVariable("inquilinoId") Long inquilinoId) {
+		Edificio edificio = edificioService.deleteInquilinoUnidad(edificioId, unidadId, inquilinoId);
+
+		return ok(new EdificioDto(edificio));
+	}
+
 	@GetMapping("/{edificioId}/inquilinos/{unidadId}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<UsuarioDto>> getInquilinosUnidad(@PathVariable("edificioId") Long edificioId, @PathVariable("unidadId") Long unidadId) {
