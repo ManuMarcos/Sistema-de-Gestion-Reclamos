@@ -61,7 +61,7 @@ export const ListadoEdificios = () => {
       <Table bordered hover striped variant="dark">
         <thead>
           <tr>
-            <th>Direccion</th>
+            <th>Dirección</th>
             <th>Unidades</th>
             <th>Areas Comunes</th>
             <th></th>
@@ -75,7 +75,7 @@ export const ListadoEdificios = () => {
                   <td>{edificio.direccion}</td>
                   <td>{edificio.unidades.length}</td>
                   <td>{edificio.areasComunes.length}</td>
-                  <td width={200}>
+                  <td width={300}>
                     <div className="link-cell">
                       <Button
                         variant="danger"
@@ -86,8 +86,11 @@ export const ListadoEdificios = () => {
                       >
                         Eliminar
                       </Button>
-                      <Link to={"/Edificios/Detalle/" + edificio.id}>
-                        <Button size="sm" className="margin-rigth">Editar</Button>
+                      <Link to={`/Edificios/Detalle/${edificio.id}`}>
+                        <Button variant="primary" size="sm" className="margin-rigth">Editar</Button>
+                      </Link>
+                      <Link to={`/Reclamos/Listado?edificio_id=${edificio.id}`}>
+                        <Button variant="success" size="sm" className="margin-rigth">Ver Reclamos</Button>
                       </Link>
                     </div>
                   </td>
@@ -96,7 +99,7 @@ export const ListadoEdificios = () => {
             })}
         </tbody>
       </Table>
-      {edificio == null && <h3>Sin datos...</h3>}
+      {(edificio != null  && edificio.length == 0) && <h5>No hay edificios...</h5>}
       {isPending && <div>Loading....</div>}
     </div>
   );

@@ -69,7 +69,7 @@ export const AgregarEdificioModal = ({ refreshData }) => {
 
   return (
     <div>
-      <Button variant="primary" id="btn-nuevoEdificio" onClick={handleShow}>
+      <Button variant="success" size="sm" id="btn-nuevoEdificio" onClick={handleShow}>
         Agregar edificio
       </Button>
       <Modal show={show} onHide={handleClose} animation={false}>
