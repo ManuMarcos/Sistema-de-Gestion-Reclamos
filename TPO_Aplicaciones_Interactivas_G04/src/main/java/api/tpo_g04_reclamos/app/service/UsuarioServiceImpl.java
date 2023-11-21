@@ -55,6 +55,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		usuario.setNombre(usuarioDto.getNombre());
 		usuario.setPassword(passwordEncoder.encode(usuarioDto.getPassword()));
 		usuario.setTipoUsuario(usuarioDto.getTipoUsuario());
+		if(usuarioDto.getRoleType() != null) {
+			usuario.setRoleType(usuarioDto.getRoleType());
+		}
 
 		return usuarioDao.update(usuario);
 	}

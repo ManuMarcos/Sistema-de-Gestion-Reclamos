@@ -98,6 +98,10 @@ public class Usuario implements UserDetails{
 		return tipoUsuario;
 	}
 
+	public void setRoleType(RoleType roleType) {
+		this.roleType = roleType;
+	}
+
 	public RoleType getRoleType() {
 		return roleType;
 	}
