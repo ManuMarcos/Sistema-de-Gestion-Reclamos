@@ -45,7 +45,7 @@ export const AgregarUnidadModal = ({ refreshData }) => {
 
   //useEffect para cambiar el estado y color del boton de Crear (pasado por props)
   useEffect(() => {
-    if (unidad.piso == "" || unidad.numero == "" || unidad.estado == "" || propietario == null) {
+    if (unidad.piso == "" || unidad.numero == "" || propietario == null) {
       setButtonState({
         buttonColor: "secondary",
         isButtonDisable: true,
@@ -91,7 +91,7 @@ export const AgregarUnidadModal = ({ refreshData }) => {
         <Modal.Header closeButton>
           <Modal.Title>Nueva unidad</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body >
           <Form
             id="agregarUnidadForm"
             onSubmit={(e) => {
@@ -126,6 +126,7 @@ export const AgregarUnidadModal = ({ refreshData }) => {
                   })
                 }
               />
+              {/*
               <Form.Label>Estado</Form.Label>
               <Form.Select onChange={(event) => 
                 setUnidad({
@@ -137,6 +138,7 @@ export const AgregarUnidadModal = ({ refreshData }) => {
                 <option value="ALQUILADA">Alquilada</option>
                 <option value="SIN_ALQUILAR">Sin alquilar</option>
               </Form.Select>
+              */} 
               <Form.Label>Propietario</Form.Label>
               <SelectPropietarios setPropietario={setPropietario}/>
             </Form.Group>   
