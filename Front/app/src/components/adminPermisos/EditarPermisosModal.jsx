@@ -13,6 +13,7 @@ export const EditarPermisoModal = ({ refreshData }) => {
     nombre: "",
     contrasena: "",
     tipoUsuario: "",
+    roleType: ""
   });
 
   const { buttonColor, isButtonDisable } = buttonState;
@@ -31,6 +32,7 @@ export const EditarPermisoModal = ({ refreshData }) => {
       nombre: "",
       contrasena: "",
       tipoUsuario: "",
+      roleType: ""
     });
   };
 
@@ -121,6 +123,7 @@ export const EditarPermisoModal = ({ refreshData }) => {
                   setUsuario({
                     ...usuario,
                     tipoUsuario: event.target.value,
+                    roleType: (event.target.value === "PERSONAL_INTERNO" ? "ADMIN" : "NO_ADMIN") 
                   });
                 }}
                 aria-label="Default select example"

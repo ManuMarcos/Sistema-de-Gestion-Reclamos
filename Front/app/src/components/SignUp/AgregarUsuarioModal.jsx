@@ -13,6 +13,7 @@ export const AgregarUsuarioModal = ({ refreshData }) => {
     nombre: "",
     password: "",
     tipoUsuario: "",
+    roleType: ""
   });
 
   const { buttonColor, isButtonDisable } = buttonState;
@@ -31,6 +32,7 @@ export const AgregarUsuarioModal = ({ refreshData }) => {
       nombre: "",
       password: "",
       tipoUsuario: "",
+      roleType: ""
     });
   };
 
@@ -50,21 +52,6 @@ export const AgregarUsuarioModal = ({ refreshData }) => {
 
   const handleSubmit = () => {
     setIsPending(true);
-
-    // let tipoUsuarioMapped;
-    // switch (usuario.tipoUsuario) {
-    //   case "Inquilino":
-    //     tipoUsuarioMapped = 1;
-    //     break;
-    //   case "Propietario":
-    //     tipoUsuarioMapped = 0;
-    //     break;
-    //   case "PersonalInterno":
-    //     tipoUsuarioMapped = 2;
-    //     break;
-    //   default:
-    //     tipoUsuarioMapped = null;
-    // }
 
     console.log("Enviando Post: " + JSON.stringify(usuario));
     fetch(baseUrl + "usuarios", {
@@ -135,6 +122,7 @@ export const AgregarUsuarioModal = ({ refreshData }) => {
                   setUsuario({
                     ...usuario,
                     tipoUsuario: event.target.value,
+                    roleType: (event.target.value === "PERSONAL_INTERNO" ? "ADMIN" : "NO_ADMIN") 
                   });
                 }}
                 aria-label="Default select example"
