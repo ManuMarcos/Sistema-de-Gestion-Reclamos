@@ -149,7 +149,7 @@ const DetalleReclamo = () => {
           <ul>
             <li>
               <label>
-                Direccion:
+                Dirección:
                 {edi ? edi["direccion"] : "No se encontraron edificios..."}
               </label>
             </li>
@@ -182,7 +182,7 @@ const DetalleReclamo = () => {
           <label>Estado del inconveniente:</label>
           <br />
           { isAdmin ?
-          (<select  name="ac" size="6" defaultValue={updateReq["estado"]} onChange={(e) => updateReq["estado"] = e.target.value}>
+          (<select class="form-select" name="ac" size="6" defaultValue={updateReq["estado"]} onChange={(e) => updateReq["estado"] = e.target.value}>
             <option value="NUEVO">NUEVO</option>
             <option value="ABIERTO">ABIERTO</option>
             <option value="EN_PROCESO">EN_PROCESO</option>

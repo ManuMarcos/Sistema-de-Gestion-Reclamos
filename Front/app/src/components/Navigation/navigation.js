@@ -10,7 +10,7 @@ import { ListadoEdificios } from "../Edificios/listadoEdificios";
 import { EdificioDetalle } from "../Edificios/edificioDetalle";
 import DetalleReclamo from "../Reclamos/DetalleReclamo/detalleReclamo"
 import Login from "../LogIn/login";
-import SignUp from "../SignUp/signup";
+import AgregarUsuarioModal from "../SignUp/AgregarUsuarioModal";
 import AdminPermisos from "../adminPermisos/adminPermisos"
 import EditarPermisos from "../adminPermisos/editarPermiso"
 
@@ -29,7 +29,7 @@ function Navigation() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/admin-permisos" element={<AdminPermisos />} />
                     <Route path="/editar-permisos" element={<EditarPermisos />} />
-                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/signup" element={<AgregarUsuarioModal />} />
                     <Route path="/landing" element={<Landing />} />
 
                     {/*Ruta de manejo de error 404 */}

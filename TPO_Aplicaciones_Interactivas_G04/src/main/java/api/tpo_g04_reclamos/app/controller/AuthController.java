@@ -27,30 +27,31 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 public class AuthController {
 
 	private final int EXPIRATION_TIME_IN_MIN = 100;
-	
+
 	@Autowired
 	private IUsuarioService usuarioService;
-	
+
 	@Autowired
 	private IEdificioService edificioService;
-	
+
 	@Autowired
 	private SecretKey secretKey;
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> login(@RequestBody UsuarioDto credentials){
-		
+
 		//Se validan las credenciales
 		Optional<Usuario> u = usuarioService.findUser(credentials.getNombre(), credentials.getPassword());
 		if(u.isPresent()) {
-			String token = 
+			String token =
 					Jwts.builder()
 					.setSubject(credentials.getNombre())
 					.setIssuedAt(new Date())
 					.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME_IN_MIN * 60 * 1000))
+					.claim("role", "ROLE_" + u.get().getRoleType())
 					.signWith(secretKey, SignatureAlgorithm.HS256)
 					.compact();
-					
+
 			Long idEdificio = -1L;
 			var listEdificios = edificioService.findByUsuarioId(u.get().getId());
 			if(u.get().getTipoUsuario() != TipoUsuario.PERSONAL_INTERNO){

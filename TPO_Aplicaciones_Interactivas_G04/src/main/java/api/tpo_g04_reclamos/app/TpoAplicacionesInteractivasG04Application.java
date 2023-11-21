@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app;
 
 import api.tpo_g04_reclamos.app.controller.dto.UsuarioDto;
+import api.tpo_g04_reclamos.app.model.enums.RoleType;
 import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 import api.tpo_g04_reclamos.app.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +25,17 @@ public class TpoAplicacionesInteractivasG04Application implements CommandLineRun
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		UsuarioDto usuario = new UsuarioDto("admin", "admin", TipoUsuario.PERSONAL_INTERNO);
+		UsuarioDto usuario = new UsuarioDto("admin", "admin", RoleType.ADMIN, TipoUsuario.PERSONAL_INTERNO);
 		usuarioService.save(usuario);
-		
-		UsuarioDto usuario2 = new UsuarioDto("prop", "prop", TipoUsuario.PROPIETARIO);
-		usuarioService.save(usuario2);
 
-		UsuarioDto usuario3 = new UsuarioDto("inqui", "inqui", TipoUsuario.INQUILINO);
+		UsuarioDto usuario2 = new UsuarioDto("no_admin", "no_admin", RoleType.NO_ADMIN, TipoUsuario.PERSONAL_INTERNO);
+		usuarioService.save(usuario2);
+		
+		UsuarioDto usuario3 = new UsuarioDto("prop", "prop", RoleType.NO_ADMIN, TipoUsuario.PROPIETARIO);
 		usuarioService.save(usuario3);
+
+		UsuarioDto usuario4 = new UsuarioDto("inqui", "inqui", TipoUsuario.INQUILINO);
+		usuarioService.save(usuario4);
 
 	}
 

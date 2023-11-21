@@ -43,7 +43,7 @@ const ListadoReclamos = () => {
   const [datosEdificio, setDatosEdificio] = useState([]);
   const [datosListadoReclamos, setDatosListadoReclamos] = useState([]);
   const [searchParams] = useSearchParams();
-  const [filtro, setFiltro] = useState("SIN_FILTRO");
+  const [filtro, setFiltro] = useState("SIN_FILTROS");
 
   useEffect(() => {
     let id_elegido = parseInt(searchParams.get("edificio_id"));
@@ -73,7 +73,7 @@ const ListadoReclamos = () => {
         <ul>
           <li>
             <label>
-              Direccion:
+              Dirección: 
               {datosEdificio
                 ? datosEdificio["direccion"]
                 : "No se encontraron edificios..."}
@@ -89,6 +89,7 @@ const ListadoReclamos = () => {
           name="ac"
           size="3"
           onChange={(e) => setFiltro(e.target.value)}
+          defaultValue="SIN_FILTROS" 
         >
           <option value="SIN_FILTROS">SIN FILTROS</option>
           <option value="NUEVO">NUEVO</option>

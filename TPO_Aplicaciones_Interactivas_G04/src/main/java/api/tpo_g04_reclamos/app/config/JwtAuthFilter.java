@@ -8,13 +8,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
 
@@ -32,14 +36,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 			String token = extractJwtFromRequest(request);
 			
 			if(token != null && validateToken(token)) {
-				String username = extractUsernameFromToken(token);
-				
-				if(username != null) {
-					//En los null, null se pueden setear los roles
-					UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, null);
-					authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-				}		
+				Claims claims = extractAllClaimsFromToken(token);
+				if(claims != null) {
+					String username = claims.getSubject();
+					String role = claims.get("role", String.class);
+
+					List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
+
+					if(username != null) {
+						UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+								username, null, authorities);
+						authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+						SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+					}
+				}
 			}
 			
 		}catch(Exception e) {
@@ -49,6 +59,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		}
 		
 		filterChain.doFilter(request, response);
+	}
+
+	private Claims extractAllClaimsFromToken(String token) throws Exception {
+		return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
 	}
 	
 	private String extractJwtFromRequest(HttpServletRequest request) {

@@ -1,6 +1,7 @@
 package api.tpo_g04_reclamos.app.controller.dto;
 
 import api.tpo_g04_reclamos.app.model.entity.Usuario;
+import api.tpo_g04_reclamos.app.model.enums.RoleType;
 import api.tpo_g04_reclamos.app.model.enums.TipoUsuario;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ public class UsuarioDto {
     private String password;
     private TipoUsuario tipoUsuario;
     private Date fechaCreacion;
+    private RoleType roleType;
 
 
     public UsuarioDto() {
@@ -26,6 +28,14 @@ public class UsuarioDto {
         this.nombre = nombre;
         this.password = password;
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public UsuarioDto(String nombre, String password, RoleType roleType, TipoUsuario tipoUsuario) {
+        super();
+        this.nombre = nombre;
+        this.password = password;
+        this.tipoUsuario = tipoUsuario;
+        this.roleType = roleType;
     }
 
     public UsuarioDto(Usuario usuario) {
@@ -55,6 +65,10 @@ public class UsuarioDto {
 
     public Date getFechaCreacion() {
         return fechaCreacion;
+    }
+
+    public RoleType getRoleType() {
+        return roleType;
     }
     
     public static List<UsuarioDto> fromList(List<Usuario> usuarios) {
