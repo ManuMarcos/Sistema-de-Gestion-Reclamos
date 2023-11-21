@@ -31,7 +31,7 @@ public class Reclamo {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "unidad_id")
     private Unidad unidad;
 
