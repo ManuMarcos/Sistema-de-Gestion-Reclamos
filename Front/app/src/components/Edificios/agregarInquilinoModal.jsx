@@ -54,13 +54,11 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
       headers: {
         "Access-Control-Allow-Origin": "htpp://localhost:3000/",
         Authorization: "Bearer " + token,
-        "Access-Control-Allow-Methods": "POST, GET, PUT",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Content-Type": "application/json",
+        "Access-Control-Allow-Methods": "POST, GET, PUT"
       },
     }).then((response) => {
       if (!response.ok) {
-        handleError(response.status);
+        response.text().then(text => handleError(text));
         setIsPending(false);
         limpiarInputs();
       } else {
@@ -76,6 +74,7 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
       hayError:true,
       mensaje:mensajeError
     })
+    console.log(mensajeError);
   }
 
 
@@ -155,7 +154,7 @@ export const AgregarInquilinoModal = ({ unidad, refreshData }) => {
             <>
             <hr></hr>
             <div class="alert alert-danger" role="alert">
-              Ocurrio un error {error.mensaje}
+              {error.mensaje}
             </div>
             </>
           )}

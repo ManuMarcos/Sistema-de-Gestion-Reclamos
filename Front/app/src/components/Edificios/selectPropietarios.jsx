@@ -2,27 +2,25 @@ import { useEffect, useState } from "react";
 import { baseUrl, token } from "../../shared";
 import Select from "react-select";
 
-
-
-export const SelectPropietarios = ({setPropietario}) => {
-  const urlPropietarios = baseUrl + "usuarios";
+export const SelectPropietarios = ({ setPropietario }) => {
+  
   const [options, setOptions] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [propietarios, setPropietarios] = useState(null);
 
   const getPropietarios = async () => {
+    const urlPropietariosSinUnidad = `${baseUrl}usuarios/propietariosSinUnidad`;
     setIsPending(true);
     try {
-      const response = await fetch(urlPropietarios, {
+      const response = await fetch(urlPropietariosSinUnidad, {
         headers: {
           Authorization: "Bearer " + token,
         },
       });
       if (!response.ok) throw new Error(response.statusText);
-      const respuesta = await response.json();
+      const propietariosSinUnidad = await response.json();
       setIsPending(false);
-      const propietarios = await respuesta.filter((user) => user.tipoUsuario == 'PROPIETARIO');
-      setPropietarios(propietarios);
+      setPropietarios(propietariosSinUnidad);
     } catch (error) {
       console.log(error);
       setIsPending(false);
@@ -50,11 +48,10 @@ export const SelectPropietarios = ({setPropietario}) => {
   };
 
   return (
-    <Select noOptionsMessage={() => "No hay propietarios"}
+    <Select
+      noOptionsMessage={() => "No hay propietarios"}
       options={options}
-      onChange={(option) =>
-        setPropietario(option.value)
-      }
+      onChange={(option) => setPropietario(option.value)}
     ></Select>
   );
 };
