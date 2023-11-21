@@ -16,7 +16,7 @@ public class Reclamo {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private int numero;
+    private Integer numero;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Imagen> imagenes = new ArrayList<>();
@@ -45,7 +45,7 @@ public class Reclamo {
         super();
     }
 
-    public Reclamo(int numero, List<Imagen> imagenes, String descripcion, String motivo, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun, Long edificioId) {
+    public Reclamo(Integer numero, List<Imagen> imagenes, String descripcion, String motivo, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun, Long edificioId) {
         this.numero = numero;
         this.imagenes = imagenes;
         this.descripcion = descripcion;
@@ -57,7 +57,7 @@ public class Reclamo {
         this.edificioId = edificioId;
     }
 
-    public Reclamo(Long id, int numero, List<Imagen> imagenes, String descripcion, String motivo, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
+    public Reclamo(Long id, Integer numero, List<Imagen> imagenes, String descripcion, String motivo, EstadoReclamo estado, Usuario usuario, Unidad unidad, AreaComun areaComun) {
         this.id = id;
         this.numero = numero;
         this.imagenes = imagenes;
@@ -73,11 +73,11 @@ public class Reclamo {
         return id;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(Integer numero) {
         this.numero = numero;
     }
 
@@ -154,7 +154,7 @@ public class Reclamo {
     }
 
     @Override
-    public int hashCode() {
+    public Integer hashCode() {
         return Objects.hash(id, numero, descripcion, estado, usuario, unidad, areaComun);
     }
 }

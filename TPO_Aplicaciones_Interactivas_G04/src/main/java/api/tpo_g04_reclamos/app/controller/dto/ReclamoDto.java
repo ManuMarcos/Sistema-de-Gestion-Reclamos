@@ -11,7 +11,7 @@ public class ReclamoDto {
 
     private Long id;
 
-    private int numero;
+    private Integer numero;
 
     private List<Long> imagenesIds = new ArrayList<>();
 
@@ -27,7 +27,7 @@ public class ReclamoDto {
 
     private Long areaComunId;
 
-    public ReclamoDto(int numero, List<Long> imagenesIds, String descripcion, String motivo, EstadoReclamo estado, Long usuarioId, Long unidadId, Long areaComunId) {
+    public ReclamoDto(Integer numero, List<Long> imagenesIds, String descripcion, String motivo, EstadoReclamo estado, Long usuarioId, Long unidadId, Long areaComunId) {
         this.numero = numero;
         this.imagenesIds = imagenesIds;
         this.descripcion = descripcion;
@@ -58,7 +58,7 @@ public class ReclamoDto {
         this.id = id;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 

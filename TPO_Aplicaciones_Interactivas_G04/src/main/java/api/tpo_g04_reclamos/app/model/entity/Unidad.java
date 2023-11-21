@@ -35,7 +35,7 @@ public class Unidad {
 		super();
 	}
 
-	public Unidad(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
+	public Unidad(Integer piso, Integer numero, Edificio edificio, EstadoUnidad estado) {
 		super();
 		this.piso = piso;
 		this.numero = numero;
@@ -43,14 +43,14 @@ public class Unidad {
 		this.estado = estado;
 	}
 
-	public Unidad(int piso, int numero, EstadoUnidad estado) {
+	public Unidad(Integer piso, Integer numero, EstadoUnidad estado) {
 		super();
 		this.piso = piso;
 		this.numero = numero;
 		this.estado = estado;
 	}
 
-	public Unidad(int piso, int numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
+	public Unidad(Integer piso, Integer numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
 		super();
 		this.piso = piso;
 		this.numero = numero;
@@ -59,7 +59,7 @@ public class Unidad {
 		this.estado = estado;
 	}
 
-	public Unidad(Long id, int piso, int numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
+	public Unidad(Long id, Integer piso, Integer numero, Edificio edificio, Usuario propietario, EstadoUnidad estado) {
 		super();
 		this.id = id;
 		this.piso = piso;
@@ -77,19 +77,19 @@ public class Unidad {
 		this.id = id;
 	}
 
-	public int getPiso() {
+	public Integer getPiso() {
 		return piso;
 	}
 
-	public void setPiso(int piso) {
+	public void setPiso(Integer piso) {
 		this.piso = piso;
 	}
 
-	public int getNumero() {
+	public Integer getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
 
@@ -131,7 +131,7 @@ public class Unidad {
 	}
 
 	@Override
-	public int hashCode() {
+	public Integer hashCode() {
 		return Objects.hash(id, piso, numero, edificio, propietario, inquilinos, estado);
 	}
 }

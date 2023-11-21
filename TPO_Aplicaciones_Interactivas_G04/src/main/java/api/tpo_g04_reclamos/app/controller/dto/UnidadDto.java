@@ -9,8 +9,8 @@ import java.util.List;
 public class UnidadDto {
 
     private Long id;
-    private int piso;
-    private int numero;
+    private Integer piso;
+    private Integer numero;
     private Long edificioId;
     private Long propietarioId;
     private EstadoUnidad estado;
@@ -23,7 +23,7 @@ public class UnidadDto {
     	this.estado = unidad.getEstado();
     }
     
-    public UnidadDto(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
+    public UnidadDto(Integer piso, Integer numero, Edificio edificio, EstadoUnidad estado) {
         this.piso = piso;
         this.numero = numero;
         this.edificioId = edificio.getId();
@@ -34,11 +34,11 @@ public class UnidadDto {
         return id;
     }
 
-    public int getPiso() {
+    public Integer getPiso() {
         return piso;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 

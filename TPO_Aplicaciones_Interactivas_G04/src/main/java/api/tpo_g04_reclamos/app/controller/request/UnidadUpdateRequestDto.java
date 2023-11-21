@@ -6,8 +6,8 @@ import api.tpo_g04_reclamos.app.model.enums.EstadoUnidad;
 
 public class UnidadUpdateRequestDto {
 
-    private int piso;
-    private int numero;
+    private Integer piso;
+    private Integer numero;
 
     private EstadoUnidad estado;
 
@@ -19,17 +19,17 @@ public class UnidadUpdateRequestDto {
     	this.estado = unidad.getEstado();
     }
 
-    public UnidadUpdateRequestDto(int piso, int numero, Edificio edificio, EstadoUnidad estado) {
+    public UnidadUpdateRequestDto(Integer piso, Integer numero, Edificio edificio, EstadoUnidad estado) {
         this.piso = piso;
         this.numero = numero;
         this.estado = estado;
     }
 
-    public int getPiso() {
+    public Integer getPiso() {
         return piso;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 

@@ -27,7 +27,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/auth")
 public class AuthController {
 
-	private final int EXPIRATION_TIME_IN_MIN = 100;
+	private final Integer EXPIRATION_TIME_IN_MIN = 100;
 
 	@Autowired
 	private IUsuarioService usuarioService;

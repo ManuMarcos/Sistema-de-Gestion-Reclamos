@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ReclamoRequestDto {
 
-    private int numero;
+    private Integer numero;
 
     private List<Long> imagenesIds = new ArrayList<>();
 
@@ -23,7 +23,7 @@ public class ReclamoRequestDto {
 
     private Long areaComunId;
 
-    public ReclamoRequestDto(int numero, List<Long> imagenesIds, String descripcion, String motivo, EstadoReclamo estado, Long usuarioId, Long unidadId, Long areaComunId) {
+    public ReclamoRequestDto(Integer numero, List<Long> imagenesIds, String descripcion, String motivo, EstadoReclamo estado, Long usuarioId, Long unidadId, Long areaComunId) {
         this.numero = numero;
         this.imagenesIds = imagenesIds;
         this.descripcion = descripcion;
@@ -34,7 +34,7 @@ public class ReclamoRequestDto {
         this.areaComunId = areaComunId;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 
